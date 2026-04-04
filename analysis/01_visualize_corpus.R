@@ -11,7 +11,7 @@ GENRE_COLORS <- Dark24
 
 # CORPUS DESCRIPTIVES ----
 dc_data <- read_csv(
-  "data/poptrag_lyrics_genres_corpus_filtered_english_dc_lemmatized.csv"
+  "data/poptrag_lyrics_dc_processed.csv"
 )
 dplyr::glimpse(dc_data)
 count_data <- count(dc_data, dc_detailed) |>

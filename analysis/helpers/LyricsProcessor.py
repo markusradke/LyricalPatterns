@@ -76,6 +76,7 @@ class LyricsProcessor:
 
     _DOMAIN_LEXICON: Final[dict[str, str]] = {
         "amazin": "amazing",
+        "actin": "act",
         "bitches": "bitch",
         "ballin": "ball",
         "bangin": "bang",
@@ -113,6 +114,9 @@ class LyricsProcessor:
         "carryin": "carry",
         "catchin": "catch",
         "causin": "cause",
+        "cuz": "because",
+        "coz": "because",
+        "'cause": "because",
         "ceilin": "ceil",
         "chasin": "chase",
         "cheatin": "cheat",
@@ -143,6 +147,7 @@ class LyricsProcessor:
         "darlin": "darling",
         "dealin": "deal",
         "diggin": "dig",
+        "droppin": "drop",
         "dippin": "dip",
         "dissin": "diss",
         "doin": "do",

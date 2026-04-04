@@ -4,17 +4,20 @@ import matplotlib.pyplot as plt
 from scipy import sparse
 
 from helpers.FSExtractor import FSExtractor
-from helpers.MonroeExtractor import MonroeExtractor
+from helpers.FightingExtractor import FightingExtractor
 from helpers.split_group_stratified_and_join import (
     split_group_stratified_and_join,
     plot_comparison_genre_distributions,
 )
 
-if __name__ == "__main__":
 
-    data = pd.read_csv(
-        "data/poptrag_lyrics_genres_corpus_filtered_english_dc_lemmatized.csv"
-    )
+RANDOM_STATE = 42
+MIN_ARTISTS = 2
+
+
+def get_and_save_train_test_meta_data():
+    print("Loading data and creating train/test split")
+    data = pd.read_csv("data/poptrag_lyrics_dc_processed.csv")
 
     labels_and_groups = data[["dc_detailed", "track.s.firstartist.name"]].rename(
         columns={"dc_detailed": "label", "track.s.firstartist.name": "group"}
@@ -23,10 +26,10 @@ if __name__ == "__main__":
         labels_and_groups,
         data,
         test_size=0.2,
-        random_state=42,
+        random_state=RANDOM_STATE,
     )
-    test_train_comp = plot_comparison_genre_distributions(y_train, y_test)
-    plt.savefig(
+    fig = plot_comparison_genre_distributions(y_train, y_test)
+    fig.savefig(
         "reports/paper_ismir/figures/train_test_genre_distributions.png",
         dpi=1200,
     )
@@ -40,72 +43,71 @@ if __name__ == "__main__":
     X_train_metadata.to_csv("data/X_train_metadata_dc.csv", index=False)
     X_test_metadata = X_test[["track.s.firstartist.name", "dc_detailed", "track.s.id"]]
     X_test_metadata.to_csv("data/X_test_metadata_dc.csv", index=False)
+    return X_train, X_test, y_train, y_test
 
+
+def extract_and_save_FS_features(X_train, X_test, y_train):
+    print("Extracting FS features")
     fs_extractor = FSExtractor(
-        min_artists=20,
+        min_artists=MIN_ARTISTS,
         use_stopword_filter=False,
         top_vocab_per_genre=100,
-        random_state=42,
+        random_state=RANDOM_STATE,
         checkpoint_dir="data/checkpoints/fs_extractor",
     )
 
     fs_extractor.fit(
-        X_train["full_lyrics"],
-        X_train_metadata["dc_detailed"],
+        X_train["expressions_lyrics"],
+        y_train,
         X_train["track.s.firstartist.name"],
     )
-    X_train_fs = fs_extractor.transform(X_train["full_lyrics"])
-    X_test_fs = fs_extractor.transform(X_test["full_lyrics"])
+    X_train_fs = fs_extractor.transform(X_train["expressions_lyrics"])
+    X_test_fs = fs_extractor.transform(X_test["expressions_lyrics"])
     sparse.save_npz("data/X_train_fs_dc_detailed.npz", X_train_fs)
     sparse.save_npz("data/X_test_fs_dc_detailed.npz", X_test_fs)
 
-    topic_extractor = MonroeExtractor(
-        min_artists=20,
+
+def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
+    if lyricscol == "expressions_lyrics":
+        ngram_types = (1, 2, 3, 4)
+        name = "expressions"
+    else:
+        ngram_types = (1,)
+        if lyricscol == "topic_lyrics":
+            name = "topics"
+        else:
+            name = "sentiments"
+    print(f"Extracting Fighting vocabulary for {name} with ngram types {ngram_types}")
+    extractor = FightingExtractor(
+        min_artists=MIN_ARTISTS,
         p_value=0.001,
         prior_concentration=1.0,
         use_stopword_filter=True,
-        ngram_types=(1,),
+        ngram_types=ngram_types,
         random_state=42,
-        checkpoint_dir="data/checkpoints/monroe_extractor_topic",
+        checkpoint_dir=f"data/checkpoints/fighting_extractor_{name}",
     )
-    topic_extractor.fit(
-        X_train["lyrics_lemmatized"], y_train, X_train["track.s.firstartist.name"]
-    )
-    topic_vocab = pd.Series(topic_extractor.vocabulary_)
-    topic_vocab.to_csv("data/fighting_topic_dc_vocabulary.csv", index=False)
+    extractor.fit(X_train[lyricscol], y_train, X_train["track.s.firstartist.name"])
 
-    X_train_topics_fighting_full = topic_extractor.transform(
-        X_train["lyrics_lemmatized"]
-    )
-    X_test_topics_fighting_full = topic_extractor.transform(X_test["lyrics_lemmatized"])
+    # Remove empty text placeholder token before saving vocabulary
+    vocab = pd.Series([v for v in extractor.vocabulary_ if v != "[empty]"])
+    vocab.to_csv(f"data/fighting_{name}_dc_vocabulary.csv", index=False)
+    z_scores = extractor.z_scores_df_
+    z_scores.to_csv(f"models/fighting_{name}_dc_z_scores.csv", index=False)
 
-    sparse.save_npz(
-        "data/X_train_topics_fighting_dc_full.npz", X_train_topics_fighting_full
-    )
-    sparse.save_npz(
-        "data/X_test_topics_fighting_dc_full.npz", X_test_topics_fighting_full
-    )
+    X_train_fighting_full = extractor.transform(X_train[lyricscol])
+    X_test_fighting_full = extractor.transform(X_test[lyricscol])
 
-    style_extractor = MonroeExtractor(
-        min_artists=20,
-        p_value=0.001,
-        prior_concentration=1.0,
-        use_stopword_filter=True,
-        use_bigram_boundary_filter=True,
-        ngram_types=(1, 2, 3, 4),
-        random_state=42,
-        checkpoint_dir="data/checkpoints/monroe_extractor_style",
+    sparse.save_npz(f"data/X_train_{name}_fighting_dc_full.npz", X_train_fighting_full)
+    sparse.save_npz(f"data/X_test_{name}_fighting_dc_full.npz", X_test_fighting_full)
+
+
+if __name__ == "__main__":
+    X_train, X_test, y_train, y_test = get_and_save_train_test_meta_data()
+    # extract_and_save_FS_features(X_train, X_test, y_train)
+    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
+    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
+    extract_and_save_fighting_vocabularies(
+        X_train, X_test, y_train, "expressions_lyrics"
     )
-    style_extractor.fit(
-        X_train["full_lyrics"], y_train, X_train["track.s.firstartist.name"]
-    )
-    style_vocab = pd.Series(style_extractor.vocabulary_)
-    style_vocab.to_csv("data/fighting_style_dc_vocabulary.csv", index=False)
-    X_train_style_fighting_full = style_extractor.transform(X_train["full_lyrics"])
-    X_test_style_fighting_full = style_extractor.transform(X_test["full_lyrics"])
-    sparse.save_npz(
-        "data/X_train_styles_fighting_dc_full.npz", X_train_style_fighting_full
-    )
-    sparse.save_npz(
-        "data/X_test_styles_fighting_dc_full.npz", X_test_style_fighting_full
-    )
+    print("All done!")

@@ -35,7 +35,7 @@ from .monroe_logodds import (
 )
 
 
-class MonroeExtractor(BaseEstimator, TransformerMixin):
+class FightingExtractor(BaseEstimator, TransformerMixin):
     """
     Monroe et al. n-gram extractor with fighting words z-scores.
 
@@ -119,7 +119,7 @@ class MonroeExtractor(BaseEstimator, TransformerMixin):
 
         Returns
         -------
-        self : MonroeExtractor
+        self : FightingExtractor
             Fitted extractor.
 
         Raises
@@ -129,12 +129,16 @@ class MonroeExtractor(BaseEstimator, TransformerMixin):
         """
         if artist is None:
             raise ValueError(
-                "MonroeExtractor requires 'artist' metadata for min_artists filtering"
+                "FightingExtractor requires 'artist' metadata for min_artists filtering"
             )
 
         X = pd.Series(X).reset_index(drop=True)
         y = pd.Series(y).reset_index(drop=True)
         artist = pd.Series(artist).reset_index(drop=True)
+
+        # Handle NaN and empty texts before processing
+        X = self._handle_nan_and_empty_texts(X)
+        self._validate_empty_texts(X)
 
         self._cache_key = self._compute_cache_key(X, y, artist)
 
@@ -236,40 +240,8 @@ class MonroeExtractor(BaseEstimator, TransformerMixin):
             raise ValueError("Must call fit() before transform()")
 
         X = pd.Series(X).reset_index(drop=True)
+        X = self._handle_nan_and_empty_texts(X)
         return self.vectorizer_.transform(X)
-
-    def get_feature_names_out(self, input_features=None):
-        """Get feature names for output features."""
-        if not hasattr(self, "vectorizer_") or not self._is_fitted:
-            raise ValueError("Must call fit() before get_feature_names_out()")
-
-        return self.vectorizer_.get_feature_names_out()
-
-    def update_pvalue_threshold(self, new_p_value):
-        """Reselect vocabulary with new p-value without recomputing z-scores.
-
-        Uses checkpointed z-scores to quickly explore different significance
-        thresholds.
-
-        Parameters
-        ----------
-        new_p_value : float
-            New significance level (e.g., 0.05, 0.01, 0.001).
-
-        Returns
-        -------
-        self : MonroeExtractor
-            Extractor with updated vocabulary.
-        """
-        if not hasattr(self, "z_scores_df_"):
-            raise ValueError(
-                "Must call fit() before update_pvalue_threshold(). "
-                "Z-scores not computed."
-            )
-
-        print(f"Updating vocabulary with p-value threshold: {new_p_value}")
-        self.p_value = new_p_value
-        return self._select_vocabulary_by_pvalue(new_p_value)
 
     def _select_vocabulary_by_pvalue(self, p_value):
         """Select vocabulary based on Benjamini-Hochberg FDR correction."""
@@ -289,6 +261,7 @@ class MonroeExtractor(BaseEstimator, TransformerMixin):
         ]
 
         self.vocabulary_ = list(significant["ngram"].unique())
+
         print(
             f"Selected vocabulary size: {len(self.vocabulary_):,} n-grams (BH FDR={p_value})"
         )
@@ -417,3 +390,45 @@ class MonroeExtractor(BaseEstimator, TransformerMixin):
             return True
 
         return False
+
+    def _handle_nan_and_empty_texts(self, X):
+        """Replace NaN and empty/whitespace-only documents with empty string.
+
+        This ensures all documents are valid strings for extract_ngrams(),
+        which will then treat them as zero-count documents.
+
+        Parameters
+        ----------
+        X : pd.Series
+            Text documents (may contain NaN values).
+
+        Returns
+        -------
+        X_cleaned : pd.Series
+            Text with NaN replaced by empty string.
+        """
+        X_cleaned = X.copy()
+        # Replace NaN with empty string
+        X_cleaned = X_cleaned.fillna("")
+        return X_cleaned
+
+    def _validate_empty_texts(self, X):
+        """Report statistics about empty/whitespace-only documents.
+
+        Empty documents will contribute zero counts to n-gram matrices during fit,
+        which is correct for z-score calculations.
+
+        Parameters
+        ----------
+        X : pd.Series
+            Text documents (after NaN handling).
+        """
+        is_empty = X.fillna("").str.strip().eq("")
+        num_empty = is_empty.sum()
+
+        if num_empty > 0:
+            pct_empty = 100 * num_empty / len(X)
+            print(
+                f"Information: Found {num_empty:,} empty documents ({pct_empty:.2f}%). "
+                f"These will have zero counts in n-gram matrices."
+            )
