@@ -396,6 +396,9 @@ local({
         already_done = set(prior["K"]) if prior else set()
         results_K = list(prior["K"]) if prior else []
         results_heldout = list(prior["heldout"]) if prior else []
+        results_semcoh = list(prior.get("semcoh", [])) if prior else []
+        results_resid = list(prior.get("resid", [])) if prior else []
+        results_excl = list(prior.get("excl", [])) if prior else []
 
         if input_hash:
             print(f"Search hash: {input_hash[:12]}")
@@ -444,10 +447,13 @@ local({
       verbose    = TRUE
     )
     ho_lik <- eval.heldout(model, ._heldout$missing)$expected.heldout
-    list(success = TRUE, heldout = ho_lik)
+    semcoh <- semanticCoherence(model, ._heldout$documents, M=10)
+    resid <- checkResiduals(model, ._heldout$documents)
+    excl <- exclusivity(model, M = 10, frexw = 0.7)
+    list(success = TRUE, heldout = ho_lik, semcoh = semcoh, resid = resid, excl = excl)
   }, error = function(e) {
     message(sprintf("K=%d failed: %s", ._k[1], conditionMessage(e)))
-    list(success = FALSE, heldout = NA_real_)
+    list(success = FALSE, heldout = NA_real_, semcoh = NA_real_, resid = NA_real_, excl = NA_real_)
   })
 })
 """
@@ -456,16 +462,35 @@ local({
             success = bool(result.rx2("success")[0])
             if success:
                 ho_val = float(result.rx2("heldout")[0])
+                semcoh_val = float(result.rx2("semcoh")[0])
+                resid_val = float(result.rx2("resid")[0])
+                excl_val = float(result.rx2("excl")[0])
+
                 results_K.append(k)
                 results_heldout.append(ho_val)
-                print(f"  K={k}: heldout likelihood = {ho_val:.4f}")
+                results_semcoh.append(semcoh_val)
+                results_resid.append(resid_val)
+                results_excl.append(excl_val)
+                print(
+                    f"  K={k}: heldout {ho_val:.4f}, semcoh {semcoh_val:.4f}, resid {resid_val:.4f}, excl {excl_val:.4f}"
+                )
             else:
                 results_K.append(k)
                 results_heldout.append(float("nan"))
+                results_semcoh.append(float("nan"))
+                results_resid.append(float("nan"))
+                results_excl.append(float("nan"))
                 print(f"  K={k}: skipped (model fit failed)")
 
             self._save_search_checkpoint(
-                checkpoint_path, {"K": results_K, "heldout": results_heldout}
+                checkpoint_path,
+                {
+                    "K": results_K,
+                    "heldout": results_heldout,
+                    "semcoh": results_semcoh,
+                    "resid": results_resid,
+                    "excl": results_excl,
+                },
             )
 
         for key in (
@@ -484,7 +509,13 @@ local({
                 "All K values failed during searchK. Cannot select a model."
             )
 
-        return {"K": np.array(results_K), "heldout": np.array(results_heldout)}
+        return {
+            "K": np.array(results_K),
+            "heldout": np.array(results_heldout),
+            "semcoh": np.array(results_semcoh),
+            "resid": np.array(results_resid),
+            "excl": np.array(results_excl),
+        }
 
     def _fit_stm(self, documents, meta, K):
         """
@@ -537,6 +568,9 @@ local({
                 {
                     "K": self.search_results_["K"],
                     "heldout": self.search_results_["heldout"],
+                    "semcoh": self.search_results_["semcoh"],
+                    "resid": self.search_results_["resid"],
+                    "excl": self.search_results_["excl"],
                     "random_state": self.random_state,
                 }
             )

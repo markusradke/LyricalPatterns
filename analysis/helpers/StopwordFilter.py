@@ -1,5 +1,6 @@
 import re
-from helpers.STOPWORDS_ENGLISH import STOPWORDS_ENGLISH
+import spacy
+from spacy.lang.en.stop_words import STOP_WORDS as SPACY_STOP_WORDS
 
 _NUM_RE = re.compile(r"^\d+\S*$")
 
@@ -9,11 +10,23 @@ class StopwordFilter:
 
     def __init__(self):
         """Initialize filter with stopword set."""
-        self.stopwords = STOPWORDS_ENGLISH
+        self.stopwords = SPACY_STOP_WORDS.copy()
+        # Keep custom additions
+        self.stopwords.update(
+            [
+                "can't",
+                "could",
+                "could've",
+                "got",
+                "must",
+                "that's",
+                "there's",
+            ]
+        )
 
     def is_stopword(self, token: str) -> bool:
         """Check if a single token is a stopword or numeric."""
-        return token in self.stopwords or bool(_NUM_RE.match(token))
+        return token.lower() in self.stopwords or bool(_NUM_RE.match(token))
 
     def is_stopword_only(self, ngram: str) -> bool:
         """Check if n-gram consists only of stopwords.

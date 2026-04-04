@@ -1,14 +1,16 @@
 from __future__ import annotations
 
 import re
-
-from nltk.stem import WordNetLemmatizer
-from nltk.corpus import wordnet
-from nltk import pos_tag
 from typing import Final
 
+import spacy
 from pandas import DataFrame
+from spacy.language import Language
+
 from helpers.StopwordFilter import StopwordFilter
+
+# run first
+# python -m spacy download en_core_web_sm
 
 
 class LyricsProcessor:
@@ -401,14 +403,18 @@ class LyricsProcessor:
         }
     )
 
-    _NOUN_TAGS: Final[frozenset[str]] = frozenset({"NN", "NNS", "NNP", "NNPS"})
-    _SENTIMENT_TAGS: Final[frozenset[str]] = frozenset(
-        {"JJ", "JJR", "JJS", "RB", "RBR", "RBS"}
-    )
+    _NOUN_TAGS: Final[frozenset[str]] = frozenset({"NOUN", "PROPN"})
+    _SENTIMENT_TAGS: Final[frozenset[str]] = frozenset({"ADJ", "ADV"})
 
-    def __init__(self, corpus: DataFrame, lyrics_column: str = "lyrics") -> None:
+    def __init__(
+        self,
+        corpus: DataFrame,
+        lyrics_column: str = "lyrics",
+        model: str = "en_core_web_sm",
+    ) -> None:
         self.corpus = corpus
         self.lyrics_column = lyrics_column
+        self.nlp = self._load_spacy_model(model)
         self.stopword_filter = StopwordFilter()
 
     def process(self) -> DataFrame:
@@ -429,13 +435,13 @@ class LyricsProcessor:
         print(
             "Lemmatizing lyrics and extracting POS tags for topic modeling and sentiment modeling..."
         )
-        lemmatized_with_pos = expanded.map(self._lemmatize_text)
+        processed_lyrics = expanded.map(self._process_text_with_spacy)
 
-        print(
-            "Extracting nouns for topic modeling and adjectives/adverbs for sentiment modeling..."
-        )
-        out["topic_lyrics"] = lemmatized_with_pos.map(self._extract_nouns)
-        out["sentiment_lyrics"] = lemmatized_with_pos.map(self._extract_sentiment_words)
+        (
+            out["lemmatized_pos_lyrics"],
+            out["topic_lyrics"],
+            out["sentiment_lyrics"],
+        ) = zip(*processed_lyrics)
 
         print("Removing stopwords from topic and sentiment lyrics...")
         out["topic_lyrics"] = out["topic_lyrics"].map(self._remove_stopwords)
@@ -469,45 +475,46 @@ class LyricsProcessor:
             return text
         return re.sub(r"'s\b", "", text).replace("'", "")
 
-    def _lemmatize_text(self, text: str) -> str:
-        """Lemmatize text and return tokens with POS tags formatted as 'lemma/POS'."""
-        lemmatizer = WordNetLemmatizer()
-        lines = text.split("\n")
-        lemmatized_lines: list[str] = []
+    def _process_text_with_spacy(self, text: str) -> tuple[str, str, str]:
+        """Process text using spaCy to lemmatize and extract POS-specific tokens."""
+        if not text or not isinstance(text, str):
+            return "", "", ""
 
-        for line in lines:
-            tokens = self._tokenize_line(line)
-            tagged = pos_tag(tokens)
-            lemmas: list[str] = []
+        doc = self.nlp(text.lower())
+        lemmas_with_pos: list[str] = []
+        topic_lemmas: list[str] = []
+        sentiment_lemmas: list[str] = []
 
-            for tok, pos in tagged:
-                tok_norm = self._apply_domain_lexicon(tok)
-                tok_norm = self._normalize_gerund(tok_norm)
-                wn_pos = self._wordnet_pos(pos)
+        for token in doc:
+            token_text = self._apply_domain_lexicon(token.text)
 
-                if wn_pos is None:
-                    lemma = lemmatizer.lemmatize(tok_norm)
-                else:
-                    lemma = lemmatizer.lemmatize(tok_norm, pos=wn_pos)
+            if token_text == token.text:
+                lemma = token.lemma_
+            else:
+                lemma = self.nlp(token_text)[0].lemma_
 
-                if (
-                    lemma not in self._FILLER_TOKENS
-                    and len(lemma) > 1
-                    and not any(c.isdigit() for c in lemma)
-                ):
-                    lemmas.append(f"{lemma}/{pos}")
+            lemma = self._normalize_gerund(lemma)
 
-            lemmatized_lines.append(self._join_tokens(lemmas))
+            if (
+                lemma not in self._FILLER_TOKENS
+                and not token.is_punct
+                and not token.is_space
+                and len(lemma) > 1
+                and not any(c.isdigit() for c in lemma)
+            ):
+                pos = token.pos_
+                lemmas_with_pos.append(f"{lemma}/{pos}")
 
-        return "\n".join(lemmatized_lines)
+                if pos in self._NOUN_TAGS:
+                    topic_lemmas.append(lemma)
+                elif pos in self._SENTIMENT_TAGS:
+                    sentiment_lemmas.append(lemma)
 
-    def _extract_nouns(self, text: str) -> str:
-        """Extract only nouns from lemmatized text (for topic modeling)."""
-        return self._extract_pos_tokens(text, self._NOUN_TAGS)
-
-    def _extract_sentiment_words(self, text: str) -> str:
-        """Extract adjectives and adverbs from lemmatized text (for sentiment modeling)."""
-        return self._extract_pos_tokens(text, self._SENTIMENT_TAGS)
+        return (
+            " ".join(lemmas_with_pos),
+            " ".join(topic_lemmas),
+            " ".join(sentiment_lemmas),
+        )
 
     def _remove_stopwords(self, text: str) -> str:
         """Remove stopwords from extracted text."""
@@ -515,25 +522,21 @@ class LyricsProcessor:
             return ""
 
         tokens = text.split()
+        # Logic is now fully consolidated in StopwordFilter
         filtered_tokens = [
             token for token in tokens if not self.stopword_filter.is_stopword(token)
         ]
         return " ".join(filtered_tokens)
 
     @staticmethod
-    def _extract_pos_tokens(text: str, target_tags: frozenset[str]) -> str:
-        """Extract tokens with specific POS tags from lemmatized text."""
-        if not text or not isinstance(text, str):
-            return ""
-
-        tokens = []
-        for token_pair in text.split():
-            if "/" in token_pair:
-                token, pos = token_pair.rsplit("/", 1)
-                if pos in target_tags:
-                    tokens.append(token)
-
-        return " ".join(tokens)
+    def _load_spacy_model(model: str) -> Language:
+        """Load a spaCy model, downloading it if necessary."""
+        try:
+            return spacy.load(model)
+        except OSError:
+            print(f"Spacy model '{model}' not found. Downloading...")
+            spacy.cli.download(model)
+            return spacy.load(model)
 
     def _tokenize_line(self, line: str) -> list[str]:
         """Tokenize a line using the same pattern as the ngram feature extractors."""
@@ -541,22 +544,6 @@ class LyricsProcessor:
 
     def _apply_domain_lexicon(self, token: str) -> str:
         return self._DOMAIN_LEXICON.get(token, token)
-
-    @staticmethod
-    def _wordnet_pos(treebank_pos: str) -> str | None:
-        if not treebank_pos:
-            return None
-
-        tag = treebank_pos[0].upper()
-        if tag == "J":
-            return wordnet.ADJ
-        if tag == "V":
-            return wordnet.VERB
-        if tag == "N":
-            return wordnet.NOUN
-        if tag == "R":
-            return wordnet.ADV
-        return None
 
     def _normalize_gerund(self, token: str) -> str:
         """Strip -ing suffix as a fallback for uncovered gerunds/progressives."""
