@@ -1,0 +1,280 @@
+% -----------------------------------------------
+% Template for ISMIR Papers
+% 2026 version, based on previous ISMIR templates
+
+% Requirements :
+% * 6+n page length maximum
+% * 10MB maximum file size
+% * Copyright note must appear in the bottom left corner of first page
+% * Clearer statement about citing own work in anonymized submission
+% (see conference website for additional details)
+% -----------------------------------------------
+
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[submission]{ismir} % Remove the "submission" option for camera-ready version
+\usepackage{amsmath,cite,url}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{subcaption}
+\usepackage{arydshln}
+\usepackage{multirow}
+
+% Title. Please use IEEE-compliant title case when specifying the title here,
+% as it has implications for the copyright notice
+% ------
+\title{"More than words": Genre-Discriminating Lyrical Patterns in 50 Years of Anglophone German Popular Music}
+
+% Alternative first part suggestsions: 
+% Informed Idioms
+% "In the club"
+% "Rock and roll"
+% "Can't take it"
+% "I just don't care"
+% "I'll never give up"
+% "need your love"
+% "Hurts like hell"
+% "Whats Up"
+% "For the longest time"
+% "gonna miss you"
+% "let's talk about"
+% "like diamons in"
+% "against the wall"
+% "on the wild side"
+% "in my arms again"
+% "here we go again"
+% "me against the world"
+% "start all over again"
+%2 "hurts like hell"
+
+% "listen to the words"
+% "more than words"
+% "try to understand"
+% "you don't understand"
+% "don't you understand"
+
+% Note: Please do NOT use \thanks or a \footnote in any of the author markup
+
+% Single address
+% To use with only one author or several with the same address
+% ---------------
+\oneauthor
+  {Anonymous Authors}
+  {Anonymous Affiliations\\\texttt{anonymous@ismir.net}}
+
+% Two addresses
+% --------------
+%\twoauthors
+%   {First author} {School \\ Department}
+%   {Second author} {Company \\ Address}
+
+% Three addresses
+% --------------
+% \threeauthors
+%   {First Author} {Affiliation 1 \\ \texttt{author1@ismir.edu}}
+%   {Second Author} {Affiliation 2 \\ \texttt{author2@ismir.edu}}
+%   {Third Author} {Affiliation 3 \\ \texttt{author3@ismir.edu}}
+
+% Four or more addresses
+% OR alternative format for large number of co-authors
+% ------------
+% \multauthor
+%   {First author$^1$ \hspace{1cm} Second author$^1$ \hspace{1cm} Third author$^2$}
+%   {{\bf Fourth author$^3$ \hspace{1cm} Fifth author$^2$ \hspace{1cm} Sixth author$^1$}\\
+%   $^1$ Department of Computer Science, University, Country\\
+%   $^2$ International Laboratories, City, Country\\
+%   $^3$ Company, Address\\
+%   {\tt\small CorrespondenceAuthor@ismir.edu, PossibleOtherAuthor@ismir.edu}
+%   }
+
+% For the author list in the Creative Common license, please enter author names.
+% Please abbreviate the first names of authors and add 'and' between the second to last and last authors.
+\def\authorname{Ananymous Authors}
+% \def\authorname{M. Radke and S. Lepa}
+
+% Optional: To use hyperref, uncomment the following.
+% \usepackage[bookmarks=false,pdfauthor={\authorname},pdfsubject={\pdfsubject},hidelinks]{hyperref}
+% Mind the bookmarks=false option; bookmarks are incompatible with ismir.sty.
+
+\sloppy % please retain sloppy command for improved formatting
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The abstract should be placed at the top left column and should contain about 150--200 words.
+\end{abstract}
+
+Warum nciht textuelle Statistik; wie werden topic models und sentimente in der KoWi gefasst (nomen, Adjektive); was ist idiomatic expressions
+
+\section{Introduction}\label{sec:introduction}
+RQ1: What are content-related genre-discriminative lyrical patterns (topics, sentiments, idiomatic expressions) in Anglophone German popular music?
+- Dictionaries Figthing Words
+- LIFT Words for Topics, Sentiments, and Expressions (in Appendix)
+
+
+RQ2: How well do interpretative ML-models perform when predicting popular music genres compared to a state of the art tranformer-based LLM? 
+- ML table
+- Confusion matrix for reduced Model
+- Permutation importance for Combined (Appendix)
+
+RQ3: What can we learn about lyrical genre differences from such interpretative models for popular music studies?
+- Permutation Importance (Transition, show Distilled)
+- Cluster Probs per genre
+- SHAP for Rock
+
+\newpage
+\newpage
+\section{Methods}
+\subsection{Data}
+
+gemeinsames Metadaten-Framework für Extension und Anbindung an Audio-Features
+
+VOrgefertigter Datnsatz
+
+Corpus rechtfertigung:
+
+Es geht um Musikhören, nicht nur um Verkäufe; auch Musik, die schon länger nicht mehr in den Charts ist, daher anreiherung;
+
+
+Single Label Discogs Genres: im Lyrics Paper würde ich begründen mit Interpretierbarkeit
+
+\begin{figure}
+  \centering
+  \includegraphics[alt={Corpus description},width=\linewidth]{figures/corpus_descriptive.png}
+  \caption{Composition of the analyzed corpus.}
+  \label{fig:corpus}
+\end{figure}
+
+\subsection{Genre Disrciminating Vocabularies}
+\begin{equation}\label{relativity}
+E=mc^{2}
+\end{equation}
+
+
+\subsection{Genre Discriminating Topics and Styles}
+
+\subsection{Machine Learning Experiments}
+
+
+\newpage
+\newpage
+\section{Results}
+\subsection{Genre Disrciminating Vocabularies}
+
+
+\subsection{Genre Discriminating Topics and Styles}
+\begin{figure*}[htbp]
+  \onecolumn
+  \centering
+  \begin{subfigure}[b]{0.49\linewidth}
+    \centering
+    \includegraphics[alt={Topic Heatmap},width=\linewidth]{figures/topic_genre_heatmap.png}
+    \caption{topics}
+    \label{fig:topics}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.49\linewidth}
+    \centering
+    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/style_genre_heatmap.png}
+    \caption{styles}
+    \label{fig:styles}
+  \end{subfigure}
+  \caption{Latent genre-discriminative topics, sentiments, and styles: probabilities per genre (TODO ACHSEN TAUSCHEN) [\%].}
+  \label{fig:topics_styles}
+  \twocolumn
+\end{figure*}
+
+
+\subsection{Machine Learning Experiments}
+\begin{table}
+  \centering
+  \begin{tabular}{l|l|l|l}
+    Features & Learner & Params & $F1_{\text{macro}}$ \\
+    \hline
+    & Random & & 0.111 \\
+    Raw Lyrics & DistillBERT \cite{sanhDistilBERTDistilledVersion2020}&  & 0.374 \\
+    \hline
+    TF-IDF \cite{fell2014lyrics} & 
+    \multirow{4}{*}{
+      \begin{tabular}{@{}l@{}} Logistic \\ Regression \end{tabular}
+    } &
+    \multirow[l]{4}{*}{ 
+      \begin{tabular}{@{}l@{}} C: 1 \\ L1: 0.5\end{tabular}
+      } &
+       0.254 \\ 
+    Topics & & & ? \\
+    Sentiments & & & ? \\
+    Expressions &  & & ? \\
+    Combined & & & ? \\ 
+    \hline
+    Combined & & & \\ 
+    Distilled & & & ? \\ \hline
+  \end{tabular}
+  \caption{$F1_{\text{macro}}$ Holdout evaluation for classifcation experiments.}
+  \label{tab:f1}
+\end{table}
+
+% \begin{figure}
+%   \centering
+%   \includegraphics[alt={Confusion Matrix},width=\linewidth]{figures/confusion_matrix.png}
+%   \caption{Confusion matrix for STM Selected Random Forest tuned [\%].}
+%   \label{fig:confusion_matrix}
+% \end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[alt={SHAP Values},width=\linewidth]{figures/shap_beeswarm_rock.png}
+  \caption{\textit{Discogs' Rock} Example: SHAP values (150 samples from the holdout set) LightGBM STM Reduced.}
+  \label{fig:confusion_matrix}
+\end{figure}
+
+\newpage
+\newpage
+\section{Discussion}
+
+
+
+
+Multilabel Genres
+
+
+
+
+\newpage
+\newpage
+
+
+% \section{Acknowledgments}
+% Only to include in the camera-ready version. Does not count towards the page limit.
+
+\section{AI Usage Statement}
+See submission guidelines. Does not count towards the page limit.
+
+% For BibTeX users:
+\bibliography{refs}
+
+% For non BibTeX users:
+%\begin{thebibliography}{citations}
+% \bibitem{Author:17}
+% E.~Author and B.~Authour, ``The title of the conference paper,'' in {\em Proc.
+% of the Int. Society for Music Information Retrieval Conf.}, (Suzhou, China),
+% pp.~111--117, 2017.
+%
+% \bibitem{Someone:10}
+% A.~Someone, B.~Someone, and C.~Someone, ``The title of the journal paper,''
+%  {\em Journal of New Music Research}, vol.~A, pp.~111--222, September 2010.
+%
+% \bibitem{Person:20}
+% O.~Person, {\em Title of the Book}.
+% \newblock Montr\'{e}al, Canada: McGill-Queen's University Press, 2021.
+%
+% \bibitem{Person:09}
+% F.~Person and S.~Person, ``Title of a chapter this book,'' in {\em A Book
+% Containing Delightful Chapters} (A.~G. Editor, ed.), pp.~58--102, Tokyo,
+% Japan: The Publisher, 2009.
+%
+%\end{thebibliography}
+
+\end{document}
