@@ -1,0 +1,8 @@
+# Exclude entire folders from language stats
+notebooks/** linguist-vendored
+
+# Exclude specific file types
+*.bib linguist-detectable=false
+
+# Mark documentation folders
+reports/** linguist-documentation
