@@ -194,11 +194,10 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         if self.use_stopword_filter:
             print("Filtering stopword-only n-grams...")
             for name in order_names:
-                ngram_tuples = [tuple(ng.split()) for ng in filtered_features[name]]
-                kept_ngrams = filter_stopword_only(ngram_tuples, self.stopword_filter_)
-                kept_strings = [" ".join(ng) for ng in kept_ngrams]
-
-                mask = np.array([ng in kept_strings for ng in filtered_features[name]])
+                kept_ngrams = self.stopword_filter_.filter_ngrams(
+                    set(filtered_features[name])
+                )
+                mask = np.array([ng in kept_ngrams for ng in filtered_features[name]])
                 filtered_features[name] = filtered_features[name][mask]
                 filtered_matrices[name] = filtered_matrices[name][:, mask]
                 print(f"  {name}: {len(filtered_features[name]):,} n-grams retained")

@@ -8,10 +8,13 @@ def load_stm_data():
     artists = X_train_metadata["track.s.firstartist.name"]
 
     topics_vocab = (
-        pd.read_csv("data/fighting_topic_dc_vocabulary.csv").to_numpy().flatten()
+        pd.read_csv("data/fighting_topics_dc_vocabulary.csv").to_numpy().flatten()
     )
-    styles_vocab = (
-        pd.read_csv("data/fighting_style_dc_vocabulary.csv").to_numpy().flatten()
+    sentiments_vocab = (
+        pd.read_csv("data/fighting_sentiments_dc_vocabulary.csv").to_numpy().flatten()
+    )
+    expressions_vocab = (
+        pd.read_csv("data/fighting_expressions_dc_vocabulary.csv").to_numpy().flatten()
     )
 
     X_train_topics_fighting_full = sparse.load_npz(
@@ -21,21 +24,31 @@ def load_stm_data():
         "data/X_test_topics_fighting_dc_full.npz"
     )
 
-    X_train_styles_fighting_full = sparse.load_npz(
-        "data/X_train_styles_fighting_dc_full.npz"
+    X_train_sentiments_fighting_full = sparse.load_npz(
+        "data/X_train_sentiments_fighting_dc_full.npz"
     )
-    X_test_styles_fighting_full = sparse.load_npz(
-        "data/X_test_styles_fighting_dc_full.npz"
+    X_test_sentiments_fighting_full = sparse.load_npz(
+        "data/X_test_sentiments_fighting_dc_full.npz"
+    )
+
+    X_train_expressions_fighting_full = sparse.load_npz(
+        "data/X_train_expressions_fighting_dc_full.npz"
+    )
+    X_test_expressions_fighting_full = sparse.load_npz(
+        "data/X_test_expressions_fighting_dc_full.npz"
     )
     return (
         genres,
         artists,
         topics_vocab,
-        styles_vocab,
+        sentiments_vocab,
+        expressions_vocab,
         X_train_topics_fighting_full,
         X_test_topics_fighting_full,
-        X_train_styles_fighting_full,
-        X_test_styles_fighting_full,
+        X_train_sentiments_fighting_full,
+        X_test_sentiments_fighting_full,
+        X_train_expressions_fighting_full,
+        X_test_expressions_fighting_full,
     )
 
 

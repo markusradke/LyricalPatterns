@@ -49,4 +49,9 @@ class StopwordFilter:
         Returns:
             Set of n-grams with stopword-only entries removed.
         """
-        return {ngram for ngram in ngrams if not self.is_stopword_only(ngram)}
+        ngrams_to_remove = set()
+        for ngram in ngrams:
+            tokens = ngram.lower().split()
+            if all(self.is_stopword(token) for token in tokens):
+                ngrams_to_remove.add(ngram)
+        return ngrams - ngrams_to_remove

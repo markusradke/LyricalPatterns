@@ -68,7 +68,7 @@ def extract_and_save_FS_features(X_train, X_test, y_train):
 
 
 def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
-    if lyricscol == "expressions_lyrics":
+    if lyricscol == "expression_lyrics":
         ngram_types = (1, 2, 3, 4)
         name = "expressions"
     else:
@@ -108,6 +108,6 @@ if __name__ == "__main__":
     extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
     extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
     extract_and_save_fighting_vocabularies(
-        X_train, X_test, y_train, "expressions_lyrics"
+        X_train, X_test, y_train, "expression_lyrics"
     )
     print("All done!")

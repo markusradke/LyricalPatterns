@@ -70,5 +70,5 @@ if __name__ == "__main__":
 
     print("Saving consolidated dataset...")
     final_dataset.to_csv("data/poptrag_lyrics_processed.csv", index=True)
-    print("Done! Saved to poptrag_lyrics_processed.csv")
+    print("Done! Saved to poptrag_lyrics_dc_processed.csv")
     print(f"Columns: {list(final_dataset.columns)}")

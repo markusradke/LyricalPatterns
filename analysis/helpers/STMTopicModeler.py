@@ -9,7 +9,6 @@ proportions. Uses the stm R package with genre as a prevalence covariate.
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import pickle
 import joblib
 from pathlib import Path
 from scipy.sparse import issparse
@@ -396,9 +395,10 @@ local({
         already_done = set(prior["K"]) if prior else set()
         results_K = list(prior["K"]) if prior else []
         results_heldout = list(prior["heldout"]) if prior else []
-        results_semcoh = list(prior.get("semcoh", [])) if prior else []
-        results_resid = list(prior.get("resid", [])) if prior else []
-        results_excl = list(prior.get("excl", [])) if prior else []
+        results_semcoh = list(prior.get("semchoherence", [])) if prior else []
+        results_resid = list(prior.get("residuals", [])) if prior else []
+        results_resid_p = list(prior.get("residuals_p", [])) if prior else []
+        results_excl = list(prior.get("exclusivity", [])) if prior else []
 
         if input_hash:
             print(f"Search hash: {input_hash[:12]}")
@@ -447,13 +447,15 @@ local({
       verbose    = TRUE
     )
     ho_lik <- eval.heldout(model, ._heldout$missing)$expected.heldout
-    semcoh <- semanticCoherence(model, ._heldout$documents, M=10)
-    resid <- checkResiduals(model, ._heldout$documents)
-    excl <- exclusivity(model, M = 10, frexw = 0.7)
-    list(success = TRUE, heldout = ho_lik, semcoh = semcoh, resid = resid, excl = excl)
+    semchoherence <- semanticCoherence(model, ._heldout$documents, M=10)
+    residuals <- checkResiduals(model, ._heldout$documents)
+    residuals_p <- residuals$pvalue
+    residuals <- residuals$dispersion
+    exclusivity <- exclusivity(model, M = 10, frexw = 0.7)
+    list(success = TRUE, heldout = ho_lik, semchoherence = semchoherence, residuals = residuals, residuals_p = residuals_p, exclusivity = exclusivity)
   }, error = function(e) {
     message(sprintf("K=%d failed: %s", ._k[1], conditionMessage(e)))
-    list(success = FALSE, heldout = NA_real_, semcoh = NA_real_, resid = NA_real_, excl = NA_real_)
+    list(success = FALSE, heldout = NA_real_, semchoherence = NA_real_, residuals = NA_real_, residuals_p = NA_real, exclusivity = NA_real_)
   })
 })
 """
@@ -462,23 +464,26 @@ local({
             success = bool(result.rx2("success")[0])
             if success:
                 ho_val = float(result.rx2("heldout")[0])
-                semcoh_val = float(result.rx2("semcoh")[0])
-                resid_val = float(result.rx2("resid")[0])
-                excl_val = float(result.rx2("excl")[0])
+                semcoh_val = float(result.rx2("semchoherence")[0])
+                resid_val = float(result.rx2("residuals")[0])
+                resid_p_val = float(result.rx2("residuals_p")[0])
+                excl_val = float(result.rx2("exclusivity")[0])
 
                 results_K.append(k)
                 results_heldout.append(ho_val)
                 results_semcoh.append(semcoh_val)
                 results_resid.append(resid_val)
+                results_resid_p.append(resid_p_val)
                 results_excl.append(excl_val)
                 print(
-                    f"  K={k}: heldout {ho_val:.4f}, semcoh {semcoh_val:.4f}, resid {resid_val:.4f}, excl {excl_val:.4f}"
+                    f"  K={k}: heldout {ho_val:.4f}, semchoherence {semcoh_val:.4f}, residuals {resid_val:.4f}, residual_p {resid_p_val:4f}, exclusivity {excl_val:.4f}"
                 )
             else:
                 results_K.append(k)
                 results_heldout.append(float("nan"))
                 results_semcoh.append(float("nan"))
                 results_resid.append(float("nan"))
+                results_resid_p.append(float("nan"))
                 results_excl.append(float("nan"))
                 print(f"  K={k}: skipped (model fit failed)")
 
@@ -487,9 +492,10 @@ local({
                 {
                     "K": results_K,
                     "heldout": results_heldout,
-                    "semcoh": results_semcoh,
-                    "resid": results_resid,
-                    "excl": results_excl,
+                    "semchoherence": results_semcoh,
+                    "residuals": results_resid,
+                    "residuals_p": results_resid_p,
+                    "exclusivity": results_excl,
                 },
             )
 
@@ -512,9 +518,10 @@ local({
         return {
             "K": np.array(results_K),
             "heldout": np.array(results_heldout),
-            "semcoh": np.array(results_semcoh),
-            "resid": np.array(results_resid),
-            "excl": np.array(results_excl),
+            "semchoherence": np.array(results_semcoh),
+            "residuals": np.array(results_resid),
+            "residuals_p": np.array(results_resid_p),
+            "exclusivity": np.array(results_excl),
         }
 
     def _fit_stm(self, documents, meta, K):
@@ -568,9 +575,10 @@ local({
                 {
                     "K": self.search_results_["K"],
                     "heldout": self.search_results_["heldout"],
-                    "semcoh": self.search_results_["semcoh"],
-                    "resid": self.search_results_["resid"],
-                    "excl": self.search_results_["excl"],
+                    "semcoherence": self.search_results_["semchoherence"],
+                    "residuals": self.search_results_["residuals"],
+                    "residuals_p": self.search_results_["residuals_p"],
+                    "exclusivity": self.search_results_["exclusivity"],
                     "random_state": self.random_state,
                 }
             )

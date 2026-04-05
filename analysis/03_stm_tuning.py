@@ -6,7 +6,8 @@ from helpers.load_data import load_stm_data
 
 # K_GRID =  [x for x in range(2,21)]
 
-K_GRID = [2] + [x for x in range(5, 100) if x % 5 == 0]
+# K_GRID = [2] + [x for x in range(5, 100) if x % 5 == 0]
+K_GRID = [2]
 
 
 def tune_stm_model(
@@ -37,8 +38,11 @@ if __name__ == "__main__":
         genres,
         artists,
         topics_vocab,
+        sentiments_vocab,
         expressions_vocab,
         X_train_topics_fighting_full,
+        _,
+        X_train_sentiments_fighting_full,
         _,
         X_train_expressions_fighting_full,
         _,
@@ -47,6 +51,15 @@ if __name__ == "__main__":
     print("TUNING STM TOPIC MODEL...")
     tune_stm_model(
         X_train_topics_fighting_full, artists, genres, topics_vocab, "topics"
+    )
+
+    print("TUNING STM SENTIMENTS MODEL...")
+    tune_stm_model(
+        X_train_sentiments_fighting_full,
+        artists,
+        genres,
+        sentiments_vocab,
+        "sentiments",
     )
 
     print("TUNING STM EXPRESSIONS MODEL...")

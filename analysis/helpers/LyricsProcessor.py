@@ -6,6 +6,7 @@ from typing import Final
 import spacy
 from pandas import DataFrame
 from spacy.language import Language
+from tqdm import tqdm
 
 from helpers.StopwordFilter import StopwordFilter
 
@@ -74,6 +75,20 @@ class LyricsProcessor:
         "you'll": "you will",
         "you're": "you are",
         "you've": "you have",
+        "whaddya": "what you",
+        "whassup": "what is up",
+        "whatchu": "what you",
+        "whatcha": "what you",
+        "whatta": "what a",
+        "wunna": "want to",
+        "imma": "i am going to",
+        "gonna": "going to",
+        "wanna": "want to",
+        "gotta": "got to",
+        "i'ma": "i am going to",
+        "cmon": "come on",
+        "dyou": "do you",
+        "yknow": "you know",
     }
 
     _DOMAIN_LEXICON: Final[dict[str, str]] = {
@@ -91,6 +106,7 @@ class LyricsProcessor:
         "believin": "believe",
         "betta": "better",
         "achin": "ache",
+        "biz": "business",
         "bitchin": "bitch",
         "bitin": "bite",
         "blastin": "blast",
@@ -98,6 +114,12 @@ class LyricsProcessor:
         "bleeds": "bleed",
         "blessin": "bless",
         "blowin": "blow",
+        "bloomin": "bloom",
+        "bummin": "bum",
+        "bussin": "buss",
+        "busta": "buster",
+        "boomin": "boom",
+        "bluffin": "bluff",
         "bouncnin": "bounce",
         "braggin": "brag",
         "breakin": "break",
@@ -129,11 +151,6 @@ class LyricsProcessor:
         "climbin": "climb",
         "clutchin": "clutch",
         "comin": "come",
-        "imma": "i am going to",
-        "gonna": "going to",
-        "wanna": "want to",
-        "gotta": "got to",
-        "i'ma": "i am going to",
         "controllin": "control",
         "cookin": "cook",
         "coolin": "cool",
@@ -218,11 +235,16 @@ class LyricsProcessor:
         "knowin": "know",
         "knew": "know",
         "laughin": "laugh",
+        "loungin": "lounge",
         "layin": "lay",
         "leanin": "lean",
         "leavin": "leave",
         "lettin": "let",
         "lickin": "lick",
+        "lov": "love",
+        "liv": "live",
+        "maama": "mama",
+        "livin": "live",
         "lightnin": "lightning",
         "listenin": "listen",
         "lookin": "look",
@@ -232,6 +254,7 @@ class LyricsProcessor:
         "needin": "need",
         "nothin": "nothing",
         "packin": "pack",
+        "payin": "pay",
         "passin": "pass",
         "pimpin": "pimp",
         "poppin": "pop",
@@ -299,7 +322,7 @@ class LyricsProcessor:
         "runnin": "run",
         "talkin": "talk",
         "tryin": "try",
-        "livin": "live",
+        "slangin": "slang",
         "dyin": "die",
         "beggin": "beg",
         "killa": "killer",
@@ -350,47 +373,55 @@ class LyricsProcessor:
         "suckas": "sucker",
         "switchin": "switch",
         "tellin": "tell",
+        "tryna": "trying to",
         "thinkin": "think",
+        "travlin": "travel",
+        "tricklin": "trickle",
         "feelin": "feel",
         "winnin": "win",
         "sayin": "say",
         "wreckin": "wreck",
+        "niggas": "nigga",
+        "niggaz": "nigga",
+        "boyz": "boy",
+        "caldonia": "caledonia",
+        "muzik": "music",
+        "nuthin": "nothing",
+        "weighin": "weighing",
+        "wetin": "wet",
+        "oer": "over",
+        "yappin": "yapping",
+        "yougin": "young",
     }
 
     _GERUND_RE = re.compile(r"^(.{3,}?)(?:ing)$")
 
-    _FILLER_TOKENS: Final[frozenset[str]] = frozenset(
+    _VOCALIZATIONS: Final[frozenset[str]] = frozenset(
         {
-            "ah",
             "ahh",
             "ahhh",
             "aaaah",
+            "aaaaah",
+            "aaow",
             "aaah",
             "aah",
-            "oh",
             "ohh",
             "ohhh",
             "ohhhh",
-            "uh",
             "uhh",
-            "mm",
             "mmh",
             "mmm",
             "mmmm",
-            "hm",
             "hmm",
             "hmmm",
-            "oo",
             "ooh",
             "oooh",
             "ooooh",
-            "ay",
             "ayy",
             "ayyyy",
             "yeah",
             "yea",
             "yeh",
-            "yo",
             "yuh",
             "huh",
             "hah",
@@ -398,8 +429,100 @@ class LyricsProcessor:
             "hahah",
             "hahahaha",
             "hmm",
-            "aw",
             "aww",
+            "bae",
+            "bah",
+            "bam",
+            "boo",
+            "buh",
+            "baow",
+            "boom",
+            "brr",
+            "brrt",
+            "doo",
+            "daa",
+            "dada",
+            "deh",
+            "dem",
+            "den",
+            "dum",
+            "doh",
+            "duh",
+            "eah",
+            "eee",
+            "eeh",
+            "err",
+            "grr",
+            "grrah",
+            "guh",
+            "haaa",
+            "hee",
+            "hem",
+            "hoh",
+            "laa",
+            "laaa",
+            "lala",
+            "lalala",
+            "lalalalala",
+            "mca",
+            "mcs",
+            "meh",
+            "mhh",
+            "mwah",
+            "naa",
+            "nuh",
+            "mmmm",
+            "mmmmm",
+            "ohoh",
+            "oohhh",
+            "ooo",
+            "oho",
+            "ohooho",
+            "ohoho",
+            "ola",
+            "ole",
+            "ooo",
+            "oooo",
+            "ooooo",
+            "oooooohhhh",
+            "oww",
+            "owww",
+            "rrr",
+            "skkr",
+            "skrrt",
+            "skrt",
+            "schalalalala",
+            "soo",
+            "tss",
+            "uuh",
+            "waah",
+            "shhhh",
+            "ugh",
+            "wam",
+            "whoa",
+            "yah",
+            "yap",
+            "woa",
+            "woah",
+            "woof",
+            "wooh",
+            "woop",
+            "wop",
+            "wuh",
+            "yaa",
+            "yallah",
+            "yeah",
+            "yeahh",
+            "yee",
+            "yep",
+            "yay",
+            "yoh",
+            "yon",
+            "yow",
+            "yoyo",
+            "yup",
+            "yum",
+            "zee",
         }
     )
 
@@ -417,14 +540,20 @@ class LyricsProcessor:
         self.nlp = self._load_spacy_model(model)
         self.stopword_filter = StopwordFilter()
 
-    def process(self) -> DataFrame:
-        """Process lyrics to create topic and sentiment versions.
+    def process(self, batch_size: int = 500, n_process: int = -1) -> DataFrame:
+        """Process lyrics to create topic and sentiment versions using parallel processing.
+
+        Args:
+            batch_size (int): The number of texts to buffer.
+            n_process (int): The number of cores to use. -1 means all available cores.
 
         Returns:
-            DataFrame with columns: full_lyrics, expressions_lyrics, topic_lyrics, sentiment_lyrics
+            DataFrame with columns: lemmatized_pos_lyrics, topic_lyrics, sentiment_lyrics
         """
         out = self.corpus.copy()
-        out["expressions_lyrics"] = out[self.lyrics_column]
+
+        print("Converting lyrics to lowercase...")
+        out[self.lyrics_column] = out[self.lyrics_column].astype(str).str.lower()
 
         print("Expanding contractions in lyrics...")
         expanded = out[self.lyrics_column].astype(str).map(self._expand_contractions)
@@ -433,10 +562,16 @@ class LyricsProcessor:
         expanded = expanded.map(self._strip_apostrophes)
 
         print(
-            "Lemmatizing lyrics and extracting POS tags for topic modeling and sentiment modeling..."
+            f"Lemmatizing lyrics in parallel (n_process={n_process}, batch_size={batch_size})..."
         )
-        processed_lyrics = expanded.map(self._process_text_with_spacy)
 
+        # Process texts in batches using nlp.pipe for performance
+        docs = self.nlp.pipe(expanded.astype(str))
+
+        # Use a list comprehension for a concise and readable way to process docs
+        processed_lyrics = [self._process_doc(doc) for doc in docs]
+
+        # Unpack the list of tuples into three new columns
         (
             out["lemmatized_pos_lyrics"],
             out["topic_lyrics"],
@@ -446,6 +581,7 @@ class LyricsProcessor:
         print("Removing stopwords from topic and sentiment lyrics...")
         out["topic_lyrics"] = out["topic_lyrics"].map(self._remove_stopwords)
         out["sentiment_lyrics"] = out["sentiment_lyrics"].map(self._remove_stopwords)
+        out["expression_lyrics"] = out[self.lyrics_column]
 
         return out
 
@@ -475,28 +611,31 @@ class LyricsProcessor:
             return text
         return re.sub(r"'s\b", "", text).replace("'", "")
 
-    def _process_text_with_spacy(self, text: str) -> tuple[str, str, str]:
-        """Process text using spaCy to lemmatize and extract POS-specific tokens."""
-        if not text or not isinstance(text, str):
-            return "", "", ""
-
-        doc = self.nlp(text.lower())
+    def _process_doc(self, doc: spacy.tokens.Doc) -> tuple[str, str, str]:
+        """Process a single spaCy Doc to lemmatize and extract POS-specific tokens."""
         lemmas_with_pos: list[str] = []
         topic_lemmas: list[str] = []
         sentiment_lemmas: list[str] = []
 
         for token in doc:
+            # Apply custom lexicon first to handle slang before lemmatization
             token_text = self._apply_domain_lexicon(token.text)
 
+            # Use spaCy's lemma if the custom lexicon didn't change the token,
+            # otherwise, re-lemmatize the normalized token.
             if token_text == token.text:
                 lemma = token.lemma_
             else:
+                # Re-process the single normalized token to get its lemma
+                # This is less efficient but necessary for custom lexicon items.
+                # nlp.pipe has already lowercased the text.
                 lemma = self.nlp(token_text)[0].lemma_
 
+            # Fallback for gerunds not covered by spaCy or lexicon
             lemma = self._normalize_gerund(lemma)
 
             if (
-                lemma not in self._FILLER_TOKENS
+                lemma not in self._VOCALIZATIONS
                 and not token.is_punct
                 and not token.is_space
                 and len(lemma) > 1
@@ -505,9 +644,9 @@ class LyricsProcessor:
                 pos = token.pos_
                 lemmas_with_pos.append(f"{lemma}/{pos}")
 
-                if pos in self._NOUN_TAGS:
+                if pos in self._NOUN_TAGS and len(lemma) > 2:
                     topic_lemmas.append(lemma)
-                elif pos in self._SENTIMENT_TAGS:
+                elif pos in self._SENTIMENT_TAGS and len(lemma) > 2:
                     sentiment_lemmas.append(lemma)
 
         return (
@@ -538,10 +677,6 @@ class LyricsProcessor:
             spacy.cli.download(model)
             return spacy.load(model)
 
-    def _tokenize_line(self, line: str) -> list[str]:
-        """Tokenize a line using the same pattern as the ngram feature extractors."""
-        return re.compile(r"\b[\w']+\b").findall(line.lower())
-
     def _apply_domain_lexicon(self, token: str) -> str:
         return self._DOMAIN_LEXICON.get(token, token)
 
@@ -554,31 +689,3 @@ class LyricsProcessor:
                 stem = stem[:-1]
             return stem
         return token
-
-    @staticmethod
-    def _join_tokens(tokens: list[str]) -> str:
-        """Join tokens back into a readable string."""
-        if not tokens:
-            return ""
-
-        no_space_before = {".", ",", ":", ";", "!", "?", ")", "]", "}", "'"}
-        no_space_after = {"(", "[", "{"}
-
-        out: list[str] = []
-        for tok in tokens:
-            if not out:
-                out.append(tok)
-                continue
-
-            tok_text = tok.split("/")[0] if "/" in tok else tok
-
-            if tok_text in no_space_before:
-                out[-1] = f"{out[-1]}{tok_text}"
-            elif (
-                out[-1].split("/")[0] if "/" in out[-1] else out[-1]
-            ) in no_space_after:
-                out[-1] = f"{out[-1]}{tok}"
-            else:
-                out.append(f" {tok}")
-
-        return "".join(out)
