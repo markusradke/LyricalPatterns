@@ -55,7 +55,9 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         Whether to filter stopword-only n-grams.
     use_bigram_boundary_filter : bool, default=ENABLE_BIGRAM_BOUNDARY_FILTER
         Whether to filter bigrams that are subsets of unigrams.
-    ngram_taypes : Tuple, default=(1, 2, 3, 4)
+    min_char : int, default=0
+        Minimum character length for 1-grams to be included (default 0 for all).
+    ngram_types : Tuple, default=(1, 2, 3, 4)
         Which types of ngrams to include in the extraction (default is maximum available).
     random_state : int, default=42
         Random seed for reproducibility.
@@ -84,6 +86,7 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         prior_concentration: float = 1.0,
         use_stopword_filter: bool = True,
         use_bigram_boundary_filter: bool = True,
+        min_char: int = 0,
         ngram_types: Tuple = (1, 2, 3, 4),
         random_state: int = 42,
         checkpoint_dir: str = None,
@@ -92,6 +95,7 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         self.p_value = p_value
         self.prior_concentration = prior_concentration
         self.ngram_types = ngram_types
+        self.min_char = min_char
         self.use_stopword_filter = use_stopword_filter
         self.use_bigram_boundary_filter = use_bigram_boundary_filter
         self.random_state = random_state
@@ -170,6 +174,12 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
             mat, feats = extract_ngrams(X, order, name, self.random_state)
             matrices[name] = mat
             features[name] = feats
+            if order == 1 and self.min_char > 0:
+                print(f"Filtering unigrams shorter than {self.min_char} characters...")
+                mask = np.array([len(ng) >= self.min_char for ng in features[name]])
+                features[name] = features[name][mask]
+                matrices[name] = matrices[name][:, mask]
+                print(f"  unigrams: {len(features[name]):,} n-grams retained")
 
         print("Counting unique artists per n-gram...")
         artist_counts_by_order = {

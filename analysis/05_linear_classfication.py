@@ -28,10 +28,11 @@ class FixedLinearModel:
                     LogisticRegression(
                         C=1.0,
                         l1_ratio=0.5,
+                        penalty="elasticnet",
                         solver="saga",
                         class_weight="balanced",
                         verbose=1,
-                        max_iter=10000,
+                        max_iter=50000,
                         random_state=42,
                     ),
                 ),
@@ -117,16 +118,19 @@ if __name__ == "__main__":
         X_test_fs,
         X_train_topics,
         X_test_topics,
-        X_train_styles,
-        X_test_styles,
+        X_train_sentiments,
+        X_test_sentiments,
+        X_train_expressions,
+        X_test_expressions,
         X_train_combined,
         X_test_combined,
     ) = load_interpretable_classification_data()
     print("Data successfully loaded.\nTraining linear models...")
     models = {
         # "lr_fs": (X_train_fs, X_test_fs),
-        "lr_topics": (X_train_topics, X_test_topics),
-        "lr_styles": (X_train_styles, X_test_styles),
+        # "lr_topics": (X_train_topics, X_test_topics),
+        # "lr_sentiments": (X_train_sentiments, X_test_sentiments),
+        "lr_expressions": (X_train_expressions, X_test_expressions),
         "lr_combined": (X_train_combined, X_test_combined),
     }
     for modelname, (X_train, X_test) in models.items():

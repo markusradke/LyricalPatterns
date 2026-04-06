@@ -1,9 +1,13 @@
 import os
 import optuna
 import pandas as pd
-from lightgbm import LGBMClassifier, early_stopping
 import matplotlib.pyplot as plt
+import joblib
 
+
+from lightgbm import LGBMClassifier, early_stopping
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 from sklearn.metrics import (
     f1_score,
     cohen_kappa_score,
@@ -22,6 +26,9 @@ from helpers.split_group_stratified_and_join import (
 
 NFOLDS = 5
 RANDOM_STATE = 42
+
+# HC_FEATURES
+# DISTILLED_FEATURES
 
 
 class LightGBMOptunaExperiment:
@@ -50,15 +57,30 @@ class LightGBMOptunaExperiment:
             X_tr, X_val = X_train.iloc[train_idx], X_train.iloc[val_idx]
             y_tr, y_val = y_train.iloc[train_idx], y_train.iloc[val_idx]
 
-            model = LGBMClassifier(class_weight="balanced", n_jobs=-1, **param)
-            model.fit(
+            pipeline = Pipeline(
+                [
+                    (
+                        "scaler",
+                        StandardScaler(with_mean=False),
+                    ),
+                    (
+                        "classifcator",
+                        LGBMClassifier(class_weight="balanced", n_jobs=-1, **param),
+                    ),
+                ]
+            )
+
+            pipeline.fit(
                 X_tr,
                 y_tr,
-                eval_set=[(X_val, y_val)],
-                eval_metric="multi_logloss",
-                callbacks=[early_stopping(stopping_rounds=100, verbose=False)],
+                classifcator__eval_set=[(X_val, y_val)],
+                classifcator__eval_metric="multi_logloss",
+                classifcator__callbacks=[
+                    early_stopping(stopping_rounds=100, verbose=False)
+                ],
             )
-            preds = model.predict(X_val)
+
+            preds = pipeline.predict(X_val)
             score = f1_score(y_val, preds, average="macro")
             scores.append(score)
 
@@ -102,7 +124,16 @@ class LightGBMOptunaExperiment:
         self.best_params["random_state"] = RANDOM_STATE
         return study
 
-    def retrain_best(self):
+    def retrain_best(self, X_train=None, y_train=None, artists=None, params=None):
+        if params is not None:
+            self.best_params = params
+            if X_train is None or y_train is None or artists is None:
+                raise ValueError(
+                    "Provide X_train, y_train and artists if params is given."
+                )
+            self.X_train = X_train
+            self.y_train = y_train
+            self.artists = artists
         X_tr, X_val, y_tr, y_val = split_group_stratified_and_join(
             labels_and_group=pd.DataFrame(
                 {"group": self.artists.reset_index(drop=True), "label": self.y_train}
@@ -114,25 +145,41 @@ class LightGBMOptunaExperiment:
         plot_comparison_genre_distributions(y_tr, y_val).savefig(
             f"models/{self.modelname}/train_val_genre_distributions.png", dpi=1200
         )
-        self.model = LGBMClassifier(
-            class_weight="balanced", n_jobs=-1, **self.best_params
+
+        self.pipeline = Pipeline(
+            [
+                (
+                    "scaler",
+                    StandardScaler(with_mean=False),
+                ),
+                (
+                    "classifcator",
+                    LGBMClassifier(
+                        class_weight="balanced", n_jobs=-1, **self.best_params
+                    ),
+                ),
+            ]
         )
-        self.model.fit(
+
+        self.pipeline.fit(
             X_tr,
             y_tr,
-            eval_set=[(X_val, y_val)],
-            eval_metric="multi_logloss",
-            callbacks=[early_stopping(stopping_rounds=100, verbose=10)],
+            classifcator__eval_set=[(X_val, y_val)],
+            classifcator__eval_metric="multi_logloss",
+            classifcator__callbacks=[
+                early_stopping(stopping_rounds=100, verbose=False)
+            ],
         )
+        # TODO: Here permutation importance?
         self.n_samples_train = len(y_tr)
 
     def evaluate(self, X_test, y_test):
         self.n_samples_val = len(y_test)
-        y_pred = self.model.predict(X_test)
+        y_pred = self.pipeline.predict(X_test)
         f1 = f1_score(y_test, y_pred, average="macro")
         kappa = cohen_kappa_score(y_test, y_pred)
         report = classification_report(y_test, y_pred)
-        self.classes = self.model.classes_
+        self.classes = self.pipeline.named_steps["classifcator"].classes_
         self.printout = (
             f"F1 Score (Macro): {f1:.4f}\n"
             f"Cohen's Kappa: {kappa:.4f}\n"
@@ -143,7 +190,9 @@ class LightGBMOptunaExperiment:
         )
         self.confusion = confusion_matrix(y_test, y_pred, normalize="true")
 
-    def save_model_evaluation(self):
+    def save_pipeline_and_evaluation(self):
+        joblib.dump(self.pipeline, f"models/{self.modelname}/pipeline.joblib")
+
         display = ConfusionMatrixDisplay(
             confusion_matrix=self.confusion, display_labels=self.classes
         )
@@ -162,10 +211,12 @@ if __name__ == "__main__":
         y_test,
         _,
         _,
-        X_train_topics,
-        X_test_topics,
-        X_train_styles,
-        X_test_styles,
+        _,
+        _,
+        _,
+        _,
+        _,
+        _,
         X_train_combined,
         X_test_combined,
     ) = load_interpretable_classification_data()
@@ -173,14 +224,24 @@ if __name__ == "__main__":
     artists = pd.read_csv("data/X_train_metadata_dc.csv")["track.s.firstartist.name"]
 
     datasets = {
-        "lgbm_topics": (X_train_topics, X_test_topics),
-        "lgbm_styles": (X_train_styles, X_test_styles),
         "lgbm_combined": (X_train_combined, X_test_combined),
     }
 
     for modelname, (X_train, X_test) in datasets.items():
         experiment = LightGBMOptunaExperiment(modelname=modelname, n_trials=100)
-        experiment.tune(X_train, y_train, artists, nfolds=NFOLDS)
-        experiment.retrain_best()
+        # experiment.tune(X_train, y_train, artists, nfolds=NFOLDS)
+
+        param = {
+            "n_estimators": 1787,
+            "learning_rate": 0.0016388359635947966,
+            "num_leaves": 50,
+            "max_depth": 8,
+            "min_data_in_leaf": 6,
+            "feature_fraction": 0.526422641553037,
+            "reg_alpha": 7.4747716279488705e-06,
+            "reg_lambda": 0.00864383071313616,
+            "random_state": RANDOM_STATE,
+        }
+        experiment.retrain_best(X_train, y_train, artists, params=param)
         experiment.evaluate(X_test, y_test)
-        experiment.save_model_evaluation()
+        experiment.save_pipeline_and_evaluation()

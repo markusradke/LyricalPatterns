@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex paper_v1"] 1775298970 "paper_v1.aux" "paper_v1.bbl" "paper_v1" 1775303478 0
+["bibtex paper_v1"] 1775410598 "paper_v1.aux" "paper_v1.bbl" "paper_v1" 1775469173 0
   "./IEEEtran.bst" 1772889557 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "./refs.bib" 1775148687 4822 985eff00218c9ff5d13a03baf2b2ad77 ""
-  "paper_v1.aux" 1775303477 2891 ff12e7e2de385728d9db550e07bec50f "pdflatex"
+  "./refs.bib" 1775410487 5424 3c432454768d3caf0cbcde85464a75b5 ""
+  "paper_v1.aux" 1775469172 3063 b0017e4b406159d300716a1c9cea957d "pdflatex"
   (generated)
   "paper_v1.bbl"
   "paper_v1.blg"
   (rewritten before read)
-["pdflatex"] 1775303473 "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" "paper_v1.pdf" "paper_v1" 1775303478 0
+["pdflatex"] 1775469168 "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" "paper_v1.pdf" "paper_v1" 1775469173 0
   "c:/Users/marku/.texlive2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1674402862 7877576 05b29992d99eb979939f0f842f21097e ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1673948792 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1673949170 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -93,10 +93,10 @@
   "figures/style_genre_heatmap.png" 1774953234 269514 436f2ca405ea4596457532803d0cc120 ""
   "figures/topic_genre_heatmap.png" 1775210279 246390 24bf552b4c9e5dff6fc5b94d98ca7d97 ""
   "ismir.sty" 1772889557 11163 8452f8b5ebd4dd4a61e6e2e23348d66d ""
-  "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" 1775303471 8433 d971d04c04e5839230146c7d1e07bf81 ""
-  "paper_v1.aux" 1775303477 2891 ff12e7e2de385728d9db550e07bec50f "pdflatex"
-  "paper_v1.bbl" 1775298970 1502 2f2d294c5f1b75f5c7fae818cad23eab "bibtex paper_v1"
-  "paper_v1.tex" 1775303471 8433 d971d04c04e5839230146c7d1e07bf81 ""
+  "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" 1775469168 8604 03652a18da436042bd2739cdf9fdada7 ""
+  "paper_v1.aux" 1775469172 3063 b0017e4b406159d300716a1c9cea957d "pdflatex"
+  "paper_v1.bbl" 1775410598 2113 ec1709574429fcb0019f5423a7ee1b03 "bibtex paper_v1"
+  "paper_v1.tex" 1775469168 8604 03652a18da436042bd2739cdf9fdada7 ""
   (generated)
   "paper_v1.aux"
   "paper_v1.log"

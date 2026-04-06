@@ -6,8 +6,7 @@ from helpers.load_data import load_stm_data
 
 # K_GRID =  [x for x in range(2,21)]
 
-# K_GRID = [2] + [x for x in range(5, 100) if x % 5 == 0]
-K_GRID = [3]
+K_GRID = [2] + [x for x in range(5, 100) if x % 5 == 0]
 
 
 def tune_stm_model(

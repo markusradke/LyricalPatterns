@@ -200,19 +200,22 @@ E=mc^{2}
     \multirow{4}{*}{
       \begin{tabular}{@{}l@{}} Logistic \\ Regression \end{tabular}
     } &
-    \multirow[l]{4}{*}{ 
+    \multirow{4}{*}{ 
       \begin{tabular}{@{}l@{}} C: 1 \\ L1: 0.5\end{tabular}
       } &
-       ? \\ 
-    Topics & & & ? \\
-    Sentiments & & & ? \\
+       0.249 \\ 
+    Topics & & & 0.261 \\
+    Sentiments & & & 0.187 \\
     Expressions &  & & ? \\
     Combined & & & ? \\ 
     \hline
-    Combined & & & \\ 
+  Combined & 
+    \multirow{2}{*}{LightGBM \cite{keLightGBMHighlyEfficient2017}} & 
+    \multirow{2}{*}{tuned \cite{optuna_2019}}&
+    0.312 \\ 
     Distilled & & & ? \\ \hline
   \end{tabular}
-  \caption{$F1_{\text{macro}}$ Holdout evaluation for classifcation experiments.}
+  \caption{$F1_{\text{macro}}$ Holdout evaluation for classifcation experiments. See Appendix for tuned hyperparameters.}
   \label{tab:f1}
 \end{table}
 

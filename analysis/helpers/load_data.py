@@ -65,14 +65,24 @@ def load_interpretable_classification_data():
     X_test_topics = pd.read_csv("data/X_test_topics_dc.csv").rename(
         columns=lambda x: f"topic_{x}"
     )
-    X_train_styles = pd.read_csv("data/X_train_styles_dc.csv").rename(
-        columns=lambda x: f"style_{x}"
+    X_train_sentiments = pd.read_csv("data/X_train_sentiments_dc.csv").rename(
+        columns=lambda x: f"sentiment_{x}"
     )
-    X_test_styles = pd.read_csv("data/X_test_styles_dc.csv").rename(
-        columns=lambda x: f"style_{x}"
+    X_test_sentiments = pd.read_csv("data/X_test_sentiments_dc.csv").rename(
+        columns=lambda x: f"sentiment_{x}"
     )
-    X_train_combined = pd.concat([X_train_topics, X_train_styles], axis=1)
-    X_test_combined = pd.concat([X_test_topics, X_test_styles], axis=1)
+    X_train_expressions = pd.read_csv("data/X_train_expressions_dc.csv").rename(
+        columns=lambda x: f"expressions_{x}"
+    )
+    X_test_expressions = pd.read_csv("data/X_test_expressions_dc.csv").rename(
+        columns=lambda x: f"expressions_{x}"
+    )
+    X_train_combined = pd.concat(
+        [X_train_topics, X_train_sentiments, X_train_expressions], axis=1
+    )
+    X_test_combined = pd.concat(
+        [X_test_topics, X_test_sentiments, X_test_expressions], axis=1
+    )
     return (
         y_train,
         y_test,
@@ -80,8 +90,10 @@ def load_interpretable_classification_data():
         X_test_fs,
         X_train_topics,
         X_test_topics,
-        X_train_styles,
-        X_test_styles,
+        X_train_sentiments,
+        X_test_sentiments,
+        X_train_expressions,
+        X_test_expressions,
         X_train_combined,
         X_test_combined,
     )

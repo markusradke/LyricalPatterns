@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  4 APR 2026 13:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  6 APR 2026 11:52
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -293,22 +293,22 @@ Underfull \hbox (badness 1019) in paragraph at lines 184--184
 <figures/shap_beeswarm_rock.png, id=23, 469.755pt x 397.485pt>
 File: figures/shap_beeswarm_rock.png Graphic file (type png)
 <use figures/shap_beeswarm_rock.png>
-Package pdftex.def Info: figures/shap_beeswarm_rock.png  used on input line 228.
+Package pdftex.def Info: figures/shap_beeswarm_rock.png  used on input line 231.
 (pdftex.def)             Requested size: 233.31259pt x 197.4198pt.
 [2] (./paper_v1.bbl) [3
 
 
  <./figures/topic_genre_heatmap.png> <./figures/style_genre_heatmap.png> <./figures/shap_beeswarm_rock.png>] (./paper_v1.aux) ) 
 Here is how much of TeX's memory you used:
- 5106 strings out of 476091
- 82645 string characters out of 5795540
+ 5108 strings out of 476091
+ 82689 string characters out of 5795540
  1862324 words of memory out of 5000000
- 25419 multiletter control sequences out of 15000+600000
+ 25421 multiletter control sequences out of 15000+600000
  556189 words of font info for 77 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  67i,18n,77p,372b,498s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper_v1.pdf (3 pages, 1687802 bytes).
+Output written on paper_v1.pdf (3 pages, 1689382 bytes).
 PDF statistics:
  67 PDF objects out of 1000 (max. 8388607)
  39 compressed objects within 1 object stream

@@ -34,8 +34,8 @@ def get_and_save_train_test_meta_data():
         dpi=1200,
     )
 
-    X_train["full_lyrics"].to_csv("data/X_train_lyrics_dc.csv", index=False)
-    X_test["full_lyrics"].to_csv("data/X_test_lyrics_dc.csv", index=False)
+    X_train["expression_lyrics"].to_csv("data/X_train_lyrics_dc.csv", index=False)
+    X_test["expression_lyrics"].to_csv("data/X_test_lyrics_dc.csv", index=False)
 
     X_train_metadata = X_train[
         ["track.s.firstartist.name", "dc_detailed", "track.s.id"]
@@ -57,12 +57,12 @@ def extract_and_save_FS_features(X_train, X_test, y_train):
     )
 
     fs_extractor.fit(
-        X_train["expressions_lyrics"],
+        X_train["expression_lyrics"],
         y_train,
         X_train["track.s.firstartist.name"],
     )
-    X_train_fs = fs_extractor.transform(X_train["expressions_lyrics"])
-    X_test_fs = fs_extractor.transform(X_test["expressions_lyrics"])
+    X_train_fs = fs_extractor.transform(X_train["expression_lyrics"])
+    X_test_fs = fs_extractor.transform(X_test["expression_lyrics"])
     sparse.save_npz("data/X_train_fs_dc_detailed.npz", X_train_fs)
     sparse.save_npz("data/X_test_fs_dc_detailed.npz", X_test_fs)
 
@@ -71,8 +71,10 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
     if lyricscol == "expression_lyrics":
         ngram_types = (1, 2, 3, 4)
         name = "expressions"
+        min_char = 0
     else:
         ngram_types = (1,)
+        min_char = 3
         if lyricscol == "topic_lyrics":
             name = "topics"
         else:
@@ -84,6 +86,7 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
         prior_concentration=1.0,
         use_stopword_filter=True,
         ngram_types=ngram_types,
+        min_char=min_char,
         random_state=42,
         checkpoint_dir=f"data/checkpoints/fighting_extractor_{name}",
     )
@@ -104,10 +107,10 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = get_and_save_train_test_meta_data()
-    # extract_and_save_FS_features(X_train, X_test, y_train)
-    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
-    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
-    extract_and_save_fighting_vocabularies(
-        X_train, X_test, y_train, "expression_lyrics"
-    )
+    extract_and_save_FS_features(X_train, X_test, y_train)
+    # extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
+    # extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
+    # extract_and_save_fighting_vocabularies(
+    #     X_train, X_test, y_train, "expression_lyrics"
+    # )
     print("All done!")

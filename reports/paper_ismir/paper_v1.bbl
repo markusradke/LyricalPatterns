@@ -34,4 +34,16 @@ M.~Fell and C.~Sporleder, ``Lyrics-based analysis and classification of
   Conference on Computational Linguistics: {{Technical}} Papers}, 2014, pp.
   620--631.
 
+\bibitem{keLightGBMHighlyEfficient2017}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
+  ``{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}},'' in
+  \emph{Advances in {{Neural Information Processing Systems}}}, vol.~30.\hskip
+  1em plus 0.5em minus 0.4em\relax Curran Associates, Inc., 2017.
+
+\bibitem{optuna_2019}
+T.~Akiba, S.~Sano, T.~Yanase, T.~Ohta, and M.~Koyama, ``Optuna: A
+  next-generation hyperparameter optimization framework,'' in \emph{Proceedings
+  of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery
+  and Data Mining}, 2019.
+
 \end{thebibliography}
