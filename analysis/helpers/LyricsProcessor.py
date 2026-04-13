@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import re
-from typing import Final
-
 import spacy
-from pandas import DataFrame
+
+from typing import Final
+from nltk.corpus import words
+from pandas import DataFrame, Series
 from spacy.language import Language
 from tqdm import tqdm
 
@@ -12,13 +13,48 @@ from helpers.StopwordFilter import StopwordFilter
 
 # run first
 # python -m spacy download en_core_web_sm
+ENGLISH_VOCAB = set(w.lower() for w in words.words())
 
 
 class LyricsProcessor:
     _TOKEN_PATTERN: Final = re.compile(r"\b[\w']+\b")
+
+    _MISSING_APOSTROPHE_MAP: Final[dict[str, str]] = {
+        r"\b(ain)t\b": r"\1't",
+        r"\b(can)t\b": r"\1't",
+        r"\b(couldn)t\b": r"\1't",
+        r"\b(didn)t\b": r"\1't",
+        r"\b(doesn)t\b": r"\1't",
+        r"\b(don)t\b": r"\1't",
+        r"\b(hadn)t\b": r"\1't",
+        r"\b(hasn)t\b": r"\1't",
+        r"\b(haven)t\b": r"\1't",
+        r"\b(he)s\b": r"\1's",
+        r"\b(how)s\b": r"\1's",
+        r"\b(isn)t\b": r"\1't",
+        r"\b(it)s\b": r"\1's",
+        r"\b(let)s\b": r"\1's",
+        r"\b(she)s\b": r"\1's",
+        r"\b(shouldn)t\b": r"\1't",
+        r"\b(that)s\b": r"\1's",
+        r"\b(there)s\b": r"\1's",
+        r"\b(wasn)t\b": r"\1't",
+        r"\b(weren)t\b": r"\1't",
+        r"\b(what)s\b": r"\1's",
+        r"\b(where)s\b": r"\1's",
+        r"\b(who)s\b": r"\1's",
+        r"\b(won)t\b": r"\1't",
+        r"\b(wouldn)t\b": r"\1't",
+        r"\b(you)re\b": r"\1're",
+        r"\b(they)re\b": r"\1're",
+        r"\b(we)re\b": r"\1're",
+    }
+
     _CONTRACTION_MAP: Final[dict[str, str]] = {
         "ain't": "am not",
         "aren't": "are not",
+        "ev'rybody": "everybody",
+        "ev'ry": "every",
         "can't": "cannot",
         "can't've": "cannot have",
         "could've": "could have",
@@ -32,6 +68,13 @@ class LyricsProcessor:
         "he'd": "he would",
         "he'll": "he will",
         "he's": "he is",
+        "she'd": "she would",
+        "she'll": "she will",
+        "she's": "she is",
+        "they'd": "they would",
+        "they'll": "they will",
+        "they're": "they are",
+        "they've": "they have",
         "how'd": "how did",
         "how'll": "how will",
         "how's": "how is",
@@ -50,10 +93,6 @@ class LyricsProcessor:
         "someone's": "someone is",
         "that's": "that is",
         "there's": "there is",
-        "they'd": "they would",
-        "they'll": "they will",
-        "they're": "they are",
-        "they've": "they have",
         "wasn't": "was not",
         "we'd": "we would",
         "we'll": "we will",
@@ -89,298 +128,303 @@ class LyricsProcessor:
         "cmon": "come on",
         "dyou": "do you",
         "yknow": "you know",
+        "tryna": "trying to",
+        "gimme": "give me",
+        "o'er": "over",
     }
 
     _DOMAIN_LEXICON: Final[dict[str, str]] = {
         "amazin": "amazing",
-        "actin": "act",
-        "bitches": "bitch",
-        "ballin": "ball",
-        "bangin": "bang",
-        "beatin": "beat",
-        "becomes": "become",
-        "beefin": "beef",
-        "beginnin": "begin",
+        "actin": "acting",
+        "ballin": "balling",
+        "bangin": "banging",
+        "beatin": "beating",
+        "dawg": "dog",
+        "beefin": "beefing",
+        "beginnin": "beginning",
         "behaviour": "behavior",
-        "being": "be",
-        "believin": "believe",
+        "believin": "believing",
         "betta": "better",
         "achin": "ache",
         "biz": "business",
-        "bitchin": "bitch",
-        "bitin": "bite",
-        "blastin": "blast",
-        "bleedin": "bleed",
-        "bleeds": "bleed",
-        "blessin": "bless",
-        "blowin": "blow",
-        "bloomin": "bloom",
-        "bummin": "bum",
-        "bussin": "buss",
+        "bitchin": "bitching",
+        "bitin": "biting",
+        "blastin": "blasting",
+        "bleedin": "bleeding",
+        "blessin": "blessing",
+        "blowin": "blowing",
+        "bloomin": "blooming",
+        "bummin": "bumming",
+        "bussin": "bussing",
         "busta": "buster",
-        "boomin": "boom",
-        "bluffin": "bluff",
-        "bouncnin": "bounce",
-        "braggin": "brag",
-        "breakin": "break",
-        "breathin": "breathe",
-        "bringin": "bring",
-        "brings": "bring",
-        "buggin": "bug",
-        "bullshittin": "bullshit",
-        "buildin": "build",
-        "bumpin": "bump",
-        "burnin": "burn",
-        "bustin": "bust",
-        "buyin": "buy",
-        "buzzin": "buzz",
-        "callin": "call",
-        "carryin": "carry",
-        "catchin": "catch",
-        "causin": "cause",
+        "bustin": "busting",
+        "boomin": "booming",
+        "bluffin": "bluffing",
+        "bouncnin": "bouncing",
+        "braggin": "bragging",
+        "breakin": "breaking",
+        "breathin": "breathing",
+        "bringin": "bringing",
+        "buggin": "bugging",
+        "bullshittin": "bullshitting",
+        "buildin": "building",
+        "bumpin": "bumping",
+        "burnin": "burning",
+        "buyin": "buying",
+        "buzzin": "buzzing",
+        "callin": "calling",
+        "carryin": "carrying",
+        "catchin": "catching",
+        "causin": "causing",
         "cuz": "because",
         "coz": "because",
         "'cause": "because",
-        "ceilin": "ceil",
-        "chasin": "chase",
-        "cheatin": "cheat",
-        "checkin": "check",
-        "chokin": "choke",
-        "clappin": "clap",
+        "ceilin": "ceiling",
+        "chasin": "chasing",
+        "cheatin": "cheating",
+        "checkin": "checking",
+        "chokin": "choking",
+        "clappin": "clapping",
         "cliché": "cliche",
-        "climbin": "climb",
-        "clutchin": "clutch",
-        "comin": "come",
-        "controllin": "control",
-        "cookin": "cook",
-        "coolin": "cool",
-        "countin": "count",
-        "crackin": "crack",
-        "crashin": "crash",
-        "crawlin": "crawl",
-        "creepin": "creep",
-        "cruisin": "cruise",
-        "cryin": "cry",
-        "cuttin": "cut",
-        "dancin": "dance",
+        "climbin": "climbing",
+        "clutchin": "clutching",
+        "comin": "coming",
+        "controllin": "controlling",
+        "cookin": "cooking",
+        "coolin": "cooling",
+        "countin": "counting",
+        "crackin": "cracking",
+        "crashin": "crashing",
+        "crawlin": "crawling",
+        "creepin": "creeping",
+        "cruisin": "cruising",
+        "cryin": "crying",
+        "cuttin": "cutting",
+        "dancin": "dancing",
         "darlin": "darling",
-        "dealin": "deal",
-        "diggin": "dig",
-        "droppin": "drop",
-        "dippin": "dip",
-        "dissin": "diss",
+        "dealin": "dealing",
+        "diggin": "digging",
+        "droppin": "dropping",
+        "dippin": "dipping",
+        "dissin": "dissing",
         "doin": "do",
-        "draggin": "drag",
-        "dreamin": "dream",
-        "drinkin": "drink",
-        "drippin": "drip",
-        "dropin": "drop",
-        "duckin": "duck",
-        "eatin": "eat",
+        "draggin": "dragging",
+        "dreamin": "dreaming",
+        "drinkin": "drinking",
+        "drippin": "dripping",
+        "dropin": "dropping",
+        "duckin": "ducking",
+        "eatin": "eating",
         "evenin": "evening",
-        "eyes": "eye",
-        "facin": "face",
-        "fakin": "fake",
-        "fallin": "fall",
-        "feedin": "feed",
-        "fiendin": "fiend",
-        "fishin": "fish",
-        "flashin": "flash",
-        "flippin": "flip",
-        "floatin": "float",
-        "flossin": "floss",
-        "flowin": "flow",
-        "flyin": "fly",
-        "foolin": "fool",
-        "freakin": "freak",
-        "friends": "friend",
-        "fronin": "front",
+        "facin": "facing",
+        "fakin": "faking",
+        "fallin": "falling",
+        "feedin": "feeding",
+        "fiendin": "fiending",
+        "fishin": "fishing",
+        "flashin": "flashing",
+        "flippin": "flipping",
+        "floatin": "floating",
+        "flossin": "flossing",
+        "flowin": "flowing",
+        "flyin": "flying",
+        "foolin": "fooling",
+        "freakin": "freaking",
+        "fronin": "fronting",
         "fuckin": "fucking",
-        "gettin": "get",
-        "girlies": "girlie",
-        "givin": "give",
-        "goin": "go",
-        "grabbin": "grab",
-        "grindin": "grind",
-        "grippin": "grip",
-        "groovin": "groove",
-        "growin": "grow",
-        "gunnin": "gun",
-        "hangin": "hang",
-        "happenin": "happen",
-        "hatin": "hate",
-        "havin": "have",
-        "headin": "head",
-        "healin": "heal",
-        "hearin": "hear",
-        "hidin": "hide",
-        "hmm": "hm",
-        "hmmm": "hm",
-        "holdin": "hold",
+        "gettin": "getting",
+        "givin": "giving",
+        "goin": "going",
+        "grabbin": "grabbing",
+        "grindin": "grinding",
+        "grippin": "gripping",
+        "groovin": "grooving",
+        "growin": "growing",
+        "gunnin": "gunning",
+        "hangin": "hanging",
+        "happenin": "happening",
+        "hatin": "hating",
+        "havin": "having",
+        "headin": "heading",
+        "healin": "healing",
+        "hearin": "hearing",
+        "hidin": "hiding",
+        "holdin": "holding",
         "homies": "homie",
-        "hoppin": "hop",
-        "howlin": "howl",
-        "hummin": "humm",
-        "hunin": "hunt",
-        "hurtin": "hurt",
-        "hustlin": "hustle",
-        "jamin": "jam",
+        "hoppin": "hopping",
+        "howlin": "howling",
+        "hummin": "humming",
+        "hunin": "hunting",
+        "hurtin": "hurting",
+        "hustlin": "hustling",
+        "jamin": "jamming",
         "judgement": "judgment",
-        "jumpin": "jump",
-        "keepin": "keep",
-        "kickin": "kick",
-        "kiddin": "kid",
-        "kissin": "kiss",
-        "knockin": "knock",
-        "knowin": "know",
-        "knew": "know",
-        "laughin": "laugh",
-        "loungin": "lounge",
-        "layin": "lay",
-        "leanin": "lean",
-        "leavin": "leave",
-        "lettin": "let",
-        "lickin": "lick",
+        "jumpin": "jumping",
+        "keepin": "keeping",
+        "kickin": "kicking",
+        "kiddin": "kidding",
+        "kissin": "kissing",
+        "knockin": "knocking",
+        "knowin": "knowing",
+        "knew": "knowing",
+        "laughin": "laughing",
+        "blinkin": "blinking",
+        "loungin": "lounging",
+        "layin": "laying",
+        "leanin": "leaning",
+        "leavin": "leaving",
+        "lettin": "letting",
+        "lickin": "licking",
         "lov": "love",
         "liv": "live",
         "maama": "mama",
-        "livin": "live",
+        "livin": "living",
         "lightnin": "lightning",
-        "listenin": "listen",
-        "lookin": "look",
-        "losin": "loose",
-        "lyin": "lie",
-        "marchin": "march",
-        "needin": "need",
+        "listenin": "listening",
+        "lookin": "looking",
+        "losin": "losing",
+        "lyin": "lying",
+        "marchin": "marching",
+        "needin": "needing",
         "nothin": "nothing",
-        "packin": "pack",
-        "payin": "pay",
-        "passin": "pass",
-        "pimpin": "pimp",
-        "poppin": "pop",
-        "pourin": "pour",
-        "prayin": "pray",
-        "preachin": "preach",
-        "pretendin": "pretend",
-        "puffin": "puff",
-        "pullin": "pull",
-        "pummpin": "pump",
-        "puttin": "put",
-        "racin": "race",
-        "rainin": "rain",
-        "rappin": "rap",
-        "rhymin": "rhyme",
-        "ridin": "ride",
-        "risin": "rise",
-        "robbin": "rob",
-        "rushin": "rush",
-        "schemin": "scheme",
-        "screamin": "scream",
-        "searchin": "search",
-        "settin": "set",
-        "shinin": "shine",
-        "shootin": "shoot",
-        "sippin": "sip",
-        "slammin": "slam",
-        "slippin": "slip",
-        "sniffin": "sniff",
-        "speedin": "speed",
-        "spillin": "spill",
-        "suckin": "suck",
-        "swingin": "swing",
-        "taking": "take",
-        "tickin": "tick",
-        "trippin": "trip",
-        "tumblin": "tumble",
-        "wantin": "want",
-        "whippin": "whip",
-        "wishin": "wish",
-        "wonderin": "wonder",
-        "workin": "work",
-        "worryin": "worry",
-        "writin": "write",
-        "yellin": "yell",
-        "seein": "see",
-        "sellin": "sell",
-        "plannin": "plan",
-        "timin": "time",
-        "totin": "tot",
-        "driftin": "drift",
-        "disappears": "disappear",
-        "thuggin": "thug",
-        "touchin": "touch",
-        "pushin": "push",
-        "pumpin": "pump",
-        "plottin": "plot",
+        "packin": "packing",
+        "payin": "paying",
+        "passin": "passing",
+        "pimpin": "pimping",
+        "poppin": "popping",
+        "pourin": "pouring",
+        "prayin": "praying",
+        "preachin": "preaching",
+        "pretendin": "pretending",
+        "puffin": "puffing",
+        "pullin": "pulling",
+        "pummpin": "pumping",
+        "puttin": "putting",
+        "racin": "racing",
+        "thumpin": "thumping",
+        "throwin": "throwing",
+        "rainin": "raining",
+        "textin": "texting",
+        "rappin": "rapping",
+        "rhymin": "rhyming",
+        "ridin": "riding",
+        "risin": "rising",
+        "robbin": "robbing",
+        "rushin": "rushing",
+        "schemin": "scheming",
+        "screamin": "screaming",
+        "searchin": "searching",
+        "settin": "setting",
+        "shinin": "shining",
+        "shootin": "shooting",
+        "sippin": "sipping",
+        "slammin": "slamming",
+        "slippin": "slipping",
+        "sniffin": "sniffing",
+        "speedin": "speeding",
+        "spillin": "spilling",
+        "suckin": "sucking",
+        "swingin": "swinging",
+        "taking": "taking",
+        "tickin": "ticking",
+        "trippin": "tripping",
+        "tumblin": "tumbling",
+        "wantin": "wanting",
+        "whippin": "whipping",
+        "wishin": "wishing",
+        "wonderin": "wondering",
+        "workin": "working",
+        "worryin": "worrying",
+        "writin": "writing",
+        "yellin": "yelling",
+        "seein": "seeing",
+        "sellin": "selling",
+        "plannin": "planning",
+        "timin": "timing",
+        "totin": "toting",
+        "driftin": "drifting",
+        "thuggin": "thugging",
+        "touchin": "touching",
+        "pushin": "pushing",
+        "pumpin": "pumping",
+        "plottin": "plotting",
         "aight": "alright",
         "lil": "little",
-        "missin": "miss",
-        "mixin": "mix",
+        "til": "until",
+        "missin": "missing",
+        "mixin": "mixing",
         "mornin": "morning",
-        "movin": "move",
-        "walkin": "walk",
-        "runnin": "run",
-        "talkin": "talk",
-        "tryin": "try",
-        "slangin": "slang",
-        "dyin": "die",
-        "beggin": "beg",
+        "movin": "moving",
+        "walkin": "walking",
+        "runnin": "running",
+        "talkin": "talking",
+        "tryin": "trying",
+        "slangin": "slanging",
+        "dyin": "dying",
+        "beggin": "begging",
         "killa": "killer",
         "killas": "killer",
-        "killin": "kill",
-        "drivin": "drive",
-        "makin": "make",
-        "hittin": "hit",
-        "sittin": "sit",
-        "chillin": "chill",
-        "smokin": "smoke",
-        "playin": "play",
-        "praying": "pray",
-        "ramblin": "ramble",
-        "sailin": "sail",
-        "savin": "sav",
-        "shootin ": "shoot",
-        "shoppin": "shop",
-        "sinkin": "sink",
-        "skippin": "skip",
-        "slidin": "slide",
-        "sleepin": "sleep",
-        "slowin": "slow",
-        "smilin": "smile",
-        "sneakin": "sneak",
-        "soakin": "soak",
+        "killin": "killing",
+        "drivin": "driving",
+        "makin": "making",
+        "shiftin": "shifting",
+        "supa": "super",
+        "hittin": "hitting",
+        "sittin": "sitting",
+        "chillin": "chilling",
+        "smokin": "smoking",
+        "playin": "playing",
+        "praying": "praying",
+        "ramblin": "rambling",
+        "sailin": "sailing",
+        "savin": "saving",
+        "shootin ": "shooting",
+        "shoppin": "shopping",
+        "sinkin": "sinking",
+        "skippin": "skipping",
+        "slidin": "sliding",
+        "sleepin": "sleeping",
+        "slowin": "slowing",
+        "smilin": "smiling",
+        "sneakin": "sneaking",
+        "soakin": "soaking",
         "somethin": "something",
-        "lovin": "love",
-        "speakin": "speak",
-        "spendin": "spend",
-        "spreadin": "spread",
-        "stackin": "stack",
-        "standin": "stand",
-        "starin": "stare",
-        "stayin": "stay",
-        "swimmin": "swim",
-        "stealin": "steal",
-        "sweatin": "sweat",
-        "steppin": "step",
-        "stickin": "stick",
-        "stinkin": "stink",
-        "stompin": "stomp",
-        "stoppin": "stop",
-        "strugglin": "struggle",
-        "stumblin": "stumble",
-        "stuntin": "stunt",
-        "stylin": "style",
+        "lovin": "loving",
+        "speakin": "speaking",
+        "spendin": "spending",
+        "spreadin": "spreading",
+        "stackin": "stacking",
+        "standin": "standing",
+        "starin": "staring",
+        "stayin": "staying",
+        "swimmin": "swimming",
+        "stealin": "stealing",
+        "sweatin": "sweating",
+        "steppin": "stepping",
+        "stickin": "sticking",
+        "stinkin": "stinking",
+        "stompin": "stomping",
+        "stoppin": "stopping",
+        "bein": "being",
+        "wearin": "wearing",
+        "wavin": "waving",
+        "waitin": "waiting",
+        "strugglin": "struggling",
+        "stumblin": "stumbling",
+        "stuntin": "stunting",
+        "stylin": "styling",
         "suckas": "sucker",
-        "switchin": "switch",
-        "tellin": "tell",
-        "tryna": "trying to",
-        "thinkin": "think",
-        "travlin": "travel",
-        "tricklin": "trickle",
-        "feelin": "feel",
-        "winnin": "win",
-        "sayin": "say",
-        "wreckin": "wreck",
+        "switchin": "switching",
+        "tellin": "telling",
+        "thinkin": "thinking",
+        "travlin": "traveling",
+        "tricklin": "trickling",
+        "feelin": "feeling",
+        "winnin": "winning",
+        "sayin": "saying",
+        "wreckin": "wrecking",
+        "nigger": "nigga",
+        "niggers": "nigga",
         "niggas": "nigga",
         "niggaz": "nigga",
         "boyz": "boy",
@@ -388,13 +432,13 @@ class LyricsProcessor:
         "muzik": "music",
         "nuthin": "nothing",
         "weighin": "weighing",
-        "wetin": "wet",
+        "wetin": "weting",
         "oer": "over",
         "yappin": "yapping",
-        "yougin": "young",
+        "yougin": "younging",
+        "gyal": "girl",
+        "gyals": "girl",
     }
-
-    _GERUND_RE = re.compile(r"^(.{3,}?)(?:ing)$")
 
     _VOCALIZATIONS: Final[frozenset[str]] = frozenset(
         {
@@ -405,6 +449,7 @@ class LyricsProcessor:
             "aaow",
             "aaah",
             "aah",
+            "aye",
             "ohh",
             "ohhh",
             "ohhhh",
@@ -414,6 +459,7 @@ class LyricsProcessor:
             "mmmm",
             "hmm",
             "hmmm",
+            "hoo",
             "ooh",
             "oooh",
             "ooooh",
@@ -422,12 +468,15 @@ class LyricsProcessor:
             "yeah",
             "yea",
             "yeh",
+            "jah",
             "yuh",
+            "dah",
             "huh",
             "hah",
             "haha",
             "hahah",
             "hahahaha",
+            "hmmm",
             "hmm",
             "aww",
             "bae",
@@ -487,6 +536,8 @@ class LyricsProcessor:
             "oooooohhhh",
             "oww",
             "owww",
+            "tlc",
+            "uuuh",
             "rrr",
             "skkr",
             "skrrt",
@@ -498,6 +549,8 @@ class LyricsProcessor:
             "waah",
             "shhhh",
             "ugh",
+            "wha",
+            "weh",
             "wam",
             "whoa",
             "yah",
@@ -533,7 +586,7 @@ class LyricsProcessor:
         self,
         corpus: DataFrame,
         lyrics_column: str = "lyrics",
-        model: str = "en_core_web_sm",
+        model: str = "en_core_web_lg",
     ) -> None:
         self.corpus = corpus
         self.lyrics_column = lyrics_column
@@ -552,24 +605,28 @@ class LyricsProcessor:
         """
         out = self.corpus.copy()
 
-        print("Converting lyrics to lowercase...")
-        out[self.lyrics_column] = out[self.lyrics_column].astype(str).str.lower()
+        print("Fixing missing apostrophes in lyrics...")
+        expressions_texts = (
+            out[self.lyrics_column].astype(str).map(self._fix_missing_apostrophes)
+        )
 
         print("Expanding contractions in lyrics...")
-        expanded = out[self.lyrics_column].astype(str).map(self._expand_contractions)
+        texts = expressions_texts.map(self._expand_contractions)
 
-        print("Stripping apostrophes...")
-        expanded = expanded.map(self._strip_apostrophes)
+        print("Applying domain lexicon...")
+        texts = self._apply_domain_lexicon_to_series(texts)
 
         print(
             f"Lemmatizing lyrics in parallel (n_process={n_process}, batch_size={batch_size})..."
         )
 
         # Process texts in batches using nlp.pipe for performance
-        docs = self.nlp.pipe(expanded.astype(str))
+        docs = self.nlp.pipe(texts, batch_size=batch_size, n_process=n_process)
 
         # Use a list comprehension for a concise and readable way to process docs
-        processed_lyrics = [self._process_doc(doc) for doc in docs]
+        processed_lyrics = [
+            self._process_doc(doc) for doc in tqdm(docs, total=len(out))
+        ]
 
         # Unpack the list of tuples into three new columns
         (
@@ -581,9 +638,30 @@ class LyricsProcessor:
         print("Removing stopwords from topic and sentiment lyrics...")
         out["topic_lyrics"] = out["topic_lyrics"].map(self._remove_stopwords)
         out["sentiment_lyrics"] = out["sentiment_lyrics"].map(self._remove_stopwords)
-        out["expression_lyrics"] = out[self.lyrics_column]
+        out["expression_lyrics"] = expressions_texts.str.lower()
 
         return out
+
+    def _fix_missing_apostrophes(self, text: str) -> str:
+        """Fix common contractions missing apostrophes."""
+        if not text or not isinstance(text, str):
+            return text
+
+        for pattern, replacement in self._MISSING_APOSTROPHE_MAP.items():
+            suffix = replacement.split("'")[1]  # Extract "'t", "'s", or "'re"
+
+            def replace_with_case(match):
+                word = match.group(1)
+                if word.isupper():
+                    return word + "'" + suffix.upper()
+                elif word and word[0].isupper():
+                    return word + "'" + suffix
+                else:
+                    return word + "'" + suffix
+
+            text = re.sub(pattern, replace_with_case, text, flags=re.IGNORECASE)
+
+        return text
 
     def _expand_contractions(self, text: str) -> str:
         """Expand English contractions in text."""
@@ -605,12 +683,6 @@ class LyricsProcessor:
 
         return pattern.sub(replace, text)
 
-    def _strip_apostrophes(self, text: str) -> str:
-        """Remove apostrophes and trailing 's' from possessives (e.g., 'Tobi's' -> 'Tobi')."""
-        if not text or not isinstance(text, str):
-            return text
-        return re.sub(r"'s\b", "", text).replace("'", "")
-
     def _process_doc(self, doc: spacy.tokens.Doc) -> tuple[str, str, str]:
         """Process a single spaCy Doc to lemmatize and extract POS-specific tokens."""
         lemmas_with_pos: list[str] = []
@@ -618,26 +690,16 @@ class LyricsProcessor:
         sentiment_lemmas: list[str] = []
 
         for token in doc:
-            # Apply custom lexicon first to handle slang before lemmatization
-            token_text = self._apply_domain_lexicon(token.text)
-
-            # Use spaCy's lemma if the custom lexicon didn't change the token,
-            # otherwise, re-lemmatize the normalized token.
-            if token_text == token.text:
-                lemma = token.lemma_
-            else:
-                # Re-process the single normalized token to get its lemma
-                # This is less efficient but necessary for custom lexicon items.
-                # nlp.pipe has already lowercased the text.
-                lemma = self.nlp(token_text)[0].lemma_
-
-            # Fallback for gerunds not covered by spaCy or lexicon
-            lemma = self._normalize_gerund(lemma)
+            lemma = token.lemma_.lower()
 
             if (
-                lemma not in self._VOCALIZATIONS
+                lemma in ENGLISH_VOCAB
+                and lemma not in self._VOCALIZATIONS
                 and not token.is_punct
                 and not token.is_space
+                and not token.is_oov
+                and not token.is_stop
+                and lemma.isalpha()
                 and len(lemma) > 1
                 and not any(c.isdigit() for c in lemma)
             ):
@@ -677,15 +739,23 @@ class LyricsProcessor:
             spacy.cli.download(model)
             return spacy.load(model)
 
-    def _apply_domain_lexicon(self, token: str) -> str:
-        return self._DOMAIN_LEXICON.get(token, token)
+    def _apply_domain_lexicon_to_series(self, texts: Series) -> Series:
+        """
+        Apply the domain lexicon to a pandas Series of texts, preserving case.
+        If the matched word is capitalized, the replacement will be capitalized.
+        """
+        for original, replacement in self._DOMAIN_LEXICON.items():
 
-    def _normalize_gerund(self, token: str) -> str:
-        """Strip -ing suffix as a fallback for uncovered gerunds/progressives."""
-        m = self._GERUND_RE.match(token)
-        if m:
-            stem = m.group(1)
-            if len(stem) >= 3 and stem[-1] == stem[-2]:
-                stem = stem[:-1]
-            return stem
-        return token
+            def case_sensitive_replace(match):
+                matched_word = match.group(0)
+                if matched_word[0].isupper():
+                    return replacement.capitalize()
+                return replacement
+
+            texts = texts.str.replace(
+                r"\b" + re.escape(original) + r"\b",
+                case_sensitive_replace,
+                regex=True,
+                flags=re.IGNORECASE,
+            )
+        return texts

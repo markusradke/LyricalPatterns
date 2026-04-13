@@ -1,0 +1,5 @@
+PWD n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir
+INPUT c:/texlive/2022/texmf.cnf
+INPUT c:/texlive/2022/texmf-dist/web2c/texmf.cnf
+INPUT c:/Users/marku/.texlive2022/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex

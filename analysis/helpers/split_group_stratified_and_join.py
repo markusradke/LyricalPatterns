@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
+from pathlib import Path
 from typing import Tuple
 from sklearn.model_selection import train_test_split, StratifiedKFold
 
@@ -200,28 +201,57 @@ def create_artist_separated_folds(
     return folds
 
 
-def plot_fold_label_prevalence(
-    y: pd.Series, folds: list[tuple[np.ndarray, np.ndarray]]
+def plot_and_save_fold_label_prevalence(
+    y: pd.Series,
+    folds: list[tuple[np.ndarray, np.ndarray]],
+    output_dir: str | Path = "models",
+    file_prefix: str = "fold_genre_prevalence",
 ) -> plt.Figure:
-    """Plot label prevalence per fold (grey) vs overall training prevalence (red)."""
+    """Plot label prevalence per fold (grey) vs overall training prevalence (red).
+
+    Also writes two CSV files to output_dir:
+    - {file_prefix}_relative.csv  (genre, fold1..foldN; relative frequencies)
+    - {file_prefix}_absolute.csv  (genre, fold1..foldN; absolute counts)
+    """
     overall = y.value_counts(normalize=True)
 
     fold_prevalences = []
+    fold_counts = []
     for _, test_idx in folds:
-        fold_rel = y.iloc[test_idx].value_counts(normalize=True)
-        fold_prevalences.append(fold_rel)
+        y_fold = y.iloc[test_idx]
+        fold_prevalences.append(y_fold.value_counts(normalize=True))
+        fold_counts.append(y_fold.value_counts())
 
     labels = overall.index
     for fold_rel in fold_prevalences:
         labels = labels.union(fold_rel.index)
 
     overall_aligned = overall.reindex(labels, fill_value=0)
+    labels_sorted = overall_aligned.sort_values(ascending=False).index
+    overall_vals = overall_aligned.reindex(labels_sorted).to_numpy()
+
+    # Save fold-wise relative and absolute values to CSV
+    rel_export = pd.DataFrame({"genre": labels_sorted})
+    abs_export = pd.DataFrame({"genre": labels_sorted})
+
+    for i, (fold_rel, fold_abs) in enumerate(
+        zip(fold_prevalences, fold_counts), start=1
+    ):
+        rel_export[f"fold{i}"] = fold_rel.reindex(
+            labels_sorted, fill_value=0
+        ).to_numpy()
+        abs_export[f"fold{i}"] = fold_abs.reindex(
+            labels_sorted, fill_value=0
+        ).to_numpy()
+
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    rel_export.to_csv(output_dir / f"{file_prefix}_relative.csv", index=False)
+    abs_export.to_csv(output_dir / f"{file_prefix}_absolute.csv", index=False)
+
     fold_aligned = [
         fold_rel.reindex(labels, fill_value=0) for fold_rel in fold_prevalences
     ]
-
-    labels_sorted = overall_aligned.sort_values(ascending=False).index
-    overall_vals = overall_aligned.reindex(labels_sorted).to_numpy()
 
     n = len(labels_sorted)
     y_pos = np.arange(n)

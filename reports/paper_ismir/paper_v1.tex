@@ -20,39 +20,13 @@
 \usepackage{subcaption}
 \usepackage{arydshln}
 \usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{blindtext}
 
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
 \title{"More than words": Genre-Discriminating Lyrical Patterns in 50 Years of Anglophone German Popular Music}
-
-% Alternative first part suggestsions: 
-% Informed Idioms
-% "In the club"
-% "Rock and roll"
-% "Can't take it"
-% "I just don't care"
-% "I'll never give up"
-% "need your love"
-% "Hurts like hell"
-% "Whats Up"
-% "For the longest time"
-% "gonna miss you"
-% "let's talk about"
-% "like diamons in"
-% "against the wall"
-% "on the wild side"
-% "in my arms again"
-% "here we go again"
-% "me against the world"
-% "start all over again"
-%2 "hurts like hell"
-
-% "listen to the words"
-% "more than words"
-% "try to understand"
-% "you don't understand"
-% "don't you understand"
 
 % Note: Please do NOT use \thanks or a \footnote in any of the author markup
 
@@ -104,42 +78,50 @@
 \maketitle
 
 \begin{abstract}
-The abstract should be placed at the top left column and should contain about 150--200 words.
+  %max 200 words
+Recent advances in natural language processing have improved lyrics-based music genre classification through large language models, yet such black box systems obscure the linguistic structures that actually differentiate music genres. Earlier research in popular music studies, meanwhile, has often emphasized thematic readings of lyrics from single songs without systematically tracing recurrent patterns of idiomatic expressions—leaving stylistic genre differences under-researched until now. Our study bridges these perspectives by uncovering genre discriminative lyrical patterns—topics, sentiments, and idiomatic expressions—in fifty years of Anglophone German popular music. Using the POPTRAG corpus and Discogs genre annotations for 126,042 tracks with English lyrics, we apply the fightin' words method to  identify statistically distinctive n-grams across genres and build interpretable topic, sentiment, and expression dictionaries. Finally, we cluster the n-grams contained in each dictionary via structural topic modeling using target genres as prevalence priors. Resulting interpretable lyrics features are employed in machine-learning models that reveal how topics, sentiments, and idiomatic expressions function as stylistic markers for single popular music genres. Our transparent ML approach retains roughly 80\% of the predictive performance of a transfer-learned DistilBERT classifier while offering conceptual insight into how lyrics encode genre identity. 
 \end{abstract}
 
-Warum nciht textuelle Statistik; wie werden topic models und sentimente in der KoWi gefasst (nomen, Adjektive); was ist idiomatic expressions
 
 \section{Introduction}\label{sec:introduction}
-RQ1: What are content-related genre-discriminative lyrical patterns (topics, sentiments, idiomatic expressions) in Anglophone German popular music?
-- Dictionaries Figthing Words
-- LIFT Words for Topics, Sentiments, and Expressions (in Appendix)
 
+Given these considerations we pose the following research questions:
 
-RQ2: How well do interpretative ML-models perform when predicting popular music genres compared to a state of the art tranformer-based LLM? 
-- ML table
-- Confusion matrix for reduced Model
-- Permutation importance for Combined (Appendix)
+\noindent
+\begin{tabular}{p{0.08\linewidth} p{0.88\linewidth}}
+\textbf{RQ1} & Which content-related genre-discriminative lyrical patterns (topics, sentiments, idiomatic expressions) exist in Anglophone German popular music? \\
+\textbf{RQ2} & To what extent do pattern-based interpretable ML models match a fine-tuned transformer baseline on popular music genre prediction? \\
+\textbf{RQ3} & What can we learn about lyrical genre differences from such interpretative models for popular music studies? \\
+\end{tabular}
+% Warum nciht textuelle Statistik; wie werden topic models und sentimente in der KoWi gefasst (nomen, Adjektive); was ist idiomatic expressions
+% RQ1
+% - Dictionaries Figthing Words
+% - FREX Words for Topics, Sentiments, and Expressions (in Appendix)
+% - Cluster Probs per genre in the training data
 
-RQ3: What can we learn about lyrical genre differences from such interpretative models for popular music studies?
-- Permutation Importance (Transition, show Distilled)
-- Cluster Probs per genre
-- SHAP for Rock
+% RQ2
+% - ML table
+% - Confusion matrix for reduced Model
+
+% RQ3
+% - Permutation Importance
+% - SHAP for Rock
 
 \newpage
 \newpage
 \section{Methods}
 \subsection{Data}
 
-gemeinsames Metadaten-Framework für Extension und Anbindung an Audio-Features
+% gemeinsames Metadaten-Framework für Extension und Anbindung an Audio-Features
 
-VOrgefertigter Datnsatz
+% Vorgefertigter Datnsatz
 
-Corpus rechtfertigung:
+% Corpus rechtfertigung:
 
-Es geht um Musikhören, nicht nur um Verkäufe; auch Musik, die schon länger nicht mehr in den Charts ist, daher anreiherung;
+% Es geht um Musikhören, nicht nur um Verkäufe; auch Musik, die schon länger nicht mehr in den Charts ist, daher anreiherung;
 
 
-Single Label Discogs Genres: im Lyrics Paper würde ich begründen mit Interpretierbarkeit
+% Single Label Discogs Genres: im Lyrics Paper würde ich begründen mit Interpretierbarkeit
 
 \begin{figure}
   \centering
@@ -149,99 +131,159 @@ Single Label Discogs Genres: im Lyrics Paper würde ich begründen mit Interpret
 \end{figure}
 
 \subsection{Genre Disrciminating Vocabularies}
-\begin{equation}\label{relativity}
-E=mc^{2}
-\end{equation}
+% \begin{equation}\label{relativity}
+% E=mc^{2}
+% \end{equation}
 
 
-\subsection{Genre Discriminating Topics and Styles}
+\subsection{Genre Discriminating Topics, Sentiments, and Idiomatic Expression Types}
 
 \subsection{Machine Learning Experiments}
 
 
-\newpage
-\newpage
 \section{Results}
-\subsection{Genre Disrciminating Vocabularies}
+
+% RQ1: Welche inhaltlichen genre-discriminativen lyrischen Muster (Themen, Sentiments, idiomatische Ausdrücke) existieren in der anglophonen deutschen populären Musik?
+\subsection{Genre Disrciminating Patterns}
+Using the fightin' words method, we identified topic, sentiment, and idiomatic expressions vocabulary lists containing n-grams that are statistically significant for distinguishing between popular music genres in our training corpus. The topic vocabulary comprises 3,831 nouns, the sentiment vocabulary includes 857 adjectives and adverbs. The expressions vocabulary contains 56,804 idiomatic expressions (12\% unigrams, 33\% bigrams, 35\% trigrams, and 19\% quadgrams).
+
+\begin{table*}[!t]
+  \setlength{\tabcolsep}{6pt}
+  \centering
+  \footnotesize
+  \begin{tabular}{l l l}
+    \toprule
+    Type  & Label & Example high-FREX n-grams \\
+    \midrule
+    Topic & Americana & beer, john, funk, monkey, whiskey, jack, cowboy, johnny, hat, lee \\
+    Topic & Darkness & chaos, death, humanity, destruction, agony, decay, hate, existence, hatred, terror \\
+    \midrule
+    Sentiment & ambivalent & pretty, maybe, good, nice, bad, sad, easy, glad, totally, busy \\
+    Sentiment & apocalyptic & final, evil, eternal, ancient, sacred, deadly, violent, rotten, mortal \\
+    \midrule
+    Expression & Christmas Phrases & let it snow let, snow let it snow, it snow let it, lonley so lonly so, dreaming of a white, of a white christmas, \\
+    & & a merry little christmas, have yourself a merry, yourself a merry little, in a winter wonderland \\
+    Expression & Dance Floor Commands & na na na na, doo doo doo doo, ba ba ba ba, ya ya ya ya, man man man man, li li, ma ma ma ma,\\ 
+    & & move your body, put your hands up, ba dum\\
+    \bottomrule
+  \end{tabular}
+  \caption{Example interpretations of genre-discriminative topic, sentiments, and expression types with top high-FREX n-grams.}
+  \label{tab:frex_examples}
+\end{table*}
+
+Based on these vocabularies, we extracted dense topic, sentiment, and idiomatic expressions features by integrating the n-grams contained in each vocabulary via structural topic modeling into latent types using target genres as prevalence priors, thus getting genre-discriminative topics, sentiments, and types of idiomatic expressions. Within the range from 2 to 20 types, we chose the optimal number of types for each topics, sentiments, and expressions primarily based on the highest exclusivity score, while striving for good semantic coherence and high likelyhood using holdout data (see Appendix for selection curves?). We chose 10 topics, 6 sentiments, and 11 expression types and then interpreted and labeled the clusters based on the n-grams with the highest FREX scores (see Table \ref{tab:frex_examples} for examples, see Appendix for full list). The genre-discriminative topics we identified were: \textit{Americana}, \textit{Darkness}, \textit{Embodiment}, \textit{Existentialism}, \textit{Heroic Saga}, \textit{Holidays}, \textit{Nature}, \textit{Narrative}, \textit{Romance}, and \textit{Street Life}. The genre-discriminative sentiments we identified were: \textit{ambivalent}, \textit{apocalyptic}, \textit{brash}, \textit{nostalgic}, \textit{playful}, and \textit{romantic}. The genre-discriminative expression types we identified were: \textit{Christmas Phrases}, \textit{Dance Floor Commands}, \textit{Denials \& Negotiations}, \textit{Doom Imaginary}, \textit{Jamaican Patois}, \textit{Landscape Imaginary}, \textit{Love Affirmations}, \textit{Nostalgic Formulas}, \textit{Traditional Street Slang}, \textit{Trap Slang}, and \textit{Vocalizations}.
 
 
-\subsection{Genre Discriminating Topics and Styles}
 \begin{figure*}[htbp]
   \onecolumn
   \centering
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.33\linewidth}
     \centering
     \includegraphics[alt={Topic Heatmap},width=\linewidth]{figures/topic_genre_heatmap.png}
     \caption{topics}
     \label{fig:topics}
   \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.49\linewidth}
+  \begin{subfigure}[b]{0.33\linewidth}
     \centering
-    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/style_genre_heatmap.png}
-    \caption{styles}
-    \label{fig:styles}
+    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/sentiment_genre_heatmap.png}
+    \caption{sentiments}
+    \label{fig:sentiments}
+  \end{subfigure}\hfill
+  \begin{subfigure}[b]{0.33\linewidth}
+    \centering
+    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/expressions_genre_heatmap.png}
+    \caption{idiomatic expressions}
+    \label{fig:expressions}
   \end{subfigure}
-  \caption{Latent genre-discriminative topics, sentiments, and styles: probabilities per genre (TODO ACHSEN TAUSCHEN) [\%].}
-  \label{fig:topics_styles}
+  \caption{Latent genre-discriminative topics, sentiments, and styles: probabilities per genre in the training corpus [\%].}
+  \label{fig:heatmaps}
   \twocolumn
 \end{figure*}
 
+Finally, we calculated the probabilities of each topic, sentiment, and expression type per genre in the training data to analyze their distribution across genres (see Figure \ref{fig:heatmaps}). Overall, we find similar distributions with small deviations for topics and sentiments. Moreover, while the probabilities for sentiments are distributed more evenly across types, probabilities for topics show more pronounced concentrations in specific genres. \textit{Existentialism} shows comparably high probability for nearly all genres. A notable exception for this general pattern is the \textit{Hip Hop} genre, which shows a particularly high probability for the \textit{Street Life} (41\%) topic and \textit{brash} (28\%) sentiment, while also showing particularly low probabilities for the \textit{Existentialism}(13\%), \textit{Nature} (4\%) and \textit{Romance} (6\%) topic as well as the \textit{romantic} (16\%) sentiment. In addition, \textit{Rock}'s probabilities are particularly high for the \textit{Darkness} (11\%) and \textit{Heroic Saga} (10\%) topics, as well as for the \textit{apocalyptic} (18\%) sentiment. 
 
-\subsection{Machine Learning Experiments}
+The probability distribution of expression types for genres is more heterogeneous than for topics and sentiments, and distributions are more concentrated. Some expression types are particularly concentrated in specific genres, such as \textit{Traditional Street Slang} and \textit{Trap Slang} for \textit{Hip Hop}, \textit{Jamaican Patois} for \textit{Reggae}, \textit{Doom Imaginary} for \textit{Rock}, and \textit{Christmas Phrases} for \textit{Jazz}. However, we also find some expression types that are more evenly distributed across genres, such as \textit{Denials \& Negotiations}, \textit{Landscape Imaginary}, and \textit{Love Affirmations}.
+
+%RQ2: Wie gut performen die pattern-basierten interpretativen ML-Modelle im Vergleich zu einem state of the art tranformer-basierten LLM?
+\subsection{Interpretable ML Performance}
+
 \begin{table}
+  \footnotesize
+  \setlength{\tabcolsep}{5pt}
   \centering
-  \begin{tabular}{l|l|l|l}
-    Features & Learner & Params & $F1_{\text{macro}}$ \\
-    \hline
-    & Random & & 0.111 \\
-    Raw Lyrics & DistillBERT \cite{sanhDistilBERTDistilledVersion2020}&  & 0.374 \\
-    \hline
-    TF-IDF \cite{fell2014lyrics} & 
-    \multirow{4}{*}{
-      \begin{tabular}{@{}l@{}} Logistic \\ Regression \end{tabular}
-    } &
-    \multirow{4}{*}{ 
-      \begin{tabular}{@{}l@{}} C: 1 \\ L1: 0.5\end{tabular}
-      } &
-       0.249 \\ 
-    Topics & & & 0.261 \\
-    Sentiments & & & 0.187 \\
-    Expressions &  & & ? \\
-    Combined & & & ? \\ 
-    \hline
-  Combined & 
-    \multirow{2}{*}{LightGBM \cite{keLightGBMHighlyEfficient2017}} & 
-    \multirow{2}{*}{tuned \cite{optuna_2019}}&
-    0.312 \\ 
-    Distilled & & & ? \\ \hline
+  \begin{tabular}{l l l c c}
+    \toprule
+    Features & Model & Hyperparameters & $F1_{\text{CV}}$ & $F1_{\text{HO}}$ \\
+    \midrule
+    Prevalences & Random & — & — & 0.111 \\
+    Raw Lyrics & DistillBERT & default & — & 0.374 \\
+    TF-IDF & GLMNET & $C=1, L1=0.5$ & — & 0.248 \\
+    \midrule
+    Topics & GLMNET & $C=1, L1=0.5$ & — & 0.229 \\
+    Sentiments & GLMNET & $C=1, L1=0.5$ & — & 0.135 \\
+    Expressions & GLMNET & $C=1, L1=0.5$ & — & 0.282 \\ 
+    Combined & GLMNET & $C=1, L1=0.5$ & — & 0.292\\ 
+    \midrule
+    Combined & GLMNET & $C=0.002, L1=0.33$ & 0.335 & 0.291 \\
+    Combined & LightGBM & tuned$^\dagger$ & 0.354 & 0.300 \\ 
+    \bottomrule
   \end{tabular}
-  \caption{$F1_{\text{macro}}$ Holdout evaluation for classifcation experiments. See Appendix for tuned hyperparameters.}
+  \caption{Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO). Dashes indicate models trained with fixed hyperparameters. $^\dagger$LightGBM hyperparameters: 223 estimators, learning rate = 0.079, 69 leaves, max depth = 9, min 31 data points in leaf, L1 Regularization=$1.43 \times 10^{-2}$, L2 Regularization=$9.15 \times 10^{-5}$.}
   \label{tab:f1}
 \end{table}
 
-% \begin{figure}
-%   \centering
-%   \includegraphics[alt={Confusion Matrix},width=\linewidth]{figures/confusion_matrix.png}
-%   \caption{Confusion matrix for STM Selected Random Forest tuned [\%].}
-%   \label{fig:confusion_matrix}
-% \end{figure}
+
 
 \begin{figure}
   \centering
-  \includegraphics[alt={SHAP Values},width=\linewidth]{figures/shap_beeswarm_rock.png}
-  \caption{\textit{Discogs' Rock} Example: SHAP values (150 samples from the holdout set) LightGBM STM Reduced.}
+  \includegraphics[alt={Confusion Matrix lightGBM},width=\linewidth]{figures/confusion_matrix.png}
+  \caption{Confusion matrix for combined tuned lightGBM model [\%].}
   \label{fig:confusion_matrix}
 \end{figure}
 
-\newpage
-\newpage
+
+Using genre-discriminative topics, sentiments, and expression types as lyric features, we trained two machine learning models (GLMNET and LightGBM) to predict song genre based solely on lyrics. Their performance was compared to a random baseline, a traditional TF-IDF + GLMNET pipeline, and a DistillBERT model trained directly on raw lyrics. Structured-feature models underwent systematic hyperparameter tuning to ensure optimal parameterization. Table~\ref{tab:f1} reports macro F1 scores from 4-fold cross-validation and holdout evaluation.
+
+Structured representations provided informative genre signal beyond uninformative baselines: the random model reached 0.111 and TF-IDF + GLMNET 0.248 on the holdout. DistillBERT achieved the highest overall performance (holdout $F1$ = 0.374), indicating the strength of contextual embeddings for lyric classification. Among structured features, expressions contributed most to genre discrimination (0.282), followed by topics (0.229) and sentiments (0.135). Combining all three improved performance, with GLMNET (C=1, L1=0.5) attaining 0.292 on the holdout, exceeding individual feature sets.
+
+Hyperparameter tuning yielded further improvement. A regularized GLMNET (C=0.002, L1=0.33) achieved 0.335 in cross-validation and 0.291 on holdout, while the tuned LightGBM model performed best among structured approaches (CV 0.354, holdout 0.300). Although DistillBERT remained strongest overall, the tuned LightGBM retained approximately 80\% of its predictive power while employing interpretable features and interpretability regarding feature contributions.
+
+When looking at the confusion matrix for the tuned combined features LightGBM model (see Figure \ref{fig:confusion_matrix}), we find that the model performs particularly well for \textit{Hip Hop} (holdout $F1$ = 0.591) and \textit{Rock} (0.584). The model performs worst for \textit{Folk, World \& Country} (0.177) and \textit{Jazz} (0.137). Off-diagonal confusions cluster among stylistically adjacent categories (e.g., \textit{Funk / Soul}, \textit{Pop}, and \textit{Electronic}; \textit{Hip Hop} and \textit{Funk / Soul}). The results show a moderate positive relationship between genre prevalence and classification quality (Kendall correlation between per-genre F1 and sample size = 0.389); however some genres with less samples (e.g., \textit{Hip Hop}) clearly outperform larger ones (e.g., \textit{Pop}).
+
+
+
+% RQ3: What can we learn about lyrical genre differences from such interpretative models for popular music studies?
+\subsection{Feature Importances and SHAP Values}
+\begin{figure}
+  \centering
+  \includegraphics[alt={Permutation importance top 20 variables lightGBM},width=\linewidth]{figures/holdout_permutation_importance.png}
+  \caption{Permutation importance on Heldout data for the tuned combined features LightGBM model.}
+  \label{fig:permutation_importance}
+\end{figure}
+
+To assess which stylistic patterns shape music genre differentiation, we computed permutation feature importance on the holdout set (Figure~\ref{fig:permutation_importance}). Expression-type features dominated the ranking: Expression-type features dominate the ranking: \textit{Doom Imagery}, \textit{Traditional Street Slang}, \textit{Love Affirmations}, \textit{Nostalgic Formulas}, \textit{Vocalizations} and \textit{Dance Floor Commands} emerged as the most influential predictors. Topic features such as \textit{Darkness}, \textit{Narrative}, and \textit{Street Life} occupied intermediate positions and produced moderate performance declines when permuted, suggesting that broader thematic context supports, but does not alone determine music genre distinction. Sentiment features showed only minor average impacts. The expression type \textit{Christmas Phrases} displays a strong negative mean impact when permuted, likely reflecting feature sparsity rather than substantive genre relevance.
+
+
+\begin{figure}
+  \centering
+  \includegraphics[alt={SHAP values for for Hip Hop prediction},width=\linewidth]{figures/shap_hip_hop.png}
+  \caption{Example: SHAP values for \textit{Discogs' Hip Hop}.}
+  \label{fig:shap_hip_hop}
+\end{figure}
+
+As an illustrative example of what interpretative models can reveal about lyrical genre differentiation, Figure~\ref{fig:shap_hip_hop} shows SHAP values computed on the holdout sample for the Hip Hop class. High values for \textit{Trap Slang} and \textit{Traditional Street Slang} strongly increase the model's predicted \textit{Hip Hop} score; \textit{Street Life} and \textit{Denials \& Negotiations} similarly shift predictions toward this genre. In contrast, features such as \textit{Christmas Phrases} and \textit{Nostalgic Formulas} are associated with lower Hip Hop likelihoods. Some features (e.g., \textit{Doom Imaginary}, \textit{Jamaican Patois}, and \textit{Love Affirmations}) show more heterogeneous impacts, with high values sometimes increasing and sometimes decreasing \textit{Hip Hop} predictions, reflecting context-dependent effects. Sentiment features do not appear to be helpful for \textit{Hip Hop} identification in our corpus.
+
 \section{Discussion}
 
 
 
 
-Multilabel Genres
+Limitations
+Multilabel Genres?
 
+Future Directions
+other languages in the corpus, other corpora, other features (audio, video, etc.)
+\cite{monroeFightinWordsLexical2017} %only for compiling not to fail
 
 
 

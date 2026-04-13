@@ -108,9 +108,9 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = get_and_save_train_test_meta_data()
     extract_and_save_FS_features(X_train, X_test, y_train)
-    # extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
-    # extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
-    # extract_and_save_fighting_vocabularies(
-    #     X_train, X_test, y_train, "expression_lyrics"
-    # )
+    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
+    extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
+    extract_and_save_fighting_vocabularies(
+        X_train, X_test, y_train, "expression_lyrics"
+    )
     print("All done!")

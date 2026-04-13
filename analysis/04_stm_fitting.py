@@ -4,9 +4,9 @@ from helpers.STMTopicModeler import STMTopicModeler
 from helpers.aggregate_artist_dtm import aggregate_dtm_by_artist
 from helpers.load_data import load_stm_data
 
-K_TOPICS = 15
-K_SENTIMENT = 35
-K_EXPRESSIONS = 60
+K_TOPICS = 10
+K_SENTIMENT = 6
+K_EXPRESSIONS = 11
 
 
 def fit_and_save_stm_model(
@@ -57,27 +57,27 @@ if __name__ == "__main__":
         X_test_expressions_fighting_full,
     ) = load_stm_data()
 
-    # print("FITTING STM TOPIC MODEL...")
-    # fit_and_save_stm_model(
-    #     X_train_topics_fighting_full,
-    #     X_test_topics_fighting_full,
-    #     artists,
-    #     genres,
-    #     topics_vocab,
-    #     "topics",
-    #     K_TOPICS,
-    # )
+    print("FITTING STM TOPIC MODEL...")
+    fit_and_save_stm_model(
+        X_train_topics_fighting_full,
+        X_test_topics_fighting_full,
+        artists,
+        genres,
+        topics_vocab,
+        "topics",
+        K_TOPICS,
+    )
 
-    # print("FITTING STM SENTIMENT MODEL...")
-    # fit_and_save_stm_model(
-    #     X_train_sentiments_fighting_full,
-    #     X_test_sentiments_fighting_full,
-    #     artists,
-    #     genres,
-    #     sentiments_vocab,
-    #     "sentiments",
-    #     K_SENTIMENT,
-    # )
+    print("FITTING STM SENTIMENT MODEL...")
+    fit_and_save_stm_model(
+        X_train_sentiments_fighting_full,
+        X_test_sentiments_fighting_full,
+        artists,
+        genres,
+        sentiments_vocab,
+        "sentiments",
+        K_SENTIMENT,
+    )
 
     print("FITTING STM EXPRESSIONS MODEL...")
     fit_and_save_stm_model(

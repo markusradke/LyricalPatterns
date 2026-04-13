@@ -10,36 +10,40 @@
 \@writefile{toc}{\contentsline {section}{\numberline {2.} Methods}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.1} Data}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.2} Genre Disrciminating Vocabularies}{1}{}\protected@file@percent }
-\newlabel{relativity}{{1}{1}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3} Genre Discriminating Topics and Styles}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3} Genre Discriminating Topics, Sentiments, and Idiomatic Expression Types}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.4} Machine Learning Experiments}{1}{}\protected@file@percent }
-\citation{sanhDistilBERTDistilledVersion2020}
-\citation{fell2014lyrics}
-\citation{keLightGBMHighlyEfficient2017}
-\citation{optuna_2019}
+\@writefile{toc}{\contentsline {section}{\numberline {3.} Results}{1}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} Genre Disrciminating Patterns}{1}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Example interpretations of genre-discriminative topic, sentiments, and expression types with top high-FREX n-grams.\relax }}{2}{}\protected@file@percent }
+\newlabel{tab:frex_examples}{{1}{2}}
 \@LN@col{1}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces $F1_{\text  {macro}}$ Holdout evaluation for classifcation experiments. See Appendix for tuned hyperparameters.\relax }}{2}{}\protected@file@percent }
-\newlabel{tab:f1}{{1}{2}}
-\@writefile{toc}{\contentsline {section}{\numberline {3.} Results}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} Genre Disrciminating Vocabularies}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2} Genre Discriminating Topics and Styles}{2}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3} Machine Learning Experiments}{2}{}\protected@file@percent }
 \@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {4.} Discussion}{2}{}\protected@file@percent }
-\bibdata{refs}
-\bibcite{sanhDistilBERTDistilledVersion2020}{1}
-\bibcite{fell2014lyrics}{2}
-\bibcite{keLightGBMHighlyEfficient2017}{3}
-\bibcite{optuna_2019}{4}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO). Dashes indicate models trained with fixed hyperparameters. $^\dagger $LightGBM hyperparameters: 223 estimators, learning rate = 0.079, 69 leaves, max depth = 9, min 31 data points in leaf, L1 Regularization=$1.43 \times 10^{-2}$, L2 Regularization=$9.15 \times 10^{-5}$.\relax }}{2}{}\protected@file@percent }
+\newlabel{tab:f1}{{2}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2} Interpretable ML Performance}{2}{}\protected@file@percent }
 \newlabel{fig:topics}{{2a}{3}}
 \newlabel{sub@fig:topics}{{a}{3}}
-\newlabel{fig:styles}{{2b}{3}}
-\newlabel{sub@fig:styles}{{b}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Latent genre-discriminative topics, sentiments, and styles: probabilities per genre (TODO ACHSEN TAUSCHEN) [\%].\relax }}{3}{}\protected@file@percent }
-\newlabel{fig:topics_styles}{{2}{3}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces \textit  {Discogs' Rock} Example: SHAP values (150 samples from the holdout set) LightGBM STM Reduced.\relax }}{3}{}\protected@file@percent }
+\newlabel{fig:sentiments}{{2b}{3}}
+\newlabel{sub@fig:sentiments}{{b}{3}}
+\newlabel{fig:expressions}{{2c}{3}}
+\newlabel{sub@fig:expressions}{{c}{3}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Latent genre-discriminative topics, sentiments, and styles: probabilities per genre in the training corpus [\%].\relax }}{3}{}\protected@file@percent }
+\newlabel{fig:heatmaps}{{2}{3}}
+\@LN@col{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Confusion matrix for combined tuned lightGBM model [\%].\relax }}{3}{}\protected@file@percent }
 \newlabel{fig:confusion_matrix}{{3}{3}}
 \@LN@col{2}
-\@writefile{toc}{\contentsline {section}{\numberline {5.} AI Usage Statement}{3}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {6.} References}{3}{}\protected@file@percent }
-\gdef \@abspage@last{3}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Permutation importance on Heldout data for the tuned combined features LightGBM model.\relax }}{3}{}\protected@file@percent }
+\newlabel{fig:permutation_importance}{{4}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3} Feature Importances and SHAP Values}{3}{}\protected@file@percent }
+\citation{monroeFightinWordsLexical2017}
+\bibdata{refs}
+\bibcite{monroeFightinWordsLexical2017}{1}
+\@LN@col{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Example: SHAP values for \textit  {Discogs' Hip Hop}.\relax }}{4}{}\protected@file@percent }
+\newlabel{fig:shap_hip_hop}{{5}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {4.} Discussion}{4}{}\protected@file@percent }
+\@LN@col{2}
+\@writefile{toc}{\contentsline {section}{\numberline {5.} AI Usage Statement}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6.} References}{4}{}\protected@file@percent }
+\gdef \@abspage@last{4}

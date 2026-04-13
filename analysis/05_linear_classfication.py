@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 import matplotlib.pyplot as plt
 
 from sklearn.pipeline import Pipeline
@@ -125,13 +126,14 @@ if __name__ == "__main__":
         X_train_combined,
         X_test_combined,
     ) = load_interpretable_classification_data()
+
     print("Data successfully loaded.\nTraining linear models...")
     models = {
-        # "lr_fs": (X_train_fs, X_test_fs),
         # "lr_topics": (X_train_topics, X_test_topics),
         # "lr_sentiments": (X_train_sentiments, X_test_sentiments),
-        "lr_expressions": (X_train_expressions, X_test_expressions),
+        # "lr_expressions": (X_train_expressions, X_test_expressions),
         "lr_combined": (X_train_combined, X_test_combined),
+        # "lr_fs": (X_train_fs, X_test_fs),
     }
     for modelname, (X_train, X_test) in models.items():
         print(f"\nTraining {modelname} model...")

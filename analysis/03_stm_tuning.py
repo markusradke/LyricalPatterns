@@ -4,9 +4,7 @@ from helpers.STMTopicModeler import STMTopicModeler
 from helpers.aggregate_artist_dtm import aggregate_dtm_by_artist
 from helpers.load_data import load_stm_data
 
-# K_GRID =  [x for x in range(2,21)]
-
-K_GRID = [2] + [x for x in range(5, 100) if x % 5 == 0]
+K_GRID = [x for x in range(2, 21)]
 
 
 def tune_stm_model(

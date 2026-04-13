@@ -230,6 +230,16 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
                     f"  bigrams: {len(filtered_features['bigrams']):,} n-grams retained"
                 )
 
+        print("Filtering n-grams with disallowed single-letter words...")
+        for name in order_names:
+            kept_ngrams = self._filter_disallowed_single_letters(
+                set(filtered_features[name])
+            )
+            mask = np.array([ng in kept_ngrams for ng in filtered_features[name]])
+            filtered_features[name] = filtered_features[name][mask]
+            filtered_matrices[name] = filtered_matrices[name][:, mask]
+            print(f"  {name}: {len(filtered_features[name]):,} n-grams retained")
+
         print("Computing Monroe z-scores with empirical Bayes prior...")
         self.z_scores_df_ = self._compute_all_zscores(
             y, filtered_matrices, filtered_features
@@ -441,3 +451,32 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
                 f"Information: Found {num_empty:,} empty documents ({pct_empty:.2f}%). "
                 f"These will have zero counts in n-gram matrices."
             )
+
+    def _filter_disallowed_single_letters(self, ngrams):
+        """Filter n-grams containing disallowed single-letter words.
+
+        Keeps n-grams only if all single-letter words are "a" or "i".
+        Multi-letter words are always allowed.
+
+        Parameters
+        ----------
+        ngrams : set of str
+            N-grams to filter (space-separated words).
+
+        Returns
+        -------
+        kept_ngrams : set of str
+            N-grams passing the single-letter filter.
+        """
+        allowed_single_letters = {"a", "i"}
+        kept_ngrams = set()
+
+        for ngram in ngrams:
+            words = ngram.split()
+            if all(
+                len(word) > 1 or word.lower() in allowed_single_letters
+                for word in words
+            ):
+                kept_ngrams.add(ngram)
+
+        return kept_ngrams
