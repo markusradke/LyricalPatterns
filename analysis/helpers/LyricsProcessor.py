@@ -12,7 +12,7 @@ from tqdm import tqdm
 from helpers.StopwordFilter import StopwordFilter
 
 # run first
-# python -m spacy download en_core_web_sm
+# python -m spacy download en_core_web_lg
 ENGLISH_VOCAB = set(w.lower() for w in words.words())
 
 

@@ -81,8 +81,8 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
     def __init__(
         self,
-        min_artists: int = 20,
-        p_value: float = 0.01,
+        min_artists: int = 2,
+        p_value: float = 0.001,
         prior_concentration: float = 1.0,
         use_stopword_filter: bool = True,
         use_bigram_boundary_filter: bool = True,

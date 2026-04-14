@@ -23,6 +23,10 @@
 \usepackage{booktabs}
 \usepackage{blindtext}
 
+\usepackage{tabularx,ragged2e,array} % add to preamble
+\newcolumntype{Y}{>{\arraybackslash}X}
+\newcolumntype{Z}[1]{>{\arraybackslash}p{#1}}
+
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
@@ -79,49 +83,29 @@
 
 \begin{abstract}
   %max 200 words
-Recent advances in natural language processing have improved lyrics-based music genre classification through large language models, yet such black box systems obscure the linguistic structures that actually differentiate music genres. Earlier research in popular music studies, meanwhile, has often emphasized thematic readings of lyrics from single songs without systematically tracing recurrent patterns of idiomatic expressions—leaving stylistic genre differences under-researched until now. Our study bridges these perspectives by uncovering genre discriminative lyrical patterns—topics, sentiments, and idiomatic expressions—in fifty years of Anglophone German popular music. Using the POPTRAG corpus and Discogs genre annotations for 126,042 tracks with English lyrics, we apply the fightin' words method to  identify statistically distinctive n-grams across genres and build interpretable topic, sentiment, and expression dictionaries. Finally, we cluster the n-grams contained in each dictionary via structural topic modeling using target genres as prevalence priors. Resulting interpretable lyrics features are employed in machine-learning models that reveal how topics, sentiments, and idiomatic expressions function as stylistic markers for single popular music genres. Our transparent ML approach retains roughly 80\% of the predictive performance of a transfer-learned DistilBERT classifier while offering conceptual insight into how lyrics encode genre identity. 
+Recent advances in natural language processing have improved lyrics-based music genre classification through large language models, yet such black box systems obscure the linguistic structures that actually differentiate music genres. Earlier research in popular music studies, meanwhile, has often emphasized thematic readings of lyrics from single songs without systematically tracing recurrent patterns of idiomatic expressions—leaving stylistic genre differences under-researched until now. Our study bridges these perspectives by uncovering genre discriminative lyrical patterns—topics, sentiments, and idiomatic expressions—in fifty years of Anglophone German popular music. Using the POPTRAG corpus and \textit{Discogs} genre annotations for 126,042 tracks with English lyrics, we apply the fightin' words method to  identify statistically distinctive n-grams across genres and build interpretable topic, sentiment, and expression dictionaries. Finally, we cluster the n-grams contained in each dictionary via structural topic modeling using target genres as prevalence priors. Resulting interpretable lyrics features are employed in machine-learning models that reveal how topics, sentiments, and idiomatic expressions function as stylistic markers for single popular music genres. Our transparent ML approach retains roughly 80\% of the predictive performance of a transfer-learned DistilBERT classifier while offering conceptual insight into how lyrics encode genre identity. 
 \end{abstract}
 
 
 \section{Introduction}\label{sec:introduction}
 
+
+% Warum nciht textuelle Statistik; wie werden topic models und sentimente in der KoWi gefasst (nomen, Adjektive); was ist idiomatic expressions
+
 Given these considerations we pose the following research questions:
 
 \noindent
-\begin{tabular}{p{0.08\linewidth} p{0.88\linewidth}}
+\begin{tabularx}{\linewidth}{@{}Z{0.08\linewidth} Y@{}}
 \textbf{RQ1} & Which content-related genre-discriminative lyrical patterns (topics, sentiments, idiomatic expressions) exist in Anglophone German popular music? \\
 \textbf{RQ2} & To what extent do pattern-based interpretable ML models match a fine-tuned transformer baseline on popular music genre prediction? \\
 \textbf{RQ3} & What can we learn about lyrical genre differences from such interpretative models for popular music studies? \\
-\end{tabular}
-% Warum nciht textuelle Statistik; wie werden topic models und sentimente in der KoWi gefasst (nomen, Adjektive); was ist idiomatic expressions
-% RQ1
-% - Dictionaries Figthing Words
-% - FREX Words for Topics, Sentiments, and Expressions (in Appendix)
-% - Cluster Probs per genre in the training data
+\end{tabularx}
 
-% RQ2
-% - ML table
-% - Confusion matrix for reduced Model
 
-% RQ3
-% - Permutation Importance
-% - SHAP for Rock
 
-\newpage
-\newpage
 \section{Methods}
 \subsection{Corpus and Genre Annotations}
-
-% gemeinsames Metadaten-Framework für Extension und Anbindung an Audio-Features
-
-% Vorgefertigter Datnsatz
-
-% Corpus rechtfertigung:
-
-% Es geht um Musikhören, nicht nur um Verkäufe; auch Musik, die schon länger nicht mehr in den Charts ist, daher anreiherung;
-
-
-% Single Label Discogs Genres: im Lyrics Paper würde ich begründen mit Interpretierbarkeit
+For our analysis, we relied on the POPTRAG corpus of 254,334 unique popular tracks released and frequently listened to in Germany over the past 50 years. The corpus combines multiple sources: (1) 215,702 tracks from weekly \textit{MediaControl} German single and album charts, capturing the 100 most relevant albums and songs per week by physical/digital sales, streams, and broadcasts (18 Nov 1977–21 Nov 2024; limited to 75\% of tracks successfully linked to Spotify identifiers for consistent metadata); (2) 11,994 unique track entries from Germany's Daily Top 200 Spotify charts (Jan 2017–Nov 2024). To capture not only sold music but also listened-to music no longer in the charts, the corpus additionally includes (3) 26,949 Spotify track recommendations from 126 German-market genre seeds (retrieved 29 Nov 2024; median 325 per seed, IQR 25, range 49–343); and (4) 8,801 tracks from the 100 top-featured Spotify playlists for Germany (retrieved 29 Nov 2024, median 90 tracks per playlist, IQR 42, range 28–750). 853 tracks shorter than 30 seconds were excluded and only unique title-artist combinations were retained, selecting earlier release dates for duplicates.
 
 \begin{figure}
   \centering
@@ -130,15 +114,32 @@ Given these considerations we pose the following research questions:
   \label{fig:corpus}
 \end{figure}
 
+
+Employing data linkage and webscraping, we enriched POPTRAG with lyrics from \textit{Genius} and release genre annotations from \textit{Discogs} for the tracks in the corpus. For our analysis, we focused on tracks with retrieved English lyrics and at least one \textit{Discogs} genre annotation (51\%). For 35\% of these remaining tracks, that were assinged more than one genre by the \textit{Discogs} community, we retained only the most specific genre label (i.e., the one that appeared least frequently in the corpus) to enable an easily interpretable single-label classification task. Finally, we removed genres that made up less than 1\% of the remaining corpus, resulting in a final sample of N=126,042 tracks across 9 genres (see Figure \ref{fig:corpus} for details on the corpus composition).
+
+
 \subsection{Genre Disrciminating Vocabularies}
-% \begin{equation}\label{relativity}
-% E=mc^{2}
-% \end{equation}
+% Figure \ref{fig:method_flow} gives an overview of the complete method flow. 
+Please refer to Figure X
+ % TODO
+for an overview of the method flow; all operations that involved randomness were seeded with 42 for reproducibility. In order to identify genre-discriminating lyrical patterns (RQ1), we first performed basic cleaning on the raw lyrics data form \textit{Genius} by: trimming whitespaces, removing everything between and including square brackets, normalizing asterisks, removing repetition and song position indicators, and fixing missing apostrophes (e.g., ``don t'' $\rightarrow$ ``don't''). 
+
+Our aim was to exctract relevant n-grams for each type of lyrical pattern: topics, sentiments, and idomatic expressions. Depending on the type of pattern, we applied different preprocessing steps, reducing the lyrics to relevant tokens. For topics and semantics ngrams, we exapanded contractions in the lyrics (e.g., ``don t'' $\rightarrow$ ``do not''), lemmatized and POS-tagged the lyrics using \textit{spaCy's} \texttt{en\_core\_web\_lg} model in combination with an additional custom domain lexicon for lemmatization, and reduced the lyrics to nouns for topics and adjectives and adverbs for sentiments. For topics and sentiments, we only kept tokens with more than two characters that were contained in both the vocabulary that \texttt{en\_core\_web\_lg} was trained on and the English vocabulary of the \textit{nltk} library to exclude non-lexical items. After preprocessing, we split the corpus into a training set (80\%) and a holdout set (20\%) stratified by genre for all subsequent analyses. Me made sure that there was no artist overlap when splitting to mitigate artist and album effects \cite{flexerEffectsAlbumArtist2010}. 
+
+The following steps were then applied to the training corpus only, and the holdout set was only used for evaluation of the final ML models. In the next step, we build the three seperate vocabularies of genre-discriminating n-grams for topics, sentiments, and idiomatic expressions. For topics and sentiments, we extracted all unigrams, and for idiomatic expressions, we extracted all n-grams (n=1-4). All n-grams had to appear with more than one artist in the corpus to be included in the respective vocabulary. We removed all n-grams from the candidates that contained stopwords only and for expressions also removed bigrams that start with ``a'', ``an'', ``the'', and ``to'', to exclude trivial bigrams: infinitives and nouns with articles.
+
+Then, for the remaining sets of ngrams (topics, sentiments, and expressions), we applied the fightin' words method \cite{monroeFightinWordsLexical2017} to identify genre discriminative n-grams within the set. This method quantifies how strongly each n-gram is associated with a particular genre by computing log-odds ratios—a measure comparing the relative frequency of an n-gram in one genre versus all others combined. To account for rare n-grams that may appear by chance in small samples, we applied Bayesian smoothing using empirical prevalence as a Dirichlet prior, which adds a penalty to extremely infrequent observations. We then converted these log-odds ratios into z-scores, standardized test statistics that indicate how many standard deviations an n-gram's association strength deviates from zero; larger absolute z-scores indicate stronger genre discrimination. To convert z-scores to p-values, we applied a one-sided statistical test (upper tail), which identifies n-grams significantly associated with each genre. Since we computed z-scores for thousands of n-grams simultaneously across all genres, we applied Benjamini-Hochberg false discovery rate (FDR) correction \cite{benjaminiControllingFalseDiscovery1995} at $\alpha = 0.001$. This procedure identifies the most stringent z-score threshold where at most 0.1\% of significant findings are expected to be false positives, controlling for multiple testing. N-grams passing this FDR-corrected threshold (corresponding to $p < 0.001$) with positive z-scores were retained in the final vocabularies. 
 
 
 \subsection{Genre Discriminating Topics, Sentiments, and Idiomatic Expression Types}
+To identify genre-discriminating latent topics, sentiments, and types of idiomatic epxressions (RQ1), we employed structural topic modeling (STM) \cite{robertsStmPackageStructural2019} on the train corpus using the n-grams contained in the respective vocabularies. We used the target genres as prevalence priors to guide the clustering of n-grams into latent types that are discriminative for specific genres. To mitigate sparsitiy during model training, we aggregated the n-gram counts at the artist level, again selecting the most specific genre for artists with multiple genres for the prevalence priors. 
+
+We ran STM separately for topics, sentiments, and expressions, testing a range of 2 to 20 types for, that allowed for interpretable solutions. For determining the number of topics, we used a train-validation split and calculated semantic coherence and likelihood on the validation set as well as the exclusivity score \cite{robertsStructuralTopicModels2014} for each number of types. We determined the optimal number of types primarily based on the highest exclusivity score, which measures how uniquely n-grams are associated with a single type, while also striving for good validation semantic coherence (i.e., how well the top n-grams in a type cohere semantically) and high likelihood on validation data. After selecting the optimal number of types, we reran the STM on the full training corpus and interpreted and labeled the clusters based on the n-grams with the highest FREX scores \cite{bischofSummarizingTopicalContent2012}, which balance frequency and exclusivity to identify representative n-grams for each type. Finally, we calculated the probabilities of each topic, sentiment, and expression type per genre (i.e., the mean of topic proportions accros the genre) in the training data to analyze their distribution across genres.
 
 \subsection{Machine Learning Experiments}
+To evaluate the predictive performance of the identified genre-discriminating lyrical patterns (RQ2), we trained machine learning models to predict music genre based on the extracted topics, sentiments, and expression types as features. We compared the performance of these interpretable models to a random baseline, a traditional TF-IDF \cite{fell2014lyrics} + GLMNET \cite{defazioSAGAFastIncremental2014} pipeline, and a fine-tuned DistilBERT model \cite{sanhDistilBERTDistilledVersion2020} trained directly on raw lyrics. For a direct comparison to the TF-IDF + GLMNET pipeline, we first trained GLMNET \cite{defazioSAGAFastIncremental2014} models with fixed hyperparameters (penalty C=1, L1 regularization ratio=0.5) on each individual feature set (topics, sentiments, expressions) as well as on a combined feature set that included all three types of features. Then, we performed systematic hyperparameter tuning for the combined features GLMNET model (10x10 grid search, C logarithmic in [1e-5, 1e-5], L in [0, 1]) and a LightGBM \cite{keLightGBMHighlyEfficient2017a} model (Tree-structured Parzen Estimator \cite{optuna2019}, number of tress in [100, 2000], learning rate in [0.001, 0.1], number of leaves in [20, 70], max depth of trees in [1, 10], minimum data in leaf in [1, 100], feature fraction at split in [0.1, 1.0], L1 and L2 regularization logarithmic in [1e-8, 10.0] respecitively) with 4-fold artist grouped and stratified cross validation to ensure optimal parameterization and to assess whether more flexible models could further improve performance while retaining interpretability. We evaluated model performance using macro F1 scores from 4-fold cross-validation on the training set and on the holdout set, which was not used for any part of the model training or feature extraction process.
+
+To show wich features contribute most to genre prediction and to inspect individual genre profiles (RQ3), we computed the permutation feature importance \cite{fisherAllModelsAre2019} on the holdout set for the best performing combined features model. Moreover, we computed SHAP values \cite{lundbergUnifiedApproachInterpreting2017a} with the holdout set for  the genre with the best performance to show how specific features contribute to genre prediction for this genre in particular.
 
 
 \section{Results}
@@ -283,8 +284,9 @@ For our interpretable ML experiments (RQ2), Hip Hop and Rock were among the genr
 Feature importance analysis (RQ3) reveals that genre differences in lyrics are primarily driven by idiomatic expression types such as \textit{Traditional Street Slang}, \textit{Trap Slang}, and \textit{Doom Imagery}, rather than emotional expression or thematic content alone. As illustrated by the \textit{Hip Hop} case, where street life topics and slang expressions jointly elevate genre predictions, these findings suggest that genres differ in how they package meaning through stylistic phrasing, with thematic content playing a supporting role (SOURCE). Instead of single defining markers, interactions between expression types, topics, and sentiments form profiles of lyrical content that encode genre identity. This aligns with a view of genre as a fuzzy, relational construct distinguished by bundles of linguistic cues meaningful in contrast to neighboring genres (SOURCE).
 
 Taken together, these findings advance computational musicology by establishing a principled division between predictive and explanatory machine learning approaches. While transformer models excel at achieving high genre classification performance, interpretable models like ours reveal which linguistic patterns drive those predictions, enabling insights in lyrical genre formation rather than mere correlational tagging (SOURCE). This explanatory capacity supports practical applications including understanding genre biases in generative lyrics production models (SOURCE), where knowing that Trap Slang and Doom Imagery strongly signal specific genres can help identify and mitigate unintended stylistic skews in AI-generated content; corpus curation tools that automatically flag culturally distinctive lyrical markers for ethnomusicological analysis (SOURCE); and hybrid genre taggers for streaming platforms that balance predictive power with transparency for content moderation or artist discovery (SOURCE).
+% TODO Topic modeling approach can also be used in music domain, as has been demonstrated by Mauch et al (2015)
 
-Our analysis faces several limitations. First, music genre is inherently fuzzy, and by using Discogs labels, we adopt a particular community's perspective on genre boundaries. While tracks often belong to multiple genres (SOURCE), we intentionally simplified this to a single-label classification problem to enable interpretable modeling. % needs justification?
+Our analysis faces several limitations. First, music genre is inherently fuzzy, and by using 	\textit{Discogs} labels, we adopt a particular community's perspective on genre boundaries. While tracks often belong to multiple genres (SOURCE), we intentionally simplified this to a single-label classification problem to enable interpretable modeling. % needs justification?
 Second, permutation feature importance can be biased by correlated features. Although some of our features showed correlation, we chose not to cluster them beforehand to preserve the interpretability of individual linguistic patterns at the cost of potential ranking distortion. Finally, our corpus focuses on Anglophone popular music consumed in Germany, limiting generalizability to global Anglophone repertoires or non-English music popular in Germany.
 
 Future research will extend this approach to other languages within the corpus, comparing lyrical patterns across linguistic contexts and exploring language-agnostic interpretable models. We also plan to test generalizability across diverse corpora beyond German popular music listening. Finally, we aim to incorporate additional lyrical features alongside multimodal audio and video characteristics to build more robust interpretable genre classifiers and examine interactions between lyrical patterns and other modality-specific genre cues.
@@ -295,7 +297,6 @@ Future research will extend this approach to other languages within the corpus, 
 
 
 
-\newpage
 % \section{Acknowledgments}
 % Only to include in the camera-ready version. Does not count towards the page limit.
 

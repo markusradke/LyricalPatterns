@@ -59,16 +59,16 @@ def assign_and_filter_genres(
     return reduced_corpus
 
 
-if __name__ == "__main__":
-    raw_corpus = load_raw_corpus("data-raw/poptrag_lyrics_genres_corpus_20260401.csv")
-    filtered = filter_tracks(raw_corpus)
-    reduced_genres = assign_and_filter_genres(filtered)
+# if __name__ == "__main__":
+raw_corpus = load_raw_corpus("data-raw/poptrag_lyrics_genres_corpus_20260401.csv")
+filtered = filter_tracks(raw_corpus)
+reduced_genres = assign_and_filter_genres(filtered)
 
-    print("Processing lyrics for topic, sentiment, and idiomatic analysis...")
-    processor = LyricsProcessor(reduced_genres, lyrics_column="full_lyrics")
-    final_dataset = processor.process()
+print("Processing lyrics for topic, sentiment, and idiomatic analysis...")
+processor = LyricsProcessor(reduced_genres, lyrics_column="full_lyrics")
+final_dataset = processor.process()
 
-    print("Saving consolidated dataset...")
-    final_dataset.to_csv("data/poptrag_lyrics_dc_processed.csv", index=True)
-    print("Done! Saved to poptrag_lyrics_dc_processed.csv")
-    print(f"Columns: {list(final_dataset.columns)}")
+print("Saving consolidated dataset...")
+final_dataset.to_csv("data/poptrag_lyrics_dc_processed.csv", index=True)
+print("Done! Saved to poptrag_lyrics_dc_processed.csv")
+print(f"Columns: {list(final_dataset.columns)}")

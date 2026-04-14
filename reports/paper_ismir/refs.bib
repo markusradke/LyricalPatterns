@@ -4,8 +4,6 @@
   author = {Fell, Michael and Sporleder, Caroline},
   year = 2014,
   pages = {620--631},
-  keywords = {hochrelevant,pass II},
-  file = {C:\Users\marku\Zotero\storage\WMN6YNQ4\Fell und Sporleder - 2014 - Lyrics-based analysis and classification of music.pdf}
 }
 
 @inproceedings{tsaptsinosLyricsBasedMusicGenre2017,
@@ -19,11 +17,9 @@
   urldate = {2026-01-12},
   abstract = {Music genre classification, especially using lyrics alone, remains a challenging topic in Music Information Retrieval. In this study we apply recurrent neural network models to classify a large dataset of intact song lyrics. As lyrics exhibit a hierarchical layer structure - in which words combine to form lines, lines form segments, and segments form a complete song - we adapt a hierarchical attention network (HAN) to exploit these layers and in addition learn the importance of the words, lines, and segments. We test the model over a 117-genre dataset and a reduced 20-genre dataset. Experimental results show that the HAN outperforms both non-neural models and simpler neural models, whilst also classifying over a higher number of genres than previous research. Through the learning process we can also visualise which words or lines in a song the model believes are important to classifying the genre. As a result the HAN provides insights, from a computational perspective, into lyrical structure and language features that differentiate musical genres.},
   archiveprefix = {arXiv},
-  keywords = {Computer Science - Computation and Language,Computer Science - Information Retrieval,Computer Science - Neural and Evolutionary Computing,hochrelevant,pass I},
-  file = {C\:\\Users\\marku\\Zotero\\storage\\8NCAJF74\\Tsaptsinos - 2017 - Lyrics-Based Music Genre Classification Using a Hierarchical Attention Network.pdf;C\:\\Users\\marku\\Zotero\\storage\\T55ZQYVA\\1707.html}
 }
 
-@inproceedings{optuna_2019,
+@inproceedings{optuna2019,
 	title={Optuna: A Next-generation Hyperparameter Optimization Framework},
 	author={Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
 	booktitle={Proceedings of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery and Data Mining},
@@ -44,8 +40,6 @@
   urldate = {2026-04-01},
   abstract = {As Transfer Learning from large-scale pre-trained models becomes more prevalent in Natural Language Processing (NLP), operating these large models in on-the-edge and/or under constrained computational training or inference budgets remains challenging. In this work, we propose a method to pre-train a smaller general-purpose language representation model, called DistilBERT, which can then be fine-tuned with good performances on a wide range of tasks like its larger counterparts. While most prior work investigated the use of distillation for building task-specific models, we leverage knowledge distillation during the pre-training phase and show that it is possible to reduce the size of a BERT model by 40\%, while retaining 97\% of its language understanding capabilities and being 60\% faster. To leverage the inductive biases learned by larger models during pre-training, we introduce a triple loss combining language modeling, distillation and cosine-distance losses. Our smaller, faster and lighter model is cheaper to pre-train and we demonstrate its capabilities for on-device computations in a proof-of-concept experiment and a comparative on-device study.},
   archiveprefix = {arXiv},
-  keywords = {Computer Science - Computation and Language,hochrelevant,ungelesen},
-  file = {C\:\\Users\\marku\\Zotero\\storage\\YYMXSNYY\\Sanh et al. - 2020 - DistilBERT, a distilled version of BERT smaller, faster, cheaper and lighter.pdf;C\:\\Users\\marku\\Zotero\\storage\\JA3N3DL8\\1910.html}
 }
 
 
@@ -58,7 +52,6 @@
   volume = {30},
   publisher = {Curran Associates, Inc.},
   urldate = {2026-04-05},
-  file = {C:\Users\marku\Zotero\storage\9L923TTH\Ke et al. - 2017 - LightGBM A Highly Efficient Gradient Boosting Decision Tree.pdf}
 }
 
 @article{monroeFightinWordsLexical2017,
@@ -75,8 +68,6 @@
   urldate = {2026-02-20},
   abstract = {Entries in the burgeoning ``text-as-data'' movement are often accompanied by lists or visualizations of how word (or other lexical feature) usage differs across some pair or set of documents. These are intended either to establish some target semantic concept (like the content of partisan frames) to estimate word-specific measures that feed forward into another analysis (like locating parties in ideological space) or both. We discuss a variety of techniques for selecting words that capture partisan, or other, differences in political speech and for evaluating the relative importance of those words. We introduce and emphasize several new approaches based on Bayesian shrinkage and regularization. We illustrate the relative utility of these approaches with analyses of partisan, gender, and distributive speech in the U.S. Senate.},
   langid = {english},
-  keywords = {pass I,relevant},
-  file = {C:\Users\marku\Zotero\storage\R99LY24A\Monroe et al. - 2017 - Fightin' Words Lexical Feature Selection and Evaluation for Identifying the Content of Political Co.pdf}
 }
 
 @inproceedings{bischofSummarizingTopicalContent2012,
@@ -92,5 +83,122 @@
   urldate = {2026-04-13},
   abstract = {Recent work in text analysis commonly describes topics in terms of their most frequent words, but the exclusivity of words to topics is equally important for communicating content. We introduce Hierarchical Poisson Convolution (HPC), a model which infers regularized estimates of the differential use of words across topics as well as their frequency within topics. HPC uses known hierarchical structure on human-labeled topics to make focused comparisons of differential usage within each branch of the hierarchy of labels. We then infer a summary for each topic in terms of words that are both frequent and exclusive. We develop a parallelized Hamiltonian Monte Carlo sampler that allows for fast and scalable computation.},
   isbn = {978-1-4503-1285-1},
-  keywords = {notext,ungelesen}
+}
+
+
+@article{benjaminiControllingFalseDiscovery1995,
+  title = {Controlling the {{False Discovery Rate}}: {{A Practical}} and {{Powerful Approach}} to {{Multiple Testing}}},
+  shorttitle = {Controlling the {{False Discovery Rate}}},
+  author = {Benjamini, Yoav and Hochberg, Yosef},
+  year = 1995,
+  journal = {Journal of the Royal Statistical Society: Series B (Methodological)},
+  volume = {57},
+  number = {1},
+  pages = {289--300},
+  issn = {2517-6161},
+  doi = {10.1111/j.2517-6161.1995.tb02031.x},
+  urldate = {2026-04-14},
+  abstract = {The common approach to the multiplicity problem calls for controlling the familywise error rate (FWER). This approach, though, has faults, and we point out a few. A different approach to problems of multiple significance testing is presented. It calls for controlling the expected proportion of falsely rejected hypotheses --- the false discovery rate. This error rate is equivalent to the FWER when all hypotheses are true but is smaller otherwise. Therefore, in problems where the control of the false discovery rate rather than that of the FWER is desired, there is potential for a gain in power. A simple sequential Bonferronitype procedure is proved to control the false discovery rate for independent test statistics, and a simulation study shows that the gain in power is substantial. The use of the new procedure and the appropriateness of the criterion are illustrated with examples.},
+  copyright = {\copyright{} 1995 Royal Statistical Society},
+  langid = {english},
+}
+
+@article{flexerEffectsAlbumArtist2010,
+  title = {Effects of {{Album}} and {{Artist Filters}} in {{Audio Similarity Computed}} for {{Very Large Music Databases}}},
+  author = {Flexer, Arthur and Schnitzer, Dominik},
+  year = 2010,
+  journal = {Computer Music Journal},
+  volume = {34},
+  number = {3},
+  eprint = {40963029},
+  eprinttype = {jstor},
+  pages = {20--28},
+  publisher = {The MIT Press},
+  issn = {0148-9267},
+  urldate = {2025-12-15},
+}
+
+@article{robertsStmPackageStructural2019,
+  title = {Stm: {{An R Package}} for {{Structural Topic Models}}},
+  shorttitle = {Stm},
+  author = {Roberts, Margaret E. and Stewart, Brandon M. and Tingley, Dustin},
+  year = 2019,
+  month = oct,
+  journal = {Journal of Statistical Software},
+  volume = {91},
+  pages = {1--40},
+  issn = {1548-7660},
+  doi = {10.18637/jss.v091.i02},
+  urldate = {2026-02-26},
+  abstract = {This paper demonstrates how to use the R package stm for structural topic modeling. The structural topic model allows researchers to flexibly estimate a topic model that includes document-level metadata. Estimation is accomplished through a fast variational approximation. The stm package provides many useful features, including rich ways to explore topics, estimate uncertainty, and visualize quantities of interest.},
+  copyright = {Copyright (c) 2019 Margaret E. Roberts, Brandon M. Stewart, Dustin Tingley},
+  langid = {english},
+}
+
+@article{robertsStructuralTopicModels2014,
+  title = {Structural {{Topic Models}} for {{Open-Ended Survey Responses}}},
+  author = {Roberts, Margaret E. and Stewart, Brandon M. and Tingley, Dustin and Lucas, Christopher and {Leder-Luis}, Jetson and Gadarian, Shana Kushner and Albertson, Bethany and Rand, David G.},
+  year = 2014,
+  journal = {American Journal of Political Science},
+  volume = {58},
+  number = {4},
+  pages = {1064--1082},
+  issn = {1540-5907},
+  doi = {10.1111/ajps.12103},
+  urldate = {2026-04-14},
+  abstract = {Collection and especially analysis of open-ended survey responses are relatively rare in the discipline and when conducted are almost exclusively done through human coding. We present an alternative, semiautomated approach, the structural topic model (STM) (Roberts, Stewart, and Airoldi 2013; Roberts et al. 2013), that draws on recent developments in machine learning based analysis of textual data. A crucial contribution of the method is that it incorporates information about the document, such as the author's gender, political affiliation, and treatment assignment (if an experimental study). This article focuses on how the STM is helpful for survey researchers and experimentalists. The STM makes analyzing open-ended responses easier, more revealing, and capable of being used to estimate treatment effects. We illustrate these innovations with analysis of text from surveys and experiments.},
+  copyright = {\copyright 2014, Midwest Political Science Association},
+  langid = {english},
+}
+
+@misc{defazioSAGAFastIncremental2014,
+  title = {{{SAGA}}: {{A Fast Incremental Gradient Method With Support}} for {{Non-Strongly Convex Composite Objectives}}},
+  shorttitle = {{{SAGA}}},
+  author = {Defazio, Aaron and Bach, Francis and {Lacoste-Julien}, Simon},
+  year = 2014,
+  month = dec,
+  number = {arXiv:1407.0202},
+  eprint = {1407.0202},
+  primaryclass = {cs},
+  publisher = {arXiv},
+  doi = {10.48550/arXiv.1407.0202},
+  urldate = {2026-04-14},
+  abstract = {In this work we introduce a new optimisation method called SAGA in the spirit of SAG, SDCA, MISO and SVRG, a set of recently proposed incremental gradient algorithms with fast linear convergence rates. SAGA improves on the theory behind SAG and SVRG, with better theoretical convergence rates, and has support for composite objectives where a proximal operator is used on the regulariser. Unlike SDCA, SAGA supports non-strongly convex problems directly, and is adaptive to any inherent strong convexity of the problem. We give experimental results showing the effectiveness of our method.},
+  archiveprefix = {arXiv},
+}
+
+@inproceedings{keLightGBMHighlyEfficient2017a,
+  title = {{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}}},
+  shorttitle = {{{LightGBM}}},
+  booktitle = {Advances in {{Neural Information Processing Systems}}},
+  author = {Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
+  year = 2017,
+  volume = {30},
+  publisher = {Curran Associates, Inc.},
+  urldate = {2026-04-14},
+}
+
+@inproceedings{lundbergUnifiedApproachInterpreting2017a,
+  title = {A {{Unified Approach}} to {{Interpreting Model Predictions}}},
+  booktitle = {Advances in {{Neural Information Processing Systems}}},
+  author = {Lundberg, Scott M and Lee, Su-In},
+  year = 2017,
+  volume = {30},
+  publisher = {Curran Associates, Inc.},
+  urldate = {2026-04-14},
+}
+
+@article{fisherAllModelsAre2019,
+  title = {All {{Models}} Are {{Wrong}}, but {{Many}} Are {{Useful}}: {{Learning}} a {{Variable}}'s {{Importance}} by {{Studying}} an {{Entire Class}} of {{Prediction Models Simultaneously}}},
+  shorttitle = {All {{Models}} Are {{Wrong}}, but {{Many}} Are {{Useful}}},
+  author = {Fisher, Aaron and Rudin, Cynthia and Dominici, Francesca},
+  year = 2019,
+  journal = {Journal of machine learning research : JMLR},
+  volume = {20},
+  pages = {177},
+  issn = {1532-4435},
+  urldate = {2026-04-14},
+  abstract = {Variable importance (VI) tools describe how much covariates contribute to a prediction model's accuracy. However, important variables for one well-performing model (for example, a linear model f (x) = xT {$\beta$} with a fixed coefficient vector {$\beta$}) may be unimportant for another model. In this paper, we propose model class reliance (MCR) as the range of VI values across all well-performing model in a prespecified class. Thus, MCR gives a more comprehensive description of importance by accounting for the fact that many prediction models, possibly of different parametric forms, may fit the data well. In the process of deriving MCR, we show several informative results for permutation-based VI estimates, based on the VI measures used in Random Forests. Specifically, we derive connections between permutation importance estimates for a single prediction model, U-statistics, conditional variable importance, conditional causal effects, and linear model coefficients. We then give probabilistic bounds for MCR, using a novel, generalizable technique. We apply MCR to a public data set of Broward County criminal records to study the reliance of recidivism prediction models on sex and race. In this application, MCR can be used to help inform VI for unknown, proprietary models.},
+  pmcid = {PMC8323609},
+  pmid = {34335110},
 }

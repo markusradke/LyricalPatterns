@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex paper_v1"] 1776165359 "paper_v1.aux" "paper_v1.bbl" "paper_v1" 1776167446 0
+["bibtex paper_v1"] 1776181025 "paper_v1.aux" "paper_v1.bbl" "paper_v1" 1776181026 0
   "./IEEEtran.bst" 1772889557 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
-  "./refs.bib" 1776084849 8281 4805ebf9d5370e48a69334c4c6b072fc ""
-  "paper_v1.aux" 1776167445 3976 a4a52071eabc2f09cfe24e8d4084e361 "pdflatex"
+  "./refs.bib" 1776181024 15310 072e0e85db7dd6ba7f2bf9842af382b9 ""
+  "paper_v1.aux" 1776181003 4735 07daa56a09b6c15400d989a48f738bc8 "pdflatex"
   (generated)
   "paper_v1.bbl"
   "paper_v1.blg"
   (rewritten before read)
-["pdflatex"] 1776167439 "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" "paper_v1.pdf" "paper_v1" 1776167446 0
+["pdflatex"] 1776180998 "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" "paper_v1.pdf" "paper_v1" 1776181026 0
   "c:/Users/marku/.texlive2022/texmf-var/web2c/pdftex/pdflatex.fmt" 1674402862 7877576 05b29992d99eb979939f0f842f21097e ""
   "c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc" 1673948792 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "c:/texlive/2022/texmf-dist/fonts/map/fontname/texfonts.map" 1673949170 3524 cb3e574dea2d1052e39280babc910dc8 ""
@@ -89,6 +89,9 @@
   "c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd" 1673951859 1483 47067fbe7c3ffed1ede7aaa7b8549d7a ""
   "c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1ptm.fd" 1673951859 774 61d7da1e9f9e74989b196d147e623736 ""
   "c:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd" 1673951859 619 96f56dc5d1ef1fe1121f1cfeec70ee0c ""
+  "c:/texlive/2022/texmf-dist/tex/latex/ragged2e/ragged2e.sty" 1673952077 9416 27e737e108efcc928c66ebcca3933f3f ""
+  "c:/texlive/2022/texmf-dist/tex/latex/tools/array.sty" 1673964734 12691 5b542990fe866f3d772f71346cf85b95 ""
+  "c:/texlive/2022/texmf-dist/tex/latex/tools/tabularx.sty" 1673964734 7147 be6981d9f5d866a5634048c4a11814a9 ""
   "c:/texlive/2022/texmf-dist/tex/latex/tools/xspace.sty" 1673964734 4545 4c279ac9292a1be8afa9ab2f1d3299c2 ""
   "c:/texlive/2022/texmf-dist/tex/latex/url/url.sty" 1673964908 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "c:/texlive/2022/texmf-dist/web2c/texmf.cnf" 1673945877 40171 cdab547de63d26590bebb3baff566530 ""
@@ -104,10 +107,10 @@
   "figures/shap_hip_hop.png" 1776081717 1942211 ca0f36e4d7023ad6cf0e67b0187ee620 ""
   "figures/topic_genre_heatmap_train.png" 1776154068 259204 9a78fc2a4f4b03a8bc79a97376b2a384 ""
   "ismir.sty" 1772889557 11163 8452f8b5ebd4dd4a61e6e2e23348d66d ""
-  "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" 1776167438 26531 3c7ccd1f5f987d26f73f405a064bb14e ""
-  "paper_v1.aux" 1776167445 3976 a4a52071eabc2f09cfe24e8d4084e361 "pdflatex"
-  "paper_v1.bbl" 1776165359 1171 42751251b43c901e12203fc1236964ef "bibtex paper_v1"
-  "paper_v1.tex" 1776167438 26531 3c7ccd1f5f987d26f73f405a064bb14e ""
+  "n:/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/paper_v1.tex" 1776180982 36295 a1dd4b579d9319bc1a4653c6b773178a ""
+  "paper_v1.aux" 1776181003 4735 07daa56a09b6c15400d989a48f738bc8 "pdflatex"
+  "paper_v1.bbl" 1776181026 4753 20ba65ccda7706e60f29e98314ff26b5 "bibtex paper_v1"
+  "paper_v1.tex" 1776180982 36295 a1dd4b579d9319bc1a4653c6b773178a ""
   (generated)
   "paper_v1.aux"
   "paper_v1.log"
