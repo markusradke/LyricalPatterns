@@ -6,36 +6,11 @@ library(stm)
 
 
 # STM INTERPRETATION ----
-metadata <- read_csv("data/X_train_metadata_dc.csv")
-labels <- metadata$dc_detailed
-# aggregate lyrics by artist (sort alphabetically) for inspection
-dc_data <- read_csv(
-  "data/poptrag_lyrics_dc_processed.csv"
-)
-agg_lyrics <- dc_data |>
-  filter(track.s.id %in% metadata$track.s.id) |>
-  group_by(track.s.firstartist.name) |>
-  summarize(
-    lyrics = paste(lyrics_lemmatized, collapse = " "),
-    .groups = "drop"
-  ) |>
-  arrange(track.s.firstartist.name) |>
-  pull(lyrics)
+metadata_train <- read_csv("data/X_train_metadata_dc.csv")
+labels_train <- metadata_train$dc_detailed
+metadata_test <- read_csv("data/X_test_metadata_dc.csv")
+labels_test <- metadata_test$dc_detailed
 
-print_thoughts <- function(model, topic_num, n_docs = 5, max_chars = 500) {
-  toughts <- stm::findThoughts(model, texts = agg_lyrics, n = n_docs)
-  cat(paste0("TOPIC ", topic_num, ":\n"))
-  for (j in 1:n_docs) {
-    cat(paste0("Artist ", j, ":\n"))
-    cat(
-      substr(toughts$docs[[topic_num]][[j]], 1, max_chars),
-      "\n"
-    )
-    cat("\n------------------------------\n")
-  }
-  cat("\n==============================\n")
-  cat("\n\n")
-}
 
 prep_mean_props_by_genre <- function(thetas, topic_labels, genres) {
   thetas$dc_detailed <- genres
@@ -73,7 +48,6 @@ plot_heatmap <- function(pivoted_thetas) {
 topic_model <- readRDS("models/stm_topics_dc/stm_model.rds")
 
 labelTopics(topic_model, n = 50)$frex[2, ]
-print_thoughts(topic_model, n_docs = 5, topic_num = 11)
 
 topic_labels <- c(
   "Heroic Saga",
@@ -101,26 +75,40 @@ stm::plot.STM(
 topic_corr <- stm::topicCorr(topic_model, method = "simple", cutoff = 0.01)
 stm::plot.topicCorr(topic_corr, vlabels = topic_labels)
 
-# heatmap for paper
+# heatmaps
 thetas_X_train_topics <- read_csv("data/X_train_topics_dc.csv")
 colnames(thetas_X_train_topics) <- topic_labels
-pivoted_thetas_topics <- prep_mean_props_by_genre(
+pivoted_thetas_train_topics <- prep_mean_props_by_genre(
   thetas_X_train_topics,
   topic_labels,
-  labels
+  labels_train
 )
-plot_heatmap(pivoted_thetas_topics)
+plot_heatmap(pivoted_thetas_train_topics)
 ggsave(
-  "reports/paper_ismir/figures/topic_genre_heatmap.png",
+  "reports/paper_ismir/figures/topic_genre_heatmap_train.png",
   width = 6,
   height = 5.5
 )
+
+thetas_X_test_topics <- read_csv("data/X_test_topics_dc.csv")
+colnames(thetas_X_test_topics) <- topic_labels
+pivoted_thetas_test_topics <- prep_mean_props_by_genre(
+  thetas_X_test_topics,
+  topic_labels,
+  labels_test
+)
+plot_heatmap(pivoted_thetas_test_topics)
+ggsave(
+  "reports/paper_ismir/figures/topic_genre_heatmap_holdout.png",
+  width = 6,
+  height = 5.5
+)
+
 
 # interpretation of sentiment model ----
 sentiments_model <- readRDS("models/stm_sentiments_dc/stm_model.rds")
 # interpret only LIFT scores (betonung auf uniqueness)
 labelTopics(sentiments_model, n = 50)$frex[3, ]
-print_thoughts(sentiments_model, n_docs = 5, topic_num = 13)
 
 sentiment_labels <- c(
   "playful", # irreverent?
@@ -153,11 +141,25 @@ colnames(thetas_X_train_sentiment) <- sentiment_labels
 pivoted_thetas_sentiment <- prep_mean_props_by_genre(
   thetas_X_train_sentiment,
   sentiment_labels,
-  labels
+  labels_train
 )
 plot_heatmap(pivoted_thetas_sentiment)
 ggsave(
-  "reports/paper_ismir/figures/sentiment_genre_heatmap.png",
+  "reports/paper_ismir/figures/sentiment_genre_heatmap_train.png",
+  width = 6,
+  height = 5.5
+)
+
+thetas_X_test_sentiment <- read_csv("data/X_test_sentiments_dc.csv")
+colnames(thetas_X_test_sentiment) <- sentiment_labels
+pivoted_thetas_test_sentiment <- prep_mean_props_by_genre(
+  thetas_X_test_sentiment,
+  sentiment_labels,
+  labels_test
+)
+plot_heatmap(pivoted_thetas_test_sentiment)
+ggsave(
+  "reports/paper_ismir/figures/sentiment_genre_heatmap_holdout.png",
   width = 6,
   height = 5.5
 )
@@ -245,11 +247,25 @@ colnames(thetas_X_train_expressions) <- expressions_labels
 pivoted_thetas_expressions <- prep_mean_props_by_genre(
   thetas_X_train_expressions,
   expressions_labels,
-  labels
+  labels_train
 )
 plot_heatmap(pivoted_thetas_expressions)
 ggsave(
-  "reports/paper_ismir/figures/expressions_genre_heatmap.png",
+  "reports/paper_ismir/figures/expressions_genre_heatmap_train.png",
+  width = 6,
+  height = 5.5
+)
+
+thetas_X_test_expressions <- read_csv("data/X_test_expressions_dc.csv")
+colnames(thetas_X_test_expressions) <- expressions_labels
+pivoted_thetas_test_expressions <- prep_mean_props_by_genre(
+  thetas_X_test_expressions,
+  expressions_labels,
+  labels_test
+)
+plot_heatmap(pivoted_thetas_test_expressions)
+ggsave(
+  "reports/paper_ismir/figures/expressions_genre_heatmap_holdout.png",
   width = 6,
   height = 5.5
 )

@@ -26,7 +26,7 @@
 % Title. Please use IEEE-compliant title case when specifying the title here,
 % as it has implications for the copyright notice
 % ------
-\title{"More than words": Genre-Discriminating Lyrical Patterns in 50 Years of Anglophone German Popular Music}
+\title{"More than words": Genre-Discriminating Lyrical Patterns in Anglophone German Popular Music}
 
 % Note: Please do NOT use \thanks or a \footnote in any of the author markup
 
@@ -110,7 +110,7 @@ Given these considerations we pose the following research questions:
 \newpage
 \newpage
 \section{Methods}
-\subsection{Data}
+\subsection{Corpus and Genre Annotations}
 
 % gemeinsames Metadaten-Framework für Extension und Anbindung an Audio-Features
 
@@ -179,19 +179,19 @@ Based on these vocabularies, we extracted dense topic, sentiment, and idiomatic 
   \centering
   \begin{subfigure}[b]{0.33\linewidth}
     \centering
-    \includegraphics[alt={Topic Heatmap},width=\linewidth]{figures/topic_genre_heatmap.png}
+    \includegraphics[alt={Topic Heatmap},width=\linewidth]{figures/topic_genre_heatmap_train.png}
     \caption{topics}
     \label{fig:topics}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.33\linewidth}
     \centering
-    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/sentiment_genre_heatmap.png}
+    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/sentiment_genre_heatmap_train.png}
     \caption{sentiments}
     \label{fig:sentiments}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.33\linewidth}
     \centering
-    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/expressions_genre_heatmap.png}
+    \includegraphics[alt={Style Heatmap},width=\linewidth]{figures/expressions_genre_heatmap_train.png}
     \caption{idiomatic expressions}
     \label{fig:expressions}
   \end{subfigure}
@@ -217,18 +217,18 @@ The probability distribution of expression types for genres is more heterogeneou
     \midrule
     Prevalences & Random & — & — & 0.111 \\
     Raw Lyrics & DistillBERT & default & — & 0.374 \\
-    TF-IDF & GLMNET & $C=1, L1=0.5$ & — & 0.248 \\
+    TF-IDF & GLMNET & $C$=1, $L1$=0.5 & — & 0.248 \\
     \midrule
-    Topics & GLMNET & $C=1, L1=0.5$ & — & 0.229 \\
-    Sentiments & GLMNET & $C=1, L1=0.5$ & — & 0.135 \\
-    Expressions & GLMNET & $C=1, L1=0.5$ & — & 0.282 \\ 
-    Combined & GLMNET & $C=1, L1=0.5$ & — & 0.292\\ 
+    Topics & GLMNET & $C$=1, $L1$=0.5 & — & 0.229 \\
+    Sentiments & GLMNET & $C$=1, $L1$=0.5 & — & 0.135 \\
+    Expressions & GLMNET & $C$=1, $L1$=0.5 & — & 0.282 \\ 
+    Combined & GLMNET & $C$=1, $L1$=0.5 & — & 0.292\\ 
     \midrule
-    Combined & GLMNET & $C=0.002, L1=0.33$ & 0.335 & 0.291 \\
+    Combined & GLMNET & $C$=0.002, $L1$=0.33 & 0.335 & 0.291 \\
     Combined & LightGBM & tuned$^\dagger$ & 0.354 & 0.300 \\ 
     \bottomrule
   \end{tabular}
-  \caption{Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO). Dashes indicate models trained with fixed hyperparameters. $^\dagger$LightGBM hyperparameters: 223 estimators, learning rate = 0.079, 69 leaves, max depth = 9, min 31 data points in leaf, L1 Regularization=$1.43 \times 10^{-2}$, L2 Regularization=$9.15 \times 10^{-5}$.}
+  \caption{Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO). Dashes indicate models trained with fixed hyperparameters. $^\dagger$LightGBM hyperparameters: 223 estimators, learning rate=0.079, 69 leaves, max depth=9, min 31 data points in leaf, L1 Regularization=$1.43 \times 10^{-2}$, L2 Regularization=$9.15 \times 10^{-5}$.}
   \label{tab:f1}
 \end{table}
 
@@ -244,11 +244,11 @@ The probability distribution of expression types for genres is more heterogeneou
 
 Using genre-discriminative topics, sentiments, and expression types as lyric features, we trained two machine learning models (GLMNET and LightGBM) to predict song genre based solely on lyrics. Their performance was compared to a random baseline, a traditional TF-IDF + GLMNET pipeline, and a DistillBERT model trained directly on raw lyrics. Structured-feature models underwent systematic hyperparameter tuning to ensure optimal parameterization. Table~\ref{tab:f1} reports macro F1 scores from 4-fold cross-validation and holdout evaluation.
 
-Structured representations provided informative genre signal beyond uninformative baselines: the random model reached 0.111 and TF-IDF + GLMNET 0.248 on the holdout. DistillBERT achieved the highest overall performance (holdout $F1$ = 0.374), indicating the strength of contextual embeddings for lyric classification. Among structured features, expressions contributed most to genre discrimination (0.282), followed by topics (0.229) and sentiments (0.135). Combining all three improved performance, with GLMNET (C=1, L1=0.5) attaining 0.292 on the holdout, exceeding individual feature sets.
+Structured representations provided informative genre signal beyond uninformative baselines: the random model reached 0.111 and TF-IDF + GLMNET 0.248 on the holdout. DistillBERT achieved the highest overall performance (holdout $F1$=0.374), indicating the strength of contextual embeddings for lyric classification. Among structured features, expressions contributed most to genre discrimination (0.282), followed by topics (0.229) and sentiments (0.135). Combining all three improved performance, with GLMNET (C=1, L1=0.5) attaining 0.292 on the holdout, exceeding individual feature sets.
 
 Hyperparameter tuning yielded further improvement. A regularized GLMNET (C=0.002, L1=0.33) achieved 0.335 in cross-validation and 0.291 on holdout, while the tuned LightGBM model performed best among structured approaches (CV 0.354, holdout 0.300). Although DistillBERT remained strongest overall, the tuned LightGBM retained approximately 80\% of its predictive power while employing interpretable features and interpretability regarding feature contributions.
 
-When looking at the confusion matrix for the tuned combined features LightGBM model (see Figure \ref{fig:confusion_matrix}), we find that the model performs particularly well for \textit{Hip Hop} (holdout $F1$ = 0.591) and \textit{Rock} (0.584). The model performs worst for \textit{Folk, World \& Country} (0.177) and \textit{Jazz} (0.137). Off-diagonal confusions cluster among stylistically adjacent categories (e.g., \textit{Funk / Soul}, \textit{Pop}, and \textit{Electronic}; \textit{Hip Hop} and \textit{Funk / Soul}). The results show a moderate positive relationship between genre prevalence and classification quality (Kendall correlation between per-genre F1 and sample size = 0.389); however some genres with less samples (e.g., \textit{Hip Hop}) clearly outperform larger ones (e.g., \textit{Pop}).
+When looking at the confusion matrix for the tuned combined features LightGBM model (see Figure \ref{fig:confusion_matrix}), we find that the model performs particularly well for \textit{Hip Hop} (holdout $F1$=0.591) and \textit{Rock} (0.584). The model performs worst for \textit{Folk, World \& Country} (0.177) and \textit{Jazz} (0.137). Off-diagonal confusions cluster among stylistically adjacent categories (e.g., \textit{Funk / Soul}, \textit{Pop}, and \textit{Electronic}; \textit{Hip Hop} and \textit{Funk / Soul}). While the results show a moderate positive relationship between genre prevalence and classification quality (Kendall correlation between per-genre F1 and sample size = 0.389); some genres with less samples (e.g., \textit{Hip Hop}) clearly outperform larger ones (e.g., \textit{Pop}).
 
 
 
@@ -261,7 +261,7 @@ When looking at the confusion matrix for the tuned combined features LightGBM mo
   \label{fig:permutation_importance}
 \end{figure}
 
-To assess which stylistic patterns shape music genre differentiation, we computed permutation feature importance on the holdout set (Figure~\ref{fig:permutation_importance}). Expression-type features dominated the ranking: Expression-type features dominate the ranking: \textit{Doom Imagery}, \textit{Traditional Street Slang}, \textit{Love Affirmations}, \textit{Nostalgic Formulas}, \textit{Vocalizations} and \textit{Dance Floor Commands} emerged as the most influential predictors. Topic features such as \textit{Darkness}, \textit{Narrative}, and \textit{Street Life} occupied intermediate positions and produced moderate performance declines when permuted, suggesting that broader thematic context supports, but does not alone determine music genre distinction. Sentiment features showed only minor average impacts. The expression type \textit{Christmas Phrases} displays a strong negative mean impact when permuted, likely reflecting feature sparsity rather than substantive genre relevance.
+To assess which stylistic patterns shape music genre differentiation, we computed the permutation feature importance on the holdout set (Figure~\ref{fig:permutation_importance}). Expression-type features dominate the ranking: \textit{Doom Imagery}, \textit{Traditional Street Slang}, \textit{Love Affirmations}, \textit{Nostalgic Formulas}, \textit{Vocalizations} and \textit{Dance Floor Commands} emerged as the most influential predictors. Topic features such as \textit{Darkness}, \textit{Narrative}, and \textit{Street Life} occupied intermediate positions and produced moderate performance declines when permuted, suggesting that broader thematic context supports, but does not alone determine music genre distinction. Sentiment features showed only minor average impacts. The expression type \textit{Christmas Phrases} displays a clearly visible increase of holdout F1 when permuted, likely reflecting feature sparsity rather than substantive genre relevance.
 
 
 \begin{figure}
@@ -271,26 +271,31 @@ To assess which stylistic patterns shape music genre differentiation, we compute
   \label{fig:shap_hip_hop}
 \end{figure}
 
-As an illustrative example of what interpretative models can reveal about lyrical genre differentiation, Figure~\ref{fig:shap_hip_hop} shows SHAP values computed on the holdout sample for the Hip Hop class. High values for \textit{Trap Slang} and \textit{Traditional Street Slang} strongly increase the model's predicted \textit{Hip Hop} score; \textit{Street Life} and \textit{Denials \& Negotiations} similarly shift predictions toward this genre. In contrast, features such as \textit{Christmas Phrases} and \textit{Nostalgic Formulas} are associated with lower Hip Hop likelihoods. Some features (e.g., \textit{Doom Imaginary}, \textit{Jamaican Patois}, and \textit{Love Affirmations}) show more heterogeneous impacts, with high values sometimes increasing and sometimes decreasing \textit{Hip Hop} predictions, reflecting context-dependent effects. Sentiment features do not appear to be helpful for \textit{Hip Hop} identification in our corpus.
+As an illustrative example of what interpretative models can reveal about lyrical genre differentiation, Figure~\ref{fig:shap_hip_hop} shows SHAP values computed on the holdout sample for the \textit{Hip Hop} class (holdout $F1$=0.591). High values for \textit{Trap Slang} and \textit{Traditional Street Slang} strongly increase the model's predicted \textit{Hip Hop} score; \textit{Street Life} and \textit{Denials \& Negotiations} similarly shift predictions toward this genre. In contrast, features such as \textit{Christmas Phrases} and \textit{Nostalgic Formulas} are associated with lower Hip Hop likelihoods. Some features (e.g., \textit{Doom Imaginary}, \textit{Jamaican Patois}, and \textit{Love Affirmations}) show more heterogeneous impacts, with high values sometimes increasing and sometimes decreasing \textit{Hip Hop} predictions, reflecting context-dependent effects. Sentiment features do not appear to among the most helpful features for \textit{Hip Hop} identification in our corpus.
 
 \section{Discussion}
+With this contribution, we identify genre-discriminative lyrical patterns in Anglophone German popular music (RQ1), including 10 topics, 6 sentiments, and 11 types of idiomatic expressions. Interpretable ML models based on these patterns (RQ2) retained 80\% of the predictive performance of a fine-tuned DistilBERT classifier, demonstrating that genre-discriminative lyrical pattern features can be effectively leveraged for genre classification while offering interpretability. Feature importance analyses (RQ3) revealed that idiomatic expressions play particularly important roles in genre discrimination, compared to topics and sentiments. Using \textit{Hip Hop} as an example, we show how specific types of expressions, topics, and sentiments characterize this genre in contrast to others. 
+
+Lyrical genre distinction is driven not only by surface-level textual properties such as lyric length, vocabulary size, rhymes, echoisms, or readability (SOURCE), but also by content-related patterns identified in our analysis (RQ1). In particular, idiomatic expression types emerge as a more informative semantic dimension of genre differentiation than topics and sentiments (SOURCES). This suggests that genre-specific ways of phrasing meaning, rather than only thematic content or affective valence, contribute substantially to how genres are lyrically defined and perceived (SOURCE). These findings also support the view that genre cues operate across multiple linguistic levels (SOURCE).
+
+For our interpretable ML experiments (RQ2), Hip Hop and Rock were among the genres that were most readily identifiable from lyrical features alone, suggesting that some genres rely more strongly on distinctive lyrical content markers, whereas others share more of these markers and are therefore more easily confused. Given, that \textit{Discogs' Rock} genre encompasses also metal styles, this is consistent with prior work on lyric-based genre classification (SOURCE) and with the idea of genre as a fuzzy category organized around prototypical rather than strictly necessary features (SOURCE). Importantly, we recover a substantial portion of the performance of a fine-tuned DistillBERT model using human-readable features, indicating that the transformer is exploiting structure that is at least partly accessible to interpretable textual analysis based on n-grams. These results suggest a division of labor in computational musicology: transformer models serve as high-performing baselines, whereas interpretable models are especially useful for assessing whether lyrical patterns generalize beyond the observed sample and for identifying which features reliably support genre discrimination in a way that remains linguistically interpretable (SOURCE).
+
+Feature importance analysis (RQ3) reveals that genre differences in lyrics are primarily driven by idiomatic expression types such as \textit{Traditional Street Slang}, \textit{Trap Slang}, and \textit{Doom Imagery}, rather than emotional expression or thematic content alone. As illustrated by the \textit{Hip Hop} case, where street life topics and slang expressions jointly elevate genre predictions, these findings suggest that genres differ in how they package meaning through stylistic phrasing, with thematic content playing a supporting role (SOURCE). Instead of single defining markers, interactions between expression types, topics, and sentiments form profiles of lyrical content that encode genre identity. This aligns with a view of genre as a fuzzy, relational construct distinguished by bundles of linguistic cues meaningful in contrast to neighboring genres (SOURCE).
+
+Taken together, these findings advance computational musicology by establishing a principled division between predictive and explanatory machine learning approaches. While transformer models excel at achieving high genre classification performance, interpretable models like ours reveal which linguistic patterns drive those predictions, enabling insights in lyrical genre formation rather than mere correlational tagging (SOURCE). This explanatory capacity supports practical applications including understanding genre biases in generative lyrics production models (SOURCE), where knowing that Trap Slang and Doom Imagery strongly signal specific genres can help identify and mitigate unintended stylistic skews in AI-generated content; corpus curation tools that automatically flag culturally distinctive lyrical markers for ethnomusicological analysis (SOURCE); and hybrid genre taggers for streaming platforms that balance predictive power with transparency for content moderation or artist discovery (SOURCE).
+
+Our analysis faces several limitations. First, music genre is inherently fuzzy, and by using Discogs labels, we adopt a particular community's perspective on genre boundaries. While tracks often belong to multiple genres (SOURCE), we intentionally simplified this to a single-label classification problem to enable interpretable modeling. % needs justification?
+Second, permutation feature importance can be biased by correlated features. Although some of our features showed correlation, we chose not to cluster them beforehand to preserve the interpretability of individual linguistic patterns at the cost of potential ranking distortion. Finally, our corpus focuses on Anglophone popular music consumed in Germany, limiting generalizability to global Anglophone repertoires or non-English music popular in Germany.
+
+Future research will extend this approach to other languages within the corpus, comparing lyrical patterns across linguistic contexts and exploring language-agnostic interpretable models. We also plan to test generalizability across diverse corpora beyond German popular music listening. Finally, we aim to incorporate additional lyrical features alongside multimodal audio and video characteristics to build more robust interpretable genre classifiers and examine interactions between lyrical patterns and other modality-specific genre cues.
 
 
 
-
-Limitations
-Multilabel Genres?
-
-Future Directions
-other languages in the corpus, other corpora, other features (audio, video, etc.)
 \cite{monroeFightinWordsLexical2017} %only for compiling not to fail
 
 
 
 \newpage
-\newpage
-
-
 % \section{Acknowledgments}
 % Only to include in the camera-ready version. Does not count towards the page limit.
 
