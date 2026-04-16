@@ -134,7 +134,7 @@ plot_pfi <- function(pfi, name = "validation") {
       breaks = c("topics", "sentiments", "expressions"),
       values = c(
         "topics" = "#c40d20",
-        "sentiments" = "black",
+        "sentiments" = "#2b8dba",
         "expressions" = "grey65"
       )
     ) +

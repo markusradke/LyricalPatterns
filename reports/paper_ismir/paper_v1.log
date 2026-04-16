@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  14 APR 2026 17:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  16 APR 2026 13:45
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -244,25 +244,231 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@randommax=\count314
 \c@blind@pangramcount=\count315
 \c@blind@pangrammax=\count316
+) (c:/texlive/2022/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+\pgfutil@everybye=\toks26
+\pgfutil@tempdima=\dimen187
+\pgfutil@tempdimb=\dimen188
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+\pgfutil@abb=\box55
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/texlive/2022/texmf-dist/tex/generic/pgf/pgf.revision.tex)
+Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
+))
+Package: pgf 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2022/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+\pgfkeys@pathtoks=\toks27
+\pgfkeys@temptoks=\toks28
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
+\pgfkeys@tmptoks=\toks29
+))
+\pgf@x=\dimen189
+\pgf@y=\dimen190
+\pgf@xa=\dimen191
+\pgf@ya=\dimen192
+\pgf@xb=\dimen193
+\pgf@yb=\dimen194
+\pgf@xc=\dimen195
+\pgf@yc=\dimen196
+\pgf@xd=\dimen197
+\pgf@yd=\dimen198
+\w@pgf@writea=\write3
+\r@pgf@reada=\read2
+\c@pgf@counta=\count317
+\c@pgf@countb=\count318
+\c@pgf@countc=\count319
+\c@pgf@countd=\count320
+\t@pgf@toka=\toks30
+\t@pgf@tokb=\toks31
+\t@pgf@tokc=\toks32
+\pgf@sys@id@count=\count321
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
+File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
+)
+Driver file for pgf: pgfsys-pdftex.def
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+File: pgfsys-pdftex.def 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
+File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
+File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfsyssoftpath@smallbuffer@items=\count322
+\pgfsyssoftpath@bigbuffer@items=\count323
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
+File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2022/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+ (c:/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+LaTeX Info: Redefining \color on input line 711.
+ (c:/texlive/2022/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
+\pgfmath@dimen=\dimen199
+\pgfmath@count=\count324
+\pgfmath@box=\box56
+\pgfmath@toks=\toks33
+\pgfmath@stack@operand=\toks34
+\pgfmath@stack@operation=\toks35
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
+\c@pgfmathroundto@lastzeros=\count325
+)) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
+File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@picminx=\dimen256
+\pgf@picmaxx=\dimen257
+\pgf@picminy=\dimen258
+\pgf@picmaxy=\dimen259
+\pgf@pathminx=\dimen260
+\pgf@pathmaxx=\dimen261
+\pgf@pathminy=\dimen262
+\pgf@pathmaxy=\dimen263
+\pgf@xx=\dimen264
+\pgf@xy=\dimen265
+\pgf@yx=\dimen266
+\pgf@yy=\dimen267
+\pgf@zx=\dimen268
+\pgf@zy=\dimen269
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
+File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@path@lastx=\dimen270
+\pgf@path@lasty=\dimen271
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
+File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@shorten@end@additional=\dimen272
+\pgf@shorten@start@additional=\dimen273
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
+File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfpic=\box57
+\pgf@hbox=\box58
+\pgf@layerbox@main=\box59
+\pgf@picture@serial@count=\count326
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
+File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgflinewidth=\dimen274
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
+File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@pt@x=\dimen275
+\pgf@pt@y=\dimen276
+\pgf@pt@temp=\dimen277
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
+File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing.code.tex
+File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
+File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowsep=\dimen278
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@max=\dimen279
+\pgf@sys@shading@range@num=\count327
+\pgf@shadingcount=\count328
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
+File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfexternal@startupbox=\box60
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
+File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
+File: pgfcoretransparency.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.tex
+File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex
+File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2022/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfnodeparttextbox=\box61
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
+Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
+\pgf@nodesepstart=\dimen280
+\pgf@nodesepend=\dimen281
+) (c:/texlive/2022/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
+Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
+)) (c:/texlive/2022/texmf-dist/tex/latex/pgf/utilities/pgffor.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex)) (c:/texlive/2022/texmf-dist/tex/latex/pgf/math/pgfmath.sty (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)) (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+Package: pgffor 2023-01-15 v3.1.10 (3.1.10)
+\pgffor@iter=\dimen282
+\pgffor@skip=\dimen283
+\pgffor@stack=\toks36
+\pgffor@toks=\toks37
+)) (c:/texlive/2022/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+Package: tikz 2023-01-15 v3.1.10 (3.1.10)
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers.code.tex
+File: pgflibraryplothandlers.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgf@plot@mark@count=\count329
+\pgfplotmarksize=\dimen284
+)
+\tikz@lastx=\dimen285
+\tikz@lasty=\dimen286
+\tikz@lastxsaved=\dimen287
+\tikz@lastysaved=\dimen288
+\tikz@lastmovetox=\dimen289
+\tikz@lastmovetoy=\dimen290
+\tikzleveldistance=\dimen291
+\tikzsiblingdistance=\dimen292
+\tikz@figbox=\box62
+\tikz@figbox@bg=\box63
+\tikz@tempbox=\box64
+\tikz@tempbox@bg=\box65
+\tikztreelevel=\count330
+\tikznumberofchildren=\count331
+\tikznumberofcurrentchild=\count332
+\tikz@fig@count=\count333
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+File: pgfmodulematrix.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfmatrixcurrentrow=\count334
+\pgfmatrixcurrentcolumn=\count335
+\pgf@matrix@numberofcolumns=\count336
+)
+\tikz@expandcount=\count337
+ (c:/texlive/2022/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopaths.code.tex
+File: tikzlibrarytopaths.code.tex 2023-01-15 v3.1.10 (3.1.10)
+))) (c:/texlive/2022/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.code.tex
+File: pgflibraryarrows.meta.code.tex 2023-01-15 v3.1.10 (3.1.10)
+\pgfarrowinset=\dimen293
+\pgfarrowlength=\dimen294
+\pgfarrowwidth=\dimen295
+\pgfarrowlinewidth=\dimen296
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarypositioning.code.tex
+File: tikzlibrarypositioning.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibraryfit.code.tex
+File: tikzlibraryfit.code.tex 2023-01-15 v3.1.10 (3.1.10)
+) (c:/texlive/2022/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarycalc.code.tex
+File: tikzlibrarycalc.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2022/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
  (c:/texlive/2022/texmf-dist/tex/latex/tools/array.sty
 Package: array 2022/09/04 v2.5g Tabular extension package (FMi)
-\col@sep=\dimen187
-\ar@mcellbox=\box55
-\extrarowheight=\dimen188
-\NC@list=\toks26
+\col@sep=\dimen297
+\ar@mcellbox=\box66
+\extrarowheight=\dimen298
+\NC@list=\toks38
 \extratabsurround=\skip55
 \backup@length=\skip56
-\ar@cellbox=\box56
+\ar@cellbox=\box67
 )
-\TX@col@width=\dimen189
-\TX@old@table=\dimen190
-\TX@old@col=\dimen191
-\TX@target=\dimen192
-\TX@delta=\dimen193
-\TX@cols=\count317
-\TX@ftn=\toks27
+\TX@col@width=\dimen299
+\TX@old@table=\dimen300
+\TX@old@col=\dimen301
+\TX@target=\dimen302
+\TX@delta=\dimen303
+\TX@cols=\count338
+\TX@ftn=\toks39
 ) (c:/texlive/2022/texmf-dist/tex/latex/ragged2e/ragged2e.sty
 Package: ragged2e 2022/11/13 v3.2 ragged2e Package
 \CenteringLeftskip=\skip57
@@ -280,43 +486,43 @@ Package: ragged2e 2022/11/13 v3.2 ragged2e Package
 \RaggedRightParindent=\skip69
 \JustifyingParindent=\skip70
 )
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 80.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 83.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
 File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count318
-\l__pdf_internal_box=\box57
+\l__color_backend_stack_int=\count339
+\l__pdf_internal_box=\box68
 ) (./paper_v1.aux)
 \openout1 = `paper_v1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 80.
-LaTeX Font Info:    ... okay on input line 80.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
+LaTeX Font Info:    ... okay on input line 83.
  (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count319
-\scratchdimen=\dimen194
-\scratchbox=\box58
-\nofMPsegments=\count320
-\nofMParguments=\count321
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count322
-\MPscratchDim=\dimen195
-\MPnumerator=\count323
-\makeMPintoPDFobject=\count324
-\everyMPtoPDFconversion=\toks29
+\scratchcounter=\count340
+\scratchdimen=\dimen304
+\scratchbox=\box69
+\nofMPsegments=\count341
+\nofMParguments=\count342
+\everyMPshowfont=\toks40
+\MPscratchCnt=\count343
+\MPscratchDim=\dimen305
+\MPnumerator=\count344
+\makeMPintoPDFobject=\count345
+\everyMPtoPDFconversion=\toks41
 ) (c:/texlive/2022/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
@@ -325,106 +531,169 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 82.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 85.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
-<cc_by.pdf, id=1, 121.45375pt x 43.16125pt>
+<cc_by.pdf, id=4, 121.45375pt x 43.16125pt>
 File: cc_by.pdf Graphic file (type pdf)
 <use cc_by.pdf>
-Package pdftex.def Info: cc_by.pdf  used on input line 82.
+Package pdftex.def Info: cc_by.pdf  used on input line 85.
 (pdftex.def)             Requested size: 36.02869pt x 12.80365pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 82.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 85.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 84.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 87.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 102--102
+Underfull \vbox (badness 2237) has occurred while \output is active []
+
+ [1{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+
+ <./cc_by.pdf>]
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
 []|\T1/ptm/b/n/10 RQ1| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 102--102
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
 []|\T1/ptm/b/n/10 RQ2| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 102--102
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
 []|\T1/ptm/b/n/10 RQ3| 
  []
 
-<figures/corpus_descriptive.png, id=2, 433.62pt x 361.35pt>
+<figures/corpus_descriptive.png, id=20, 433.62pt x 361.35pt>
 File: figures/corpus_descriptive.png Graphic file (type png)
 <use figures/corpus_descriptive.png>
-Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 112.
+Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 200.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
-[1{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
+Underfull \hbox (badness 1024) in paragraph at lines 210--211
+\T1/ptm/m/n/10 To iden-tify genre-discriminating content-related lyri-cal
+ []
 
+[2]
+Underfull \vbox (badness 3769) has occurred while \output is active []
 
- <./cc_by.pdf> <./figures/corpus_descriptive.png>]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [2]
-Overfull \hbox (1.81613pt too wide) in paragraph at lines 155--171
+ [3 <./figures/corpus_descriptive.png>]
+Overfull \hbox (1.81613pt too wide) in paragraph at lines 237--253
  [][] 
  []
 
-<figures/topic_genre_heatmap_train.png, id=24, 433.62pt x 397.485pt>
+<figures/topic_genre_heatmap_train.png, id=32, 433.62pt x 397.485pt>
 File: figures/topic_genre_heatmap_train.png Graphic file (type png)
 <use figures/topic_genre_heatmap_train.png>
-Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 183.
+Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 264.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/sentiment_genre_heatmap_train.png, id=25, 433.62pt x 397.485pt>
+<figures/sentiment_genre_heatmap_train.png, id=33, 433.62pt x 397.485pt>
 File: figures/sentiment_genre_heatmap_train.png Graphic file (type png)
 <use figures/sentiment_genre_heatmap_train.png>
-Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 189.
+Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 270.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/expressions_genre_heatmap_train.png, id=26, 433.62pt x 397.485pt>
+<figures/expressions_genre_heatmap_train.png, id=34, 433.62pt x 397.485pt>
 File: figures/expressions_genre_heatmap_train.png Graphic file (type png)
 <use figures/expressions_genre_heatmap_train.png>
-Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 195.
+Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 276.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/confusion_matrix.png, id=27, 433.62pt x 361.35pt>
+<figures/confusion_matrix.png, id=35, 433.62pt x 361.35pt>
 File: figures/confusion_matrix.png Graphic file (type png)
 <use figures/confusion_matrix.png>
-Package pdftex.def Info: figures/confusion_matrix.png  used on input line 240.
+Package pdftex.def Info: figures/confusion_matrix.png  used on input line 319.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
-<figures/holdout_permutation_importance.png, id=28, 433.62pt x 361.35pt>
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<figures/holdout_permutation_importance.png, id=36, 433.62pt x 361.35pt>
 File: figures/holdout_permutation_importance.png Graphic file (type png)
 <use figures/holdout_permutation_importance.png>
-Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 260.
+Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 332.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
-<figures/shap_hip_hop.png, id=29, 460.05878pt x 339.12697pt>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figures/shap_hip_hop.png, id=37, 460.05878pt x 339.12697pt>
 File: figures/shap_hip_hop.png Graphic file (type png)
 <use figures/shap_hip_hop.png>
-Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 270.
+Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 339.
 (pdftex.def)             Requested size: 233.31259pt x 171.9848pt.
-[3] [4
+
+LaTeX Warning: `h' float specifier changed to `ht'.
 
 
- <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png> <./figures/confusion_matrix.png>] [5 <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
-Underfull \vbox (badness 2443) has occurred while \output is active []
+Underfull \vbox (badness 3568) has occurred while \output is active []
 
- (./paper_v1.bbl [6]) [7
+ [4]
+Underfull \vbox (badness 6510) has occurred while \output is active []
 
-] (./paper_v1.aux) ) 
+ [5
+
+
+ <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png> <./figures/confusion_matrix.png>] (./paper_v1.bbl [6 <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 45--49
+[]\T1/ptm/m/n/10 E. Parada-Cabaleiro, M. May-erl, S. Brandl,
+ []
+
+
+Underfull \hbox (badness 1043) in paragraph at lines 62--67
+\T1/ptm/m/n/10 Artist Wikis: An Anal-y-sis of Pop-u-lar-ity, Length,
+ []
+
+
+Underfull \hbox (badness 5331) in paragraph at lines 98--104
+\T1/ptm/m/n/10 sic Genre Clas-si-fi-ca-tion Us-ing a BLSTM Net-
+ []
+
+
+Underfull \hbox (badness 1062) in paragraph at lines 98--104
+\T1/ptm/m/n/10 work,'' in \T1/ptm/m/it/10 Ar-ti-fi-cial In-tel-li-gence and Soft Com-put-
+ []
+
+
+Underfull \hbox (badness 1831) in paragraph at lines 98--104
+\T1/ptm/m/it/10 ing\T1/ptm/m/n/10 , L. Rutkowski, R. Scherer, M. Ko-ry-tkowski,
+ []
+
+
+Underfull \hbox (badness 2662) in paragraph at lines 134--141
+\T1/ptm/m/n/10 S. Luz, and S. Pol-lak, ``Ex-plor-ing Neu-ral Lan-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 161--167
+[]\T1/ptm/m/n/10 M. May-erl, M. Vöt-ter, M. Moosleit-ner, and
+ []
+
+
+Underfull \hbox (badness 1127) in paragraph at lines 161--167
+\T1/ptm/m/n/10 M. Quad-rana, and K. Watan-abe, Eds. On-line:
+ []
+
+[7]
+Underfull \hbox (badness 10000) in paragraph at lines 286--288
+[]\T1/ptm/m/n/10 C. Mol-nar, \T1/ptm/m/it/10 In-ter-pretable Ma-chine Learn-ing\T1/ptm/m/n/10 .
+ []
+
+) [8] (./paper_v1.aux) ) 
 Here is how much of TeX's memory you used:
- 5634 strings out of 476091
- 93068 string characters out of 5795540
+ 16721 strings out of 476091
+ 333898 string characters out of 5795540
  1889324 words of memory out of 5000000
- 25922 multiletter control sequences out of 15000+600000
- 555166 words of font info for 78 fonts, out of 8000000 for 9000
+ 36783 multiletter control sequences out of 15000+600000
+ 558823 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 67i,14n,77p,1935b,496s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 84i,14n,89p,2012b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
 {c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper_v1.pdf (7 pages, 3000736 bytes).
+Output written on paper_v1.pdf (8 pages, 3018157 bytes).
 PDF statistics:
- 109 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 115 PDF objects out of 1000 (max. 8388607)
+ 69 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 41 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 53 words of extra memory for PDF output out of 10000 (max. 10000000)
 
