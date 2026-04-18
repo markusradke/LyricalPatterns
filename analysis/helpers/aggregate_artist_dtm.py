@@ -5,11 +5,10 @@ from scipy.sparse import csr_matrix
 
 def aggregate_dtm_by_artist(X, artist, genre):
     """
-    Aggregate track-level DTM to artist-level.
+    Aggregate track-level DTM to artist-genre-combination level.
 
-    Reduces sparsity by combining all tracks from the same artist into a single
-    document. Genre is assigned based on the artist's most frequent genre, with
-    ties broken by selecting the globally rarer genre to promote diversity.
+    Reduces sparsity by combining all tracks that share the same artist-genre
+    combination into a single document.
 
     Parameters
     ----------
@@ -22,21 +21,37 @@ def aggregate_dtm_by_artist(X, artist, genre):
 
     Returns
     -------
-    X_artist : sparse matrix, shape (n_artists, n_features)
-        Artist-level aggregated DTM.
+    X_artist : sparse matrix, shape (n_artist_genre_combinations, n_features)
+        Artist-genre-combination-level aggregated DTM.
     artist_genres : pd.Series
-        Genre label for each artist (index = artist name, sorted alphabetically).
+        Genre label for each aggregated row (index = flat artist-genre key,
+        sorted alphabetically).
     """
     artist = pd.Series(artist).reset_index(drop=True)
     genre = pd.Series(genre).reset_index(drop=True)
 
-    unique_artists = sorted(artist.unique())
-    artist_to_idx = {a: i for i, a in enumerate(unique_artists)}
+    if len(artist) != len(genre):
+        raise ValueError("`artist` and `genre` must have the same length.")
 
-    global_genre_freq = genre.value_counts()
+    if not hasattr(X, "shape") or X.shape[0] != len(artist):
+        raise ValueError("`X` rows must match the length of `artist` and `genre`.")
 
-    artist_genres = _assign_artist_genres(
-        artist, genre, global_genre_freq, unique_artists
+    combo_df = pd.DataFrame(
+        {
+            "artist": artist.astype(str),
+            "genre": genre.astype(str),
+        }
+    )
+    combo_df["artist_genre"] = combo_df["artist"] + "_" + combo_df["genre"]
+
+    unique_combos = sorted(combo_df["artist_genre"].unique())
+    combo_to_idx = {combo: i for i, combo in enumerate(unique_combos)}
+
+    artist_genres = (
+        combo_df[["artist_genre", "genre"]]
+        .drop_duplicates("artist_genre")
+        .set_index("artist_genre")
+        .reindex(unique_combos)["genre"]
     )
 
     if not hasattr(X, "tocsr"):
@@ -45,9 +60,9 @@ def aggregate_dtm_by_artist(X, artist, genre):
         X = X.tocsr()
 
     n_tracks = len(artist)
-    n_artists = len(unique_artists)
+    n_artist_genre_combinations = len(unique_combos)
 
-    artist_idx_array = np.array([artist_to_idx[a] for a in artist])
+    artist_idx_array = combo_df["artist_genre"].map(combo_to_idx).to_numpy()
 
     row_indices = np.arange(n_tracks)
     col_indices = artist_idx_array
@@ -55,56 +70,10 @@ def aggregate_dtm_by_artist(X, artist, genre):
 
     aggregation_matrix = csr_matrix(
         (data, (row_indices, col_indices)),
-        shape=(n_tracks, n_artists),
+        shape=(n_tracks, n_artist_genre_combinations),
         dtype=np.float64,
     )
 
     X_artist = (aggregation_matrix.T @ X).astype(np.float64)
 
     return X_artist, artist_genres
-
-
-def _assign_artist_genres(artist, genre, global_genre_freq, unique_artists):
-    """
-    Assign genre to each artist using mode with diversity-promoting tie-breaker.
-
-    For each artist, selects the most frequent genre among their tracks. If
-    multiple genres tie for most frequent, selects the one with lowest global
-    frequency to promote diversity.
-
-    Parameters
-    ----------
-    artist : pd.Series
-        Artist names for each track.
-    genre : pd.Series
-        Genre labels for each track.
-    global_genre_freq : pd.Series
-        Global genre frequencies across all tracks.
-    unique_artists : list
-        Sorted list of unique artist names.
-
-    Returns
-    -------
-    artist_genres : pd.Series
-        Genre for each artist (index = artist name).
-    """
-    artist_genre_df = pd.DataFrame({"artist": artist, "genre": genre})
-
-    def select_genre_with_tiebreaker(genres):
-        mode_counts = genres.value_counts()
-        max_count = mode_counts.max()
-        tied_genres = mode_counts[mode_counts == max_count].index.tolist()
-
-        if len(tied_genres) == 1:
-            return tied_genres[0]
-
-        tied_freqs = global_genre_freq[tied_genres]
-        return tied_freqs.idxmin()
-
-    artist_genres = (
-        artist_genre_df.groupby("artist")["genre"]
-        .agg(select_genre_with_tiebreaker)
-        .reindex(unique_artists)
-    )
-
-    return artist_genres
