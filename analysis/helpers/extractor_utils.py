@@ -1,18 +1,63 @@
 import random
+import re
 
+from functools import partial
 from typing import List, Tuple
 from sklearn.feature_extraction.text import CountVectorizer
 
 from .StopwordFilter import StopwordFilter
 
 
-def extract_ngrams(texts, order, name, random_state):
+BOUNDARY_SPLIT_PATTERN = re.compile(r"[\n,.:!?;()]+")
+TOKEN_PATTERN_BOUNDARY_AWARE = re.compile(r"(?u)\b\w+(?:['-]\w+)*\b")
+
+
+def _extract_ngrams_from_tokens(tokens, order):
+    """Extract fixed-order n-grams from a list of tokens."""
+    if order <= 0 or len(tokens) < order:
+        return []
+
+    return [" ".join(tokens[i : i + order]) for i in range(len(tokens) - order + 1)]
+
+
+def _extract_boundary_aware_ngrams_from_text(text, orders):
+    """Extract n-grams without crossing sentence/newline boundaries."""
+    if text is None:
+        text = ""
+
+    text = str(text).lower()
+    segments = BOUNDARY_SPLIT_PATTERN.split(text)
+
+    ngrams = []
+    for segment in segments:
+        tokens = TOKEN_PATTERN_BOUNDARY_AWARE.findall(segment)
+        if not tokens:
+            continue
+
+        for order in orders:
+            ngrams.extend(_extract_ngrams_from_tokens(tokens, order))
+
+    return ngrams
+
+
+def _boundary_aware_analyzer(text, orders):
+    """Analyzer callable for CountVectorizer with boundary-aware n-grams."""
+    return _extract_boundary_aware_ngrams_from_text(text, orders)
+
+
+def extract_ngrams(texts, order, name, random_state, boundary_aware=False):
     """Extract n-grams using CountVectorizer."""
-    vectorizer = CountVectorizer(
-        ngram_range=(order, order),
-        token_pattern=r"\b[\w']+\b",
-        lowercase=True,
-    )
+    if boundary_aware:
+        vectorizer = CountVectorizer(
+            analyzer=partial(_boundary_aware_analyzer, orders=(order,)),
+        )
+    else:
+        vectorizer = CountVectorizer(
+            ngram_range=(order, order),
+            token_pattern=r"\b[\w']+\b",
+            lowercase=True,
+        )
+
     matrix = vectorizer.fit_transform(texts)
     features = vectorizer.get_feature_names_out()
 

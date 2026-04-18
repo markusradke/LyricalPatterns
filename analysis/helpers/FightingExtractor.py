@@ -15,6 +15,7 @@ import pandas as pd
 import numpy as np
 import pickle
 
+from functools import partial
 from pathlib import Path
 from joblib import hash as joblib_hash
 from typing import Tuple
@@ -22,6 +23,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.base import BaseEstimator, TransformerMixin
 
 from .extractor_utils import (
+    _boundary_aware_analyzer,
     count_artists_per_ngram,
     extract_ngrams,
     strip_boundary_ngrams,
@@ -171,7 +173,13 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         matrices = {}
         features = {}
         for order, name in orders_to_extract:
-            mat, feats = extract_ngrams(X, order, name, self.random_state)
+            mat, feats = extract_ngrams(
+                X,
+                order,
+                name,
+                self.random_state,
+                boundary_aware=True,
+            )
             matrices[name] = mat
             features[name] = feats
             if order == 1 and self.min_char > 0:
@@ -287,9 +295,10 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
         self.vectorizer_ = CountVectorizer(
             vocabulary=self.vocabulary_,
-            token_pattern=r"\b[\w']+\b",
-            lowercase=True,
-            ngram_range=(1, 4),
+            analyzer=partial(
+                _boundary_aware_analyzer,
+                orders=tuple(sorted(set(self.ngram_types))),
+            ),
         )
 
         self._is_fitted = True
