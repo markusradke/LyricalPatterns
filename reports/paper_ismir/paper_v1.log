@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  16 APR 2026 13:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  18 APR 2026 16:47
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -244,6 +244,23 @@ Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
 \c@blind@randommax=\count314
 \c@blind@pangramcount=\count315
 \c@blind@pangrammax=\count316
+) (c:/texlive/2022/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
+ (c:/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 227.
+LaTeX Info: Redefining \color on input line 711.
+ (c:/texlive/2022/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
+Package xcolor Info: Model `RGB' extended on input line 1369.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 ) (c:/texlive/2022/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/texlive/2022/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/texlive/2022/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks26
 \pgfutil@tempdima=\dimen187
@@ -296,24 +313,7 @@ File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
 \pgfsyssoftpath@bigbuffer@items=\count323
 ) (c:/texlive/2022/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
-)) (c:/texlive/2022/texmf-dist/tex/latex/xcolor/xcolor.sty
-Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
- (c:/texlive/2022/texmf-dist/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package xcolor Info: Driver file: pdftex.def on input line 227.
-LaTeX Info: Redefining \color on input line 711.
- (c:/texlive/2022/texmf-dist/tex/latex/graphics/mathcolor.ltx)
-Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
-Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
-Package xcolor Info: Model `RGB' extended on input line 1369.
-Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1371.
-Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1372.
-Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
-Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
-Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
-Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
-) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+)) (c:/texlive/2022/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/texlive/2022/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
 \pgfmath@dimen=\dimen199
@@ -486,7 +486,7 @@ Package: ragged2e 2022/11/13 v3.2 ragged2e Package
 \RaggedRightParindent=\skip69
 \JustifyingParindent=\skip70
 )
-LaTeX Font Info:    Trying to load font information for T1+ptm on input line 83.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 85.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1ptm.fd
 File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
 ) (c:/texlive/2022/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
@@ -496,20 +496,20 @@ File: l3backend-pdftex.def 2023-01-16 L3 backend support: PDF output (pdfTeX)
 ) (./paper_v1.aux)
 \openout1 = `paper_v1.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 83.
-LaTeX Font Info:    ... okay on input line 83.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 85.
+LaTeX Font Info:    ... okay on input line 85.
  (c:/texlive/2022/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count340
@@ -531,111 +531,113 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+pcr on input line 85.
+LaTeX Font Info:    Trying to load font information for T1+pcr on input line 87.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1pcr.fd
 File: t1pcr.fd 2001/06/04 font definitions for T1/pcr.
 )
 <cc_by.pdf, id=4, 121.45375pt x 43.16125pt>
 File: cc_by.pdf Graphic file (type pdf)
 <use cc_by.pdf>
-Package pdftex.def Info: cc_by.pdf  used on input line 85.
+Package pdftex.def Info: cc_by.pdf  used on input line 87.
 (pdftex.def)             Requested size: 36.02869pt x 12.80365pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 85.
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 87.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 )
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 87.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 89.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-Underfull \vbox (badness 2237) has occurred while \output is active []
+Underfull \hbox (badness 1354) in paragraph at lines 103--104
+[]\T1/ptm/m/n/10 In this con-tri-bu-tion, we con-cep-tu-al-ize style-related
+ []
 
- [1{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+[1{c:/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
  <./cc_by.pdf>]
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
 []|\T1/ptm/b/n/10 RQ1| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
 []|\T1/ptm/b/n/10 RQ2| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 111--111
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
 []|\T1/ptm/b/n/10 RQ3| 
  []
 
 <figures/corpus_descriptive.png, id=20, 433.62pt x 361.35pt>
 File: figures/corpus_descriptive.png Graphic file (type png)
 <use figures/corpus_descriptive.png>
-Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 200.
+Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 203.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
 
-Underfull \hbox (badness 1024) in paragraph at lines 210--211
-\T1/ptm/m/n/10 To iden-tify genre-discriminating content-related lyri-cal
+Underfull \hbox (badness 1888) in paragraph at lines 213--214
+\T1/ptm/m/n/10 To iden-tify genre-discriminating lyri-cal style pat-terns
  []
 
 [2]
-Underfull \vbox (badness 3769) has occurred while \output is active []
+Underfull \vbox (badness 1590) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [3 <./figures/corpus_descriptive.png>]
-Overfull \hbox (1.81613pt too wide) in paragraph at lines 237--253
- [][] 
- []
-
-<figures/topic_genre_heatmap_train.png, id=32, 433.62pt x 397.485pt>
+<figures/topic_genre_heatmap_train.png, id=30, 433.62pt x 397.485pt>
 File: figures/topic_genre_heatmap_train.png Graphic file (type png)
 <use figures/topic_genre_heatmap_train.png>
-Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 264.
+Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 269.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/sentiment_genre_heatmap_train.png, id=33, 433.62pt x 397.485pt>
+<figures/sentiment_genre_heatmap_train.png, id=31, 433.62pt x 397.485pt>
 File: figures/sentiment_genre_heatmap_train.png Graphic file (type png)
 <use figures/sentiment_genre_heatmap_train.png>
-Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 270.
+Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 275.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/expressions_genre_heatmap_train.png, id=34, 433.62pt x 397.485pt>
+<figures/expressions_genre_heatmap_train.png, id=32, 433.62pt x 397.485pt>
 File: figures/expressions_genre_heatmap_train.png Graphic file (type png)
 <use figures/expressions_genre_heatmap_train.png>
-Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 276.
+Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 281.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
-<figures/confusion_matrix.png, id=35, 433.62pt x 361.35pt>
+<figures/confusion_matrix.png, id=33, 433.62pt x 361.35pt>
 File: figures/confusion_matrix.png Graphic file (type png)
 <use figures/confusion_matrix.png>
-Package pdftex.def Info: figures/confusion_matrix.png  used on input line 319.
+Package pdftex.def Info: figures/confusion_matrix.png  used on input line 324.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
+
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<figures/holdout_permutation_importance.png, id=36, 433.62pt x 361.35pt>
+<figures/holdout_permutation_importance.png, id=34, 433.62pt x 361.35pt>
 File: figures/holdout_permutation_importance.png Graphic file (type png)
 <use figures/holdout_permutation_importance.png>
-Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 332.
+Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 337.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/shap_hip_hop.png, id=37, 460.05878pt x 339.12697pt>
+<figures/shap_hip_hop.png, id=35, 563.10374pt x 678.79597pt>
 File: figures/shap_hip_hop.png Graphic file (type png)
 <use figures/shap_hip_hop.png>
-Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 339.
-(pdftex.def)             Requested size: 233.31259pt x 171.9848pt.
+Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 344.
+(pdftex.def)             Requested size: 233.31259pt x 281.2497pt.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
+[4]
+Underfull \vbox (badness 1454) has occurred while \output is active []
 
-Underfull \vbox (badness 3568) has occurred while \output is active []
 
- [4]
-Underfull \vbox (badness 6510) has occurred while \output is active []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5
 
 
- <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png> <./figures/confusion_matrix.png>] (./paper_v1.bbl [6 <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
+ <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png> <./figures/confusion_matrix.png>] [6 <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>] (./paper_v1.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 45--49
 []\T1/ptm/m/n/10 E. Parada-Cabaleiro, M. May-erl, S. Brandl,
  []
@@ -660,40 +662,56 @@ Underfull \hbox (badness 1831) in paragraph at lines 98--104
 \T1/ptm/m/it/10 ing\T1/ptm/m/n/10 , L. Rutkowski, R. Scherer, M. Ko-ry-tkowski,
  []
 
-
+[7]
 Underfull \hbox (badness 2662) in paragraph at lines 134--141
 \T1/ptm/m/n/10 S. Luz, and S. Pol-lak, ``Ex-plor-ing Neu-ral Lan-
  []
 
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--167
+Underfull \hbox (badness 10000) in paragraph at lines 171--177
 []\T1/ptm/m/n/10 M. May-erl, M. Vöt-ter, M. Moosleit-ner, and
  []
 
 
-Underfull \hbox (badness 1127) in paragraph at lines 161--167
+Underfull \hbox (badness 1127) in paragraph at lines 171--177
 \T1/ptm/m/n/10 M. Quad-rana, and K. Watan-abe, Eds. On-line:
  []
 
-[7]
-Underfull \hbox (badness 10000) in paragraph at lines 286--288
-[]\T1/ptm/m/n/10 C. Mol-nar, \T1/ptm/m/it/10 In-ter-pretable Ma-chine Learn-ing\T1/ptm/m/n/10 .
- []
+[8]
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+** WARNING: IEEEtran.bst: No hyphenation pattern has been
+** loaded for the language `en'. Using the pattern for
+** the default language instead.
+) [9
 
-) [8] (./paper_v1.aux) ) 
+] (./paper_v1.aux) ) 
 Here is how much of TeX's memory you used:
- 16721 strings out of 476091
- 333898 string characters out of 5795540
+ 16727 strings out of 476091
+ 334063 string characters out of 5795540
  1889324 words of memory out of 5000000
- 36783 multiletter control sequences out of 15000+600000
+ 36789 multiletter control sequences out of 15000+600000
  558823 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,89p,2012b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper_v1.pdf (8 pages, 3018157 bytes).
+ 84i,14n,80p,1869b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper_v1.pdf (9 pages, 3911847 bytes).
 PDF statistics:
- 115 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 113 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -1,8 +1,8 @@
 #!/bin/bash
 
-DOWNLOADED_PATH="/mnt/c/Users/marku/Desktop/Power_to_the_People__Assigning_Popular_Music_Genres_Based_on_Listeners__Perspective_Using_a_Genre_Tree_Approach.zip"
+DOWNLOADED_PATH="/mnt/c/Users/marku/Desktop/_More_than_words___Genre_Discriminating_Lyrical_Patterns_in_Anglophone_German_Popular_Music.zip"
 
-REPORT_PATH="/mnt/n/Materialien/Promotion/GenreDiscourseAnalysis/reports/paper_v1/"
+REPORT_PATH="/mnt/n/Materialien/Promotion/LyricsGenreRecognition/reports/paper_ismir/"
 
 if [ -f $DOWNLOADED_PATH ]; then
   echo "Unzipping file to project folder..."

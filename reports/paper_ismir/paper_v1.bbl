@@ -139,6 +139,16 @@ B.~{\v S}krlj, S.~Sheehan, N.~Er{\v z}en, M.~{Robnik-{\v S}ikonja}, S.~Luz, and
   0.4em\relax Online: Association for Computational Linguistics, Apr. 2021, pp.
   76--83.
 
+\bibitem{muzambiMultidimensionalMIRAnalysis2026}
+\BIBentryALTinterwordspacing
+A.~Muzambi, T.~G. Moape, and B.~Chimbo, ``\BIBforeignlanguage{en}{A
+  {Multidimensional} {MIR} {Analysis} of {Acoustic}, {Linguistic} and
+  {Cultural} {Gaps} {Between} {Maskandi} and {Western} {Music} {Genres}},''
+  \emph{\BIBforeignlanguage{en}{Applied Sciences}}, vol.~16, no.~8, p. 3802,
+  Jan. 2026. [Online]. Available:
+  \url{https://www.mdpi.com/2076-3417/16/8/3802}
+\BIBentrySTDinterwordspacing
+
 \bibitem{benderDangersStochasticParrots2021}
 E.~M. Bender, T.~Gebru, A.~{McMillan-Major}, and S.~Shmitchell, ``On the
   {{Dangers}} of {{Stochastic Parrots}}: {{Can Language Models Be Too Big}}?''
@@ -171,6 +181,11 @@ M.~Fell and C.~Sporleder, ``Lyrics-based analysis and classification of
   Conference on Computational Linguistics: {{Technical}} Papers}, 2014, pp.
   620--631.
 
+\bibitem{kreyerStylePopSong2007}
+R.~Kreyer and J.~Mukherjee, ``The {{Style}} of {{Pop Song Lyrics}}: {{A
+  Corpus-linguistic Pilot Study}},'' \emph{Anglia}, vol. 125, no.~1, pp.
+  31--58, Aug. 2007.
+
 \bibitem{wrayFunctionsFormulaicLanguage2000}
 A.~Wray and M.~R. Perkins, ``The functions of formulaic language: An integrated
   model,'' \emph{Language \& Communication}, vol.~20, no.~1, pp. 1--28, Jan.
@@ -183,11 +198,6 @@ M.~Amin, P.~Fankhauser, M.~Kupietz, and R.~Schneider, ``Data-driven
   P.~Cook, J.~Mitrovi{\'c}, C.~P. Escart{\'i}n, A.~Vaidya, P.~Osenova,
   S.~Taslimipoor, and C.~Ramisch, Eds.\hskip 1em plus 0.5em minus 0.4em\relax
   Online: Association for Computational Linguistics, Aug. 2021, pp. 13--22.
-
-\bibitem{kreyerStylePopSong2007}
-R.~Kreyer and J.~Mukherjee, ``The {{Style}} of {{Pop Song Lyrics}}: {{A
-  Corpus-linguistic Pilot Study}},'' \emph{Anglia}, vol. 125, no.~1, pp.
-  31--58, Aug. 2007.
 
 \bibitem{knaufImNotListening2025}
 C.~Knauf, ````{{La La La}}, {{I}}'m not listening (but {{I}} really am)'':
@@ -283,7 +293,24 @@ A.~{van Venrooij} and V.~Schmutz, ``Categorical ambiguity in cultural fields:
   vol.~66, pp. 1--18, 2018.
 
 \bibitem{molnarInterpretableMachineLearning2020}
-C.~Molnar, \emph{Interpretable {{Machine Learning}}}.\hskip 1em plus 0.5em
-  minus 0.4em\relax Lulu.com, 2020.
+C.~Molnar, \emph{Interpretable {{Machine Learning}}}, 3rd~ed.\hskip 1em plus
+  0.5em minus 0.4em\relax Lulu.com, 2025.
+
+\bibitem{lenaClassificationCultureTypes2008}
+\BIBentryALTinterwordspacing
+J.~C. Lena and R.~A. Peterson, ``\BIBforeignlanguage{en}{Classification as
+  {Culture}: {Types} and {Trajectories} of {Music} {Genres}},''
+  \emph{\BIBforeignlanguage{en}{American Sociological Review}}, vol.~73, no.~5,
+  pp. 697--718, Oct. 2008. [Online]. Available:
+  \url{https://doi.org/10.1177/000312240807300501}
+\BIBentrySTDinterwordspacing
+
+\bibitem{wernerEnglishGermanPop2023}
+\BIBentryALTinterwordspacing
+V.~Werner, ``\BIBforeignlanguage{en}{English and {German} pop song lyrics:
+  {Towards} a contrastive textology},'' \emph{\BIBforeignlanguage{en}{Journal
+  for Language Technology and Computational Linguistics}}, vol.~36, no.~1, pp.
+  1--20, May 2023. [Online]. Available: \url{https://jlcl.org/article/view/235}
+\BIBentrySTDinterwordspacing
 
 \end{thebibliography}

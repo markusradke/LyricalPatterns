@@ -12,6 +12,72 @@ metadata_test <- read_csv("data/X_test_metadata_dc.csv")
 labels_test <- metadata_test$dc_detailed
 
 
+retain_maximal_phrases <- function(phrases) {
+  # Returns a subset of phrases where no phrase is a contiguous substring of another.
+  # For interpretation of expressions model
+  is_substring_of <- function(a, b) {
+    words_a <- strsplit(a, " ")[[1]]
+    words_b <- strsplit(b, " ")[[1]]
+
+    if (length(words_a) >= length(words_b)) {
+      return(FALSE)
+    }
+
+    len_a <- length(words_a)
+    for (i in 1:(length(words_b) - len_a + 1)) {
+      if (all(words_b[i:(i + len_a - 1)] == words_a)) {
+        return(TRUE)
+      }
+    }
+    return(FALSE)
+  }
+
+  indices <- seq_along(phrases)
+  keep <- rep(TRUE, length(phrases))
+
+  for (i in indices) {
+    for (j in indices) {
+      if (i != j && keep[i] && keep[j]) {
+        if (is_substring_of(phrases[i], phrases[j])) {
+          keep[i] <- FALSE
+        }
+      }
+    }
+  }
+
+  phrases[keep]
+}
+
+
+save_top_frex_examples <- function(model, labels, dimension) {
+  if (dimension == "expressions") {
+    top_frex <- matrix(
+      NA,
+      nrow = ncol(model$theta),
+      ncol = 50
+    )
+    for (i in 1:nrow(top_frex)) {
+      top_frex[i, ] <- retain_maximal_phrases(
+        labelTopics(model, n = 200)$frex[i, ]
+      )[1:ncol(top_frex)]
+    }
+  } else {
+    top_frex <- labelTopics(model, n = 50)$frex
+  }
+  top_frex_df <- data.frame(
+    type_num = rep(0:(nrow(top_frex) - 1), each = ncol(top_frex)),
+    type_label = rep(labels, each = ncol(top_frex)),
+    ngram_rank = rep(1:ncol(top_frex), times = nrow(top_frex)),
+    ngram = as.vector(t(top_frex))
+  )
+  filepath <- sprintf(
+    "models/stm_%s_dc/%s_top_frex_words.csv",
+    dimension,
+    dimension
+  )
+  readr::write_csv(top_frex_df, filepath)
+}
+
 prep_mean_props_by_genre <- function(thetas, topic_labels, genres) {
   thetas$dc_detailed <- genres
   pivoted_thetas <- thetas |>
@@ -66,6 +132,9 @@ readr::write_csv(
   "data/topic_labels.csv"
 )
 
+save_top_frex_examples(topic_model, topic_labels, "topics")
+
+
 stm::plot.STM(
   topic_model,
   type = "hist",
@@ -108,10 +177,10 @@ ggsave(
 # interpretation of sentiment model ----
 sentiments_model <- readRDS("models/stm_sentiments_dc/stm_model.rds")
 # interpret only LIFT scores (betonung auf uniqueness)
-labelTopics(sentiments_model, n = 50)$frex[3, ]
+labelTopics(sentiments_model, n = 50)$frex[1, ]
 
 sentiment_labels <- c(
-  "playful", # irreverent?
+  "affirmative", # irreverent?
   "nostalgic", # melancholic?
   "apocalyptic", # dark
   "romantic", # affectionate
@@ -122,6 +191,7 @@ readr::write_csv(
   data.frame(sentiment_labels, topic_num = 0:(length(sentiment_labels) - 1)),
   "data/sentiment_labels.csv"
 )
+save_top_frex_examples(sentiments_model, sentiment_labels, "sentiments")
 
 stm::plot.STM(
   sentiments_model,
@@ -166,57 +236,22 @@ ggsave(
 
 
 # interpretation of expressions model ----
-# USE FREX FOR INTERPRETATION
-retain_maximal_phrases <- function(phrases) {
-  is_substring_of <- function(a, b) {
-    words_a <- strsplit(a, " ")[[1]]
-    words_b <- strsplit(b, " ")[[1]]
-
-    if (length(words_a) >= length(words_b)) {
-      return(FALSE)
-    }
-
-    len_a <- length(words_a)
-    for (i in 1:(length(words_b) - len_a + 1)) {
-      if (all(words_b[i:(i + len_a - 1)] == words_a)) {
-        return(TRUE)
-      }
-    }
-    return(FALSE)
-  }
-
-  indices <- seq_along(phrases)
-  keep <- rep(TRUE, length(phrases))
-
-  for (i in indices) {
-    for (j in indices) {
-      if (i != j && keep[i] && keep[j]) {
-        if (is_substring_of(phrases[i], phrases[j])) {
-          keep[i] <- FALSE
-        }
-      }
-    }
-  }
-
-  phrases[keep]
-}
-
 expressions_model <- readRDS("models/stm_expressions_dc/stm_model.rds")
-(labelTopics(expressions_model, n = 100)$frex[8, ] |>
+(labelTopics(expressions_model, n = 200)$frex[8, ] |>
   retain_maximal_phrases())[
   1:50
 ]
 
 
 expressions_labels <- c(
-  "Denials & Negotiations",
-  "Traditional Street Slang",
-  "Nostalgic Formulas",
+  "Denials & Doubts", # ist nicht so recht ein Typ expression, oder?
+  "Hip Hop & Street Slang", # Hip Hop and Street Slang?
+  "Blues & Rock Idioms", # hmm...passt? Ist doch auch anderes
   "Trap Slang",
   "Christmas Phrases",
   "Doom Imagery",
   "Love Affirmations",
-  "Dance Floor Commands",
+  "Dance Floor Shoutings",
   "Landscape Imaginary",
   "Vocalizations",
   "Jamaican Patois"
@@ -227,6 +262,11 @@ readr::write_csv(
     topic_num = 0:(length(expressions_labels) - 1)
   ),
   "data/expressions_labels.csv"
+)
+save_top_frex_examples(
+  expressions_model,
+  expressions_labels,
+  "expressions"
 )
 
 stm::plot.STM(

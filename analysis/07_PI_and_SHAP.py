@@ -4,6 +4,7 @@ import joblib
 import shap
 import matplotlib.pyplot as plt
 
+from matplotlib.colors import LinearSegmentedColormap
 from sklearn.inspection import permutation_importance
 
 from helpers.load_data import load_interpretable_classification_data
@@ -85,7 +86,11 @@ hip_hop_idx = class_names.index("Hip Hop")
 shap_exp_hip_hop = shap_exp[:, :, hip_hop_idx]
 
 # Global feature impact (beeswarm) for Hip Hop prediction
-ax = shap.plots.beeswarm(shap_exp_hip_hop, max_display=20, show=False)
+custom_colors = LinearSegmentedColormap.from_list("custom", ["#B8B8B8", "#c40d20"])
+
+ax = shap.plots.beeswarm(
+    shap_exp_hip_hop, max_display=20, show=False, color=custom_colors
+)
 fig = ax.get_figure()
 ax.set_xlabel("SHAP Value (Impact on Model Output for Hip Hop)")
 fig.tight_layout()
