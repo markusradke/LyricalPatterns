@@ -21,9 +21,11 @@ RANDOM_STATE = 42
 class FixedLinearModel:
     def __init__(self, modelname):
         self.modelname = modelname
-        self.pipeline = Pipeline(
+        self.pipeline = Pipeline([])
+        if modelname == "lr_fs":
+            self.pipeline.append([("scaler", StandardScaler(with_mean=False))])
+        self.pipeline.append(
             [
-                ("scaler", StandardScaler(with_mean=False)),
                 (
                     "classifier",
                     LogisticRegression(
@@ -33,7 +35,7 @@ class FixedLinearModel:
                         solver="saga",
                         class_weight="balanced",
                         verbose=1,
-                        max_iter=50000,
+                        max_iter=1000,
                         random_state=42,
                     ),
                 ),
@@ -129,9 +131,9 @@ if __name__ == "__main__":
 
     print("Data successfully loaded.\nTraining linear models...")
     models = {
-        # "lr_topics": (X_train_topics, X_test_topics),
-        # "lr_sentiments": (X_train_sentiments, X_test_sentiments),
-        # "lr_expressions": (X_train_expressions, X_test_expressions),
+        "lr_topics": (X_train_topics, X_test_topics),
+        "lr_sentiments": (X_train_sentiments, X_test_sentiments),
+        "lr_expressions": (X_train_expressions, X_test_expressions),
         "lr_combined": (X_train_combined, X_test_combined),
         # "lr_fs": (X_train_fs, X_test_fs),
     }

@@ -1,6 +1,7 @@
 library(ggplot2)
 library(dplyr)
 library(tidyr)
+library(stringr)
 library(readr)
 library(stm)
 
@@ -12,58 +13,8 @@ metadata_test <- read_csv("data/X_test_metadata_dc.csv")
 labels_test <- metadata_test$dc_detailed
 
 
-retain_maximal_phrases <- function(phrases) {
-  # Returns a subset of phrases where no phrase is a contiguous substring of another.
-  # For interpretation of expressions model
-  is_substring_of <- function(a, b) {
-    words_a <- strsplit(a, " ")[[1]]
-    words_b <- strsplit(b, " ")[[1]]
-
-    if (length(words_a) >= length(words_b)) {
-      return(FALSE)
-    }
-
-    len_a <- length(words_a)
-    for (i in 1:(length(words_b) - len_a + 1)) {
-      if (all(words_b[i:(i + len_a - 1)] == words_a)) {
-        return(TRUE)
-      }
-    }
-    return(FALSE)
-  }
-
-  indices <- seq_along(phrases)
-  keep <- rep(TRUE, length(phrases))
-
-  for (i in indices) {
-    for (j in indices) {
-      if (i != j && keep[i] && keep[j]) {
-        if (is_substring_of(phrases[i], phrases[j])) {
-          keep[i] <- FALSE
-        }
-      }
-    }
-  }
-
-  phrases[keep]
-}
-
-
 save_top_frex_examples <- function(model, labels, dimension) {
-  if (dimension == "expressions") {
-    top_frex <- matrix(
-      NA,
-      nrow = ncol(model$theta),
-      ncol = 50
-    )
-    for (i in 1:nrow(top_frex)) {
-      top_frex[i, ] <- retain_maximal_phrases(
-        labelTopics(model, n = 200)$frex[i, ]
-      )[1:ncol(top_frex)]
-    }
-  } else {
-    top_frex <- labelTopics(model, n = 50)$frex
-  }
+  top_frex <- labelTopics(model, n = 50)$frex
   top_frex_df <- data.frame(
     type_num = rep(0:(nrow(top_frex) - 1), each = ncol(top_frex)),
     type_label = rep(labels, each = ncol(top_frex)),
@@ -78,11 +29,11 @@ save_top_frex_examples <- function(model, labels, dimension) {
   readr::write_csv(top_frex_df, filepath)
 }
 
-prep_mean_props_by_genre <- function(thetas, topic_labels, genres) {
+prep_mean_props_by_genre <- function(thetas, labels, genres) {
   thetas$dc_detailed <- genres
   pivoted_thetas <- thetas |>
     pivot_longer(
-      cols = all_of(topic_labels),
+      cols = all_of(labels),
       names_to = "variable",
       values_to = "value"
     ) |>
@@ -113,20 +64,26 @@ plot_heatmap <- function(pivoted_thetas) {
 # inerpetation of topic model ----
 topic_model <- readRDS("models/stm_topics_dc/stm_model.rds")
 
-labelTopics(topic_model, n = 50)$frex[2, ]
+
+labelTopics(topic_model, n = 50)$frex[7, ]
 
 topic_labels <- c(
-  "Heroic Saga",
-  "Darkness", # Apocalyptic?
-  "Embodiment",
   "Americana",
-  "Holidays",
+  "Apocalypse",
+  "Existentialism",
+  "Introspection",
+  "Working Class",
   "Street Life",
+  "Urban Narrative",
   "Romance",
-  "Nature",
-  "Narrative",
-  "Existentialism"
+  "Nature & Holidays",
+  "Struggle",
+  "Nightlife",
+  "Heroic Saga"
 )
+topic_ref_type <- which.max(topic_model$theta |> colSums())
+topic_labels[topic_ref_type]
+
 readr::write_csv(
   data.frame(topic_labels, topic_num = 0:(length(topic_labels) - 1)),
   "data/topic_labels.csv"
@@ -176,17 +133,21 @@ ggsave(
 
 # interpretation of sentiment model ----
 sentiments_model <- readRDS("models/stm_sentiments_dc/stm_model.rds")
-# interpret only LIFT scores (betonung auf uniqueness)
-labelTopics(sentiments_model, n = 50)$frex[1, ]
+labelTopics(sentiments_model, n = 50)$frex[8, ]
 
 sentiment_labels <- c(
-  "affirmative", # irreverent?
-  "nostalgic", # melancholic?
-  "apocalyptic", # dark
-  "romantic", # affectionate
-  "brash", # explicit, irreverent, bragging
-  "ambivalent" #?
+  "delightful",
+  "apocalyptic",
+  "descriptive", # ambivalent?
+  "otherwordly", # etherial-dark
+  "nostalgic",
+  "melancholic", # ambivalent?
+  "vulnerable",
+  "irreverent" # rude, brash, crude
 )
+sentiment_ref_type <- which.max(sentiments_model$theta |> colSums())
+sentiment_labels[sentiment_ref_type]
+
 readr::write_csv(
   data.frame(sentiment_labels, topic_num = 0:(length(sentiment_labels) - 1)),
   "data/sentiment_labels.csv"
@@ -237,25 +198,33 @@ ggsave(
 
 # interpretation of expressions model ----
 expressions_model <- readRDS("models/stm_expressions_dc/stm_model.rds")
-(labelTopics(expressions_model, n = 200)$frex[8, ] |>
-  retain_maximal_phrases())[
-  1:50
-]
-
+labelTopics(expressions_model, n = 50)$frex[13, ]
 
 expressions_labels <- c(
-  "Denials & Doubts", # ist nicht so recht ein Typ expression, oder?
-  "Hip Hop & Street Slang", # Hip Hop and Street Slang?
-  "Blues & Rock Idioms", # hmm...passt? Ist doch auch anderes
-  "Trap Slang",
-  "Christmas Phrases",
-  "Doom Imagery",
   "Love Affirmations",
-  "Dance Floor Shoutings",
-  "Landscape Imaginary",
-  "Vocalizations",
-  "Jamaican Patois"
+  "Depressing Expressions",
+  "Dark Fantasy Imagery",
+  "Jamaican Patois",
+  "Old School Street Slang",
+  "Hedonistic Celebration",
+  "Dening and Negotiating",
+  "Violent Assault",
+  "Street Boasting",
+  "Storytelling",
+  "Vintage Nostalgia",
+  "Dance Shoutings",
+  "Dreamy Nature Imaginary",
+  "Christmas Phrases",
+  "Struggle Expressions"
 )
+expresssions_ref_type <- which.max(expressions_model$theta |> colSums())
+expressions_labels[expresssions_ref_type]
+ref_types <- data.frame(
+  dimension = c("topics", "sentiments", "expressions"),
+  base = c(topic_ref_type, sentiment_ref_type, expresssions_ref_type) - 1
+)
+write_csv(ref_types, "models/ref_types_zero_indexed.csv")
+
 readr::write_csv(
   data.frame(
     expressions_labels,
@@ -283,6 +252,7 @@ expressions_corr <- stm::topicCorr(
 stm::plot.topicCorr(expressions_corr, vlabels = expressions_labels)
 
 thetas_X_train_expressions <- read_csv("data/X_train_expressions_dc.csv")
+# thetas_X_train_expressions <- read_csv("data/X_train_expressions_dc_quickfix.csv")
 colnames(thetas_X_train_expressions) <- expressions_labels
 pivoted_thetas_expressions <- prep_mean_props_by_genre(
   thetas_X_train_expressions,
@@ -308,4 +278,55 @@ ggsave(
   "reports/paper_ismir/figures/expressions_genre_heatmap_holdout.png",
   width = 6,
   height = 5.5
+)
+
+# ngram type distribution ----
+vocab_stats <- read_csv(
+  "data/checkpoints/fighting_extractor_expressions/vocab_stats_f1ee054c34695f6f30e64d80670afe91.csv"
+) |>
+  filter(str_detect(type, "Types")) |>
+  mutate(
+    type = str_extract(type, ".*(?= Types)"),
+    relfreq = ifelse(
+      round(relfreq, 2) >= 0.01,
+      sprintf("%d%%", round(relfreq * 100)),
+      sprintf("%d%% (%d n-grams)", round(relfreq * 100), freq)
+    )
+  ) |>
+  glimpse()
+
+total_types <- vocab_stats |> filter(type == "Total") |> pull(freq)
+vocab_stats <- vocab_stats |> filter(type != "Total")
+ggplot(vocab_stats, aes(y = fct_inorder(type) |> fct_rev(), x = freq)) +
+  geom_col(fill = "grey65") +
+  theme_minimal() +
+  geom_text(aes(label = relfreq), hjust = -0.1) +
+  scale_x_continuous(
+    limits = c(0, total_types),
+    breaks = c(seq(0, 10000, 2000), seq(15000, 25000, 5000)),
+    labels = c("0", sprintf("%dk", c(seq(2, 10, 2), 15, 20, 25))),
+    expand = expansion(mult = c(0, 0.05))
+  ) +
+  geom_vline(xintercept = total_types, linetype = "dashed", color = "#c40d20") +
+  annotate(
+    "text",
+    label = "total unique n-grams",
+    x = total_types,
+    y = 1,
+    hjust = 1.1,
+    vjust = 0.5,
+    size = 3,
+    color = "#c40d20"
+  ) +
+  ylab(label = "") +
+  xlab(label = "Absolute Frequency") +
+  theme(
+    axis.text.x = element_text(size = 12),
+    axis.text.y = element_text(size = 12),
+    axis.title.x = element_text(size = 14, )
+  )
+ggsave(
+  "reports/paper_ismir/figures/ngram_type_distribution.png",
+  width = 6,
+  height = 3
 )

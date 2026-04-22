@@ -87,8 +87,7 @@
 \maketitle
 
 \begin{abstract}
-%196 words
-Recent advances in natural language processing have improved lyrics-based music genre classification through large language models, yet such black box systems obscure the actual linguistic style differences between music genres. Interpretable approaches in computational musicology and MIR, meanwhile, often relied on either formal structural analysis of lyrics or on topic or sentiment analyses. However, genre-typical formulaic expressions, though deemed relevant in popular music studies, have hardly been investigated at all. Our study contributes to filling this gap by uncovering genre discriminative lyrical style patterns—topics, sentiments, and formulaic expressions—in fifty years of Anglophone German popular music. Using the POPTRAG corpus and \textit{Discogs} genre annotations for 126,042 tracks with English lyrics, we apply the fightin' words method to identify statistically distinctive n-grams across genres. We then identify latent topics, sentiments, and types of formulaic expression from these via structural topic modeling using target genre corpus prevalences as priors. Resulting interpretable lyrics features are employed in machine-learning models that reveal how they function as stylistic markers for specific popular music genres. Our transparent ML approach retains roughly 80\% of the predictive performance of a transfer-learned DistilBERT classifier while offering conceptual insight into how lyrics encode genre identity. 
+Recent advances in natural language processing have improved lyrics-based music genre classification through large language models, yet such black box systems obscure the actual linguistic style differences between music genres. Interpretable approaches in computational musicology and MIR, meanwhile, often relied on either formal structural analysis of lyrics or on topic or sentiment analyses. However, genre-typical formulaic expressions, though deemed relevant in popular music studies, have hardly been investigated at all. Our study contributes to filling this gap by uncovering genre discriminative lyrical style patterns—topics, sentiments, and formulaic expressions—in fifty years of Anglophone German popular music. Using the POPTRAG corpus and \textit{Discogs} genre annotations for 126,042 tracks with English lyrics, we apply the fightin' words method to identify statistically distinctive n-grams across genres. We then identify latent topics, sentiments, and types of formulaic expressions from these via structural topic modeling using training corpus target genres as prevalence covariates. Resulting interpretable lyrics features are employed in machine-learning models that reveal the function of stylistic markers for specific popular music genres. Our transparent ML method approaches the predictive performance of a transfer-learned DistilBERT classifier while offering conceptual insight into how lyrics encode genre identity. 
 \end{abstract}
 
 
@@ -116,7 +115,7 @@ Summing up, this study advances lyrics-based MIR by revisiting the n-gram paradi
 \section{Methods}
 
 
-\begin{figure*}[ht]
+\begin{figure*}[htb]
   \centering
   \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}[
@@ -198,9 +197,9 @@ Please refer to Figure \ref{fig:method_flow} for an overview of the method flow.
 \subsection{Corpus and Genre Annotations}
 We based our analysis on a previously collected corpus of 254,334 unique popular tracks frequently listened to in Germany over the past 50 years (POPTRAG). The corpus combines multiple sources: (1)~215,702 tracks from weekly \textit{MediaControl} German single and album charts, capturing the 100 most relevant albums and songs per week by physical/digital sales, streams, and broadcasts (18 Nov 1977-21 Nov 2024; limited to 75\% of tracks successfully linked to \textit{Spotify} identifiers for consistent metadata); (2) 11,994 unique track entries from Germany's \textit{Daily Top 200 Spotify} charts (Jan 2017–Nov 2024). To capture not only music sales but also listened-to music no longer in the charts, the corpus additionally includes (3) 26,949 \textit{Spotify} track recommendations from 126 German-market genre seeds (retrieved 29 Nov 2024; median 325 per seed, IQR 25, range 49-343); and (4) 8,801 tracks from the 100 top-featured \textit{Spotify} playlists for Germany (retrieved 29 Nov 2024, median 90 tracks per playlist, IQR 42, range 28-750). 853 tracks shorter than 30 seconds were excluded and only unique title-artist combinations were retained, selecting earlier release dates for duplicates.
 
-\begin{figure}
+\begin{figure}[htpb]
   \centering
-  \includegraphics[alt={Corpus description},width=\linewidth]{figures/corpus_descriptive.png}
+  \includegraphics[alt={Corpus description},width=0.9\linewidth]{figures/corpus_descriptive.png}
   \caption{Composition of the analyzed corpus.}
   \label{fig:corpus}
 \end{figure}
@@ -212,21 +211,25 @@ Using data linkage and webscraping, we enriched POPTRAG with lyrics from \textit
 \subsection{RQ1: Music Genre Discriminating Vocabularies}
 To identify genre-discriminating lyrical style patterns (RQ1), we first performed basic cleaning on raw lyrics from \textit{Genius}: trimming whitespaces, removing content within square brackets, normalizing asterisks, removing repetition and song position indicators, and fixing missing apostrophes (e.g., ``don t'' $\rightarrow$ ``don't'').
 
-To extract relevant n-grams for each lyrical style pattern dimension (topics, sentiments, formulaic expressions), we applied dimension-specific preprocessing steps. For topics and sentiments, we expanded contractions (e.g., ``don t'' $\rightarrow$ ``do not''), lemmatized and POS-tagged lyrics using \textit{spaCy's} \texttt{en\_core\_web\_lg} model with a custom domain lexicon, then reduced to nouns (topics) or adjectives and adverbs (sentiments). We retained only tokens with more than two characters present in both the \texttt{en\_core\_web\_lg} vocabulary and the English \textit{nltk} library to exclude non-lexical items. All n-grams were converted to lowercase. We then stratified the corpus into 80\% training and 20\% holdout sets by genre distribution, ensuring no artist overlap to mitigate artist and album effects \cite{flexerEffectsAlbumArtist2010}.
+To extract relevant n-grams for each lyrical style pattern dimension (topics, sentiments, formulaic expressions), we applied dimension-specific preprocessing steps. For topics and sentiments, we expanded contractions (e.g., ``don t'' $\rightarrow$ ``do not''), lemmatized and POS-tagged lyrics using \textit{spaCy's} \texttt{en\_core\_web\_lg} model with a custom domain lexicon, then reduced to nouns (topics) or adjectives and adverbs (sentiments). We retained only tokens with more than two characters present in both the \texttt{en\_core\_web\_lg} vocabulary and the English \textit{nltk} library to exclude non-lexical items. All n-grams were converted to lowercase. For formulaic expressions n-grams, we only accepted sequences that did not cross line breaks or punctuation boundaries.  We then stratified the corpus into 80\% training and 20\% holdout sets by genre distribution, ensuring no artist overlap to mitigate artist and album effects \cite{flexerEffectsAlbumArtist2010}.
 
-The following steps were applied to the training corpus only; the holdout set was used exclusively for final ML model evaluation. We constructed three separate vocabularies of genre-discriminating n-grams: unigrams for topics and sentiments, and n-grams (n=1-4) for formulaic expressions. All n-grams required appearance with more than one artist and could not consist solely of stopwords. For expressions, we additionally excluded bigrams starting with ``a'', ``an'', ``the'', and ``to'' to remove trivial noun+article and to+infinitive constructions.
+We applied the following steps to the training corpus only, reserving the holdout set exclusively for final model evaluation. To construct three separate vocabularies of genre-discriminating n-grams (unigrams for topics and sentiments, and unigrams and sequences for formulaic expressions), we filtered out tokens appearing with only a single artist and sequences consisting entirely of stopwords. For expressions, we also excluded bigrams starting with ``a'', ``an'', ``the'', and ``to'' to remove trivial noun+article and to+infinitive constructions.
 
-We then applied the fightin' words method \cite{monroeFightinWordsLexical2017} to identify genre-discriminative n-grams. This method quantifies n-gram association with each genre via log-odds ratios—comparing relative frequency in one genre versus all others combined. To account for rare n-grams, we applied Bayesian smoothing using empirical prevalence as a Dirichlet prior. We converted log-odds ratios to z-scores (standardized test statistics indicating standard deviations from zero; larger absolute values indicate stronger discrimination) and applied a one-sided statistical t-test (upper tail) to identify significantly associated n-grams. Given thousands of simultaneous z-score computations across genres, we applied Benjamini-Hochberg false discovery rate (FDR) correction \cite{benjaminiControllingFalseDiscovery1995} at $\alpha = 0.001$, identifying the most stringent z-score threshold with at most 0.1\% expected false positives. N-grams exceeding this FDR-corrected threshold with positive z-scores were retained.
+We employed the fightin' words method \cite{monroeFightinWordsLexical2017} to identify genre-discriminative n-grams. This method quantifies n-gram association with each genre via log-odds ratios, comparing relative frequency in one genre against all others combined, and applied Bayesian smoothing using empirical prevalence as a Dirichlet prior. We converted the resulting log-odds ratios to z-scores and applied Benjamini-Hochberg false discovery rate (FDR) correction \cite{benjaminiControllingFalseDiscovery1995} at $\alpha = 0.001$ to identify significant overrepresentations.
+
+To extract formulaic expressions, we developed a top-down recursive phrase extraction algorithm. We evaluated n-grams iteratively from quadgrams down to unigrams. At each descending step, the algorithm identified significantly discriminative multi-word sequences using FDR-corrected z-scores. It then glued these significant sequences into single tokens directly within the corpus, resolving overlapping matches by prioritizing the highest absolute z-scores. The algorithm extracted the next lower order of n-grams from this progressively modified corpus, allowing to expand already glued sequences. In the final phase, the algorithm evaluated all resulting unigrams, including glued formulaic expressions. Sequences that passed the final unigram-level FDR test were retained as the definitive vocabulary. Any non-significant glued phrases were reverted back to their constituent words to preserve their individual word counts. 
 
 
 \subsection{RQ1: Latent Types of Discriminating Patterns}
-To identify genre-discriminating latent topics, sentiments, and types of formulaic expressions (RQ1), we employed structural topic modeling (STM) \cite{robertsStmPackageStructural2019} using n-grams from the training corpus vocabularies, to cluster them into latent types discriminative for specific genres using target genres prevalences as priors. To this end, we aggregated n-gram counts on the artist level and performed stm training with these (reducing 101,940 track documents to XXX artist documents), selecting the most specific genre for artists with multiple genres. This was done to mitigate per-track n-gram sparsity during stm model training, that would lead to high variance problems and resulting overfitting in later classifier training.
+To identify genre-discriminating latent topics, sentiments, and types of formulaic expressions (RQ1), we employed structural topic modeling (STM) \cite{robertsStmPackageStructural2019} using n-grams from the training corpus vocabularies, to cluster them into latent types discriminative for specific genres using target genres prevalences as priors. To this end, we aggregated n-gram counts for unique artist-genre combinations and performed stm training with these (reducing 101,940 track documents to 7713 artist-genre documents). This was done to mitigate per-track n-gram sparsity during stm model training, that would lead to high variance problems and resulting overfitting in later classifier training.
 
 We ran STM separately for topics, sentiments, and expressions, testing an interpretable range of 2 to 20 types each. For determining the number of topics, we used a train-validation split (50\%/50\%) and calculated semantic coherence and likelihood on the validation set as well as the exclusivity score \cite{robertsStructuralTopicModels2014} for each configuration. We chose the optimal number of types primarily based on the highest exclusivity score (measuring how uniquely top n-grams associate with single types), while maintaining good semantic coherence and validation likelihood. After selecting the optimal number of types, we reran STM on the full training corpus and interpreted types using n-grams with the highest FREX scores not contained within other high-FREX ngrams.\cite{bischofSummarizingTopicalContent2012}, which balance frequency and exclusivity. Finally, we applied the final stm models to individual tracks to get per-track type-probabilities. Then, we calculated average per-genre probabilities for each topic, sentiment, and expression type in the training set to analyze their distributions in the training corpus.
 
 
 \subsection{RQ2 and RQ3: Machine Learning Experiments}
-To evaluate how well genre-discriminating lyrical patterns would predict music genre (RQ2), we trained machine learning models with extracted topics, sentiments, and expression type probabilities as features and with all dimensions combined. We compared performance of our final models against a random baseline, a TF-IDF \cite{fell2014lyrics} + GLMNET \cite{defazioSAGAFastIncremental2014} pipeline, and a fine-tuned DistilBERT model \cite{sanhDistilBERTDistilledVersion2020} trained on raw lyrics. We initially trained GLMNET models with fixed hyperparameters (penalty $C=1$, $L1$ ratio$=0.5$) on individual and combined feature sets. In a final run we then performed systematic hyperparameter tuning for combined-features GLMNET (10×10 grid search, $C$ logarithmic [10$^{-5}$, 10$^5$], $L1$ ratio [0, 1]) and also a LightGBM \cite{keLightGBMHighlyEfficient2017a} (Tree-structured Parzen Estimator \cite{optuna2019}: trees [100, 2000], learning rate [0.001, 0.1], leaves [20, 70], max depth [1, 10], minimum leaf data [1, 100], feature fraction [0.1, 1.0], $L1$/$L2$ regularization logarithmic [10$^{-8}$, 10.0]) using 4-fold artist-grouped stratified cross-validation. We always evaluated training performance via macro $F1$ scores from cross-validation and prediction performance using a holdout set untouched by model training or feature extraction.
+To evaluate how well genre-discriminating lyrical patterns would predict music genre (RQ2), we trained machine learning models with extracted topics, sentiments, and expression type probabilities as features and with all dimensions combined. We discarded reduntant features by removing the topic, sentiment, and expression types with highest sum across artist-genre probabilities. This was done to avoid mutlicolinearity (all features sum to 1 for each track) problems and preserved full feature information. We compared performance of our final models against a random baseline, a TF-IDF \cite{fell2014lyrics} + GLMNET \cite{defazioSAGAFastIncremental2014} pipeline, and a fine-tuned DistilBERT model \cite{sanhDistilBERTDistilledVersion2020} trained on raw lyrics with tuned hyperparamters (Tree-structured Parzen Estimator, TPE \cite{optuna2019}; 20 iterations with 80/20\% train-validation split; tuned learning rate [10$^{-5}$, $10^{4}$]; batch size 8, 16, or 32; weight decay [0, 0.3]; warmup ratio [0, 0.2]; and number of epochs 2, 3, or 4). 
+
+With our features, we initially trained GLMNET models with fixed hyperparameters (penalty $C=1$, $L1$ ratio$=0.5$) on individual and a combined feature set. In a final run we then performed systematic hyperparameter tuning for the best performing feature set with GLMNET (20×20 grid search, $C$ logarithmic [10$^{-3}$, 10$^3$], $L1$ ratio [0, 1]) and LightGBM \cite{keLightGBMHighlyEfficient2017a} (TPE: trees [100, 2000], learning rate [0.001, 0.1], leaves [20, 70], max depth [1, 10], minimum leaf data [1, 100], feature fraction [0.1, 1.0], $L1$/$L2$ regularization logarithmic [10$^{-8}$, 10.0]) using 4-fold artist-grouped stratified cross-validation. We always evaluated training performance via macro $F1$ scores from cross-validation and prediction performance using a holdout set untouched by model training or feature extraction.
 
 To identify which stylistic patterns would actually contribute most to genre discrimination and in order to investigate interpretable genre profiles (RQ3), we computed permutation feature importance \cite{fisherAllModelsAre2019} on the holdout set for the best combined-features model. We also computed SHAP values \cite{lundbergUnifiedApproachInterpreting2017a} on the holdout set for the best-performing genre to illustrate how specific features drive predictions.
 
@@ -240,19 +243,17 @@ To identify which stylistic patterns would actually contribute most to genre dis
     \toprule
     Dimension  & Label & Example high-FREX n-grams \\
     \midrule
-    Topic & Americana & beer, john, funk, monkey, whiskey, jack, cowboy, johnny, hat, lee \\
-    Topic & Darkness & chaos, death, humanity, destruction, agony, decay, hate, existence, hatred, terror \\
-    Topic & Embodiment & skin, mouth, space, hole, tongue, shape, planed, head, reflection, breath \\
+    Topic & Americana & guitar, whiskey, sally, mary, roll, cowboy, papa, blue, orleans, susie  \\
+    Topic & Apocalype &  chaos, decay, abyss, demise, agony, destruction, hatred, void, terror, torment \\
+    Topic & Existentialism & future, truth, system, freedom, faith, reeality, planet, state, strength, youth \\
     \midrule
-    Sentiment & ambivalent & pretty, maybe, good, nice, bad, sad, easy, glad, totally, busy \\
-    Sentiment & apocalyptic & final, evil, eternal, ancient, sacred, deadly, violent, rotten, mortal \\
-    Sentiment & brash & big, dumb, nasty, super, crazy, extra, rich, double, hot, sticky \\
+    Sentiment & apocalyptic & eternal, violent, rotten, dead, unholy, evil, holy, lifeness, divine, final  \\
+    Sentiment & delightful & sweet, lucky, fine, wonderful, glad, ready, naughty, true, groovy, marvelous \\
+    Sentiment & irreverent & sexy, nasty, freaky, funky, hot, double, damn, probably, stupid, ghetto \\
     \midrule
-    Expression & Christmas Phrases & let it snow let, snow let it snow, it snow let it, lonley so lonly so, dreaming of a white, of a white christmas, \\
-    & & a merry little christmas, have yourself a merry, yourself a merry little, in a winter wonderland \\
-    Expression & Dance Floor Shoutings & na na na na, doo doo doo doo, ba ba ba ba, ya ya ya ya, man man man man, li li, ma ma ma ma,\\ 
-    & & move your body, put your hands up, ba dum\\
-    Expression & Denials \& Doubts & in my head, i hate, it doesn't, blame, i won't, it's not, pretend, wasted, you're not, mistakes \\
+    Expression & Dance Shoutings & hey-oh, ba, bamba, dee, tara, da\_da, something's\_in\_the\_air, na\_na\_na\_na, na, aha \\
+    Expression & Old School Street Slang & thug, hip-hop, uhh, cypress, gat, dogg, motherfuckers, dre, nas word\_up \\ 
+    Expression & Violent Assault & fucking, shut\_up, animal, suicide, suck, sick, bite, drugs, fuck\_you, bullet \\
     \bottomrule
   \end{tabular}
   \caption{Example interpretations of genre-discriminative topic, sentiments, and expression types with top high-FREX n-grams.}
@@ -292,34 +293,34 @@ Per-genre probability distributions of types (see Figure \ref{fig:heatmaps}) for
 %RQ2: Wie gut performen die pattern-basierten interpretativen ML-Modelle im Vergleich zu einem state of the art tranformer-basierten LLM?
 \subsection{RQ2: Interpretable ML Performance}
 
-\begin{table}[!ht]
+\begin{table}[htbp]
   \footnotesize
   \setlength{\tabcolsep}{5pt}
   \centering
   \begin{tabular}{l l l c c}
     \toprule
-    Features & Model & Hyperparameters & $F1_{\text{CV}}$ & $F1_{\text{HO}}$ \\
+    Features & Model & Hyperparameters & $F1_{\text{VAL}}$ & $F1_{\text{HO}}$ \\
     \midrule
     Prevalences & Random & — & — & 0.111 \\
-    Raw Lyrics & DistillBERT & default & — & 0.374 \\
+    Raw Lyrics & DistilBERT & tuned & 0.405 & 0.377 \\
     TF-IDF & GLMNET & $C$=1, $L1$=0.5 & — & 0.248 \\
     \midrule
-    Topics & GLMNET & $C$=1, $L1$=0.5 & — & 0.229 \\
-    Sentiments & GLMNET & $C$=1, $L1$=0.5 & — & 0.135 \\
-    Expressions & GLMNET & $C$=1, $L1$=0.5 & — & 0.282 \\ 
-    Combined & GLMNET & $C$=1, $L1$=0.5 & — & 0.292\\ 
+    Topics & GLMNET & $C$=1, $L1$=0.5 & — & 0.232 \\
+    Sentiments & GLMNET & $C$=1, $L1$=0.5 & — & 0.154 \\
+    Expressions & GLMNET & $C$=1, $L1$=0.5 & — & 0.317 \\ 
+    Combined & GLMNET & $C  $=1, $L1$=0.5 & — & 0.316\\ 
     \midrule
-    Combined & GLMNET & $C$=0.002, $L1$=0.33 & 0.335 & 0.291 \\
-    Combined & LightGBM & tuned & 0.354 & 0.300 \\ 
+    Expressions & GLMNET & $C$=    0.1, $L1$=0.95 & 0.371 & 0.316 \\
+    Expressions & LightGBM & tuned & 0.380 & 0.318 \\ 
     \bottomrule
   \end{tabular}
-  \caption{Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO).}
+  \caption{Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from validation set (VAL; mean for 4-fold cross-validation) and $F1$ on holdout set (HO).}
   \label{tab:f1}
 \end{table}
 
 
 
-\begin{figure}[!h]
+\begin{figure}[htb]
   \centering
   \includegraphics[alt={Confusion Matrix lightGBM},width=\linewidth]{figures/confusion_matrix.png}
   \caption{Confusion matrix for combined tuned lightGBM model with P(Precited|Target) [\%], holdout $F1$, and correlation between per-genre $F1$ and per-genre number of samples in training set.}
@@ -332,14 +333,14 @@ The tuned LightGBM model performs best for \textit{Hip Hop} (holdout $F1$=0.591)
 
 % RQ3: What can we learn about lyrical genre differences from such interpretative models for popular music studies?
 \subsection{RQ3: Feature Importances and SHAP Values}
-\begin{figure}[h]
+\begin{figure}[htb]
   \centering
   \includegraphics[alt={Permutation importance top 20 variables lightGBM},width=\linewidth]{figures/holdout_permutation_importance.png}
   \caption{Permutation importance on heldout data for the tuned LightGBM model with combined features.}
   \label{fig:permutation_importance}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[htb]
   \centering
   \includegraphics[alt={SHAP values for for Hip Hop prediction},width=\linewidth]{figures/shap_hip_hop.png}
   \caption{Example: SHAP values for \textit{Discogs' Hip Hop} calculated from the holdout set.}
@@ -357,7 +358,7 @@ In sum, lyrical genre differences are not only affecting lexical, diversity, rea
 
 In our interpretable ML experiments (RQ2), Hip Hop and Rock were most readily identifiable from lyrical features alone, suggesting some genres rely more strongly on distinctive lyrical style markers while others share similar markers and are therefore more easily confused. Given that \textit{Discogs' Rock} encompasses metal styles, this finding aligns with prior lyric-based genre work \cite{tsaptsinosLyricsBasedMusicGenre2017, fell2014lyrics} and the view of music genre as rather fuzzy categories organized around prototypical features that not only encompass acoustical features and lyrics, but also release and artist features \cite{fabbriTheoryMusicalGenres1982}. 
 
-Our feature importance analysis (RQ3) revealed that stylistic genre differences are primarily driven by formulaic expression types like \textit{Hip Hop \& Street Slang}, \textit{Trap Slang}, and \textit{Doom Imagery} rather than topics or sentiments alone. The \textit{Hip Hop} case illustrates this: street life topics and slang expressions jointly elevate predictions. Genres differ in how they package meaning through stylistic phrasing, with topical content playing a supporting role. Interestingly, although the STM was trained on artist-aggregated documents, the learned n-gram distributions capture stable stylistic regularities that generalize beyond the training level. Individual tracks' lyrics can be interpreted as very short, noisy realizations of these latent styles, allowing for meaningful posterior inference of type probabilities at the track level in our approach, as benchmarking results demonstrate. 
+Our feature importance analysis (RQ3) revealed that stylistic genre differences are primarily driven by formulaic expression types like \textit{Hip Hop \& Street Slang}, \textit{Trap Slang}, and \textit{Doom Imagery} rather than topics or sentiments alone. The \textit{Hip Hop} case illustrates this: street life topics and slang expressions jointly elevate predictions. Genres differ in how they package meaning through stylistic phrasing, with topical content playing a supporting role. Interestingly, although the STM was trained on artist-genre-aggregated documents, the learned n-gram distributions capture stable stylistic regularities that generalize beyond the training level. Individual tracks' lyrics can be interpreted as very short, noisy realizations of these latent styles, allowing for meaningful posterior inference of type probabilities at the track level in our approach, as benchmarking results demonstrate. 
 
 Beyond insights into Anglophone German popular music, our findings demonstrate a principled division between predictive and explanatory ML approaches. While black-box transformers excel at predictive performance, interpretable models reveal which linguistic patterns drive predictions, enabling musicological insights  for better understanding what constitutes certain genres rather than a mere optimization of correct genre tagging \cite{gardaziBERTApplicationsNatural2025}. Such an explanatory capacity also supports practical applications: understanding genre biases in generative models that draw on lyrics \cite{rudinStopExplainingBlack2019}; corpus curation tools that flag culturally distinctive markers for ethnomusicological analyses \cite{stoiaBluesLyricFormulas2020}; and hybrid genre taggers for streaming platforms balancing predictive power with transparency. 
 

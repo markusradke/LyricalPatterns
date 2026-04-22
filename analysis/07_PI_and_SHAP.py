@@ -18,22 +18,21 @@ from helpers.load_data import load_interpretable_classification_data
     _,
     _,
     _,
+    X_train_expressions,
+    X_test_expressions,
     _,
     _,
-    X_train_combined,
-    X_test_combined,
 ) = load_interpretable_classification_data()
-pipeline = joblib.load("models/lgbm_combined/pipeline.joblib")
-X_test_scaled = pipeline.named_steps["scaler"].transform(X_test_combined)
+pipeline = joblib.load("models/lgbm_tuned_expressions/pipeline.joblib")
 
-X_train_scaled = pipeline.named_steps["scaler"].transform(X_train_combined)
+X_train = X_train_expressions.copy()
+X_test = X_test_expressions.copy()
 
-feature_names = X_train_combined.columns.tolist()
+feature_names = X_train_expressions.columns.tolist()
 
-# Permutation Importance
 perm_importance = permutation_importance(
     pipeline.named_steps["classifier"],
-    X_test_scaled,
+    X_test,
     y_test,
     n_repeats=10,
     random_state=42,
@@ -48,7 +47,7 @@ df_perm_importance = pd.DataFrame(
 ).sort_values(by="mean_importance", ascending=False)
 df_perm_importance["repeats"] = 10
 df_perm_importance.to_csv(
-    "models/lgbm_combined/holdout_permutation_importance.csv", index=False
+    "models/lgbm_tuned_expressions/holdout_permutation_importance.csv", index=False
 )
 
 # SHAP Values
@@ -75,8 +74,8 @@ classifier = pipeline.named_steps["classifier"]
 explainer = shap.TreeExplainer(classifier)
 
 # Focus on samples predicted as Hip Hop
-y_pred = classifier.predict(X_test_scaled)
-X_for_shap = pd.DataFrame(X_test_scaled, columns=feature_names)
+y_pred = classifier.predict(X_test)
+X_for_shap = pd.DataFrame(X_test, columns=feature_names)
 
 shap_exp = explainer(X_for_shap)  # takes a while to compute
 class_names = list(classifier.classes_)
@@ -89,11 +88,12 @@ shap_exp_hip_hop = shap_exp[:, :, hip_hop_idx]
 custom_colors = LinearSegmentedColormap.from_list("custom", ["#B8B8B8", "#c40d20"])
 
 ax = shap.plots.beeswarm(
-    shap_exp_hip_hop, max_display=20, show=False, color=custom_colors
+    shap_exp_hip_hop, max_display=20, show=False, color=custom_colors, plot_size=0.25
 )
 fig = ax.get_figure()
-ax.set_xlabel("SHAP Value (Impact on Model Output for Hip Hop)")
+ax.set_xlabel("SHAP Value (Impact on Model Output for Hip Hop)", x=0.2)
 fig.tight_layout()
+plt.show()
 
 plt.savefig(
     "reports/paper_ismir/figures/shap_hip_hop.png", dpi=1200, bbox_inches="tight"

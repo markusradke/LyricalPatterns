@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 from scipy import sparse
 
@@ -90,15 +91,16 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
         random_state=42,
         checkpoint_dir=f"data/checkpoints/fighting_extractor_{name}",
     )
-    extractor.fit(X_train[lyricscol], y_train, X_train["track.s.firstartist.name"])
 
-    # Remove empty text placeholder token before saving vocabulary
-    vocab = pd.Series([v for v in extractor.vocabulary_ if v != "[empty]"])
+    X_train_fighting_full = extractor.fit_transform(
+        X_train[lyricscol], y_train, X_train["track.s.firstartist.name"]
+    )
+
+    vocab = pd.Series(extractor.vocabulary_)
     vocab.to_csv(f"data/fighting_{name}_dc_vocabulary.csv", index=False)
     z_scores = extractor.z_scores_df_
     z_scores.to_csv(f"models/fighting_{name}_dc_z_scores.csv", index=False)
 
-    X_train_fighting_full = extractor.transform(X_train[lyricscol])
     X_test_fighting_full = extractor.transform(X_test[lyricscol])
 
     sparse.save_npz(f"data/X_train_{name}_fighting_dc_full.npz", X_train_fighting_full)
@@ -107,7 +109,7 @@ def extract_and_save_fighting_vocabularies(X_train, X_test, y_train, lyricscol):
 
 if __name__ == "__main__":
     X_train, X_test, y_train, y_test = get_and_save_train_test_meta_data()
-    extract_and_save_FS_features(X_train, X_test, y_train)
+    # extract_and_save_FS_features(X_train, X_test, y_train)
     extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "topic_lyrics")
     extract_and_save_fighting_vocabularies(X_train, X_test, y_train, "sentiment_lyrics")
     extract_and_save_fighting_vocabularies(

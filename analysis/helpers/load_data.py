@@ -53,30 +53,70 @@ def load_stm_data():
 
 
 def load_interpretable_classification_data():
+    topic_labels = pd.read_csv("data/topic_labels.csv")
+    topic_labels["topic_num"] = topic_labels["topic_num"].astype(str)
+    topic_labels = topic_labels.set_index("topic_num")["topic_labels"].to_dict()
+
+    sentiment_labels = pd.read_csv("data/sentiment_labels.csv")
+    sentiment_labels["topic_num"] = sentiment_labels["topic_num"].astype(str)
+    sentiment_labels = sentiment_labels.set_index("topic_num")[
+        "sentiment_labels"
+    ].to_dict()
+
+    expressions_labels = pd.read_csv("data/expressions_labels.csv")
+    expressions_labels["topic_num"] = expressions_labels["topic_num"].astype(str)
+    expressions_labels = expressions_labels.set_index("topic_num")[
+        "expressions_labels"
+    ].to_dict()
+
+    ref_types = (
+        pd.read_csv("models/ref_types_zero_indexed.csv")
+        .set_index("dimension")["base"]
+        .to_dict()
+    )
+
     y_train = pd.read_csv("data/X_train_metadata_dc.csv")["dc_detailed"]
     y_test = pd.read_csv("data/X_test_metadata_dc.csv")["dc_detailed"]
 
     X_train_fs = sparse.load_npz("data/X_train_fs_dc_detailed.npz")
     X_test_fs = sparse.load_npz("data/X_test_fs_dc_detailed.npz")
 
-    X_train_topics = pd.read_csv("data/X_train_topics_dc.csv").rename(
-        columns=lambda x: f"topic_{x}"
+    X_train_topics = (
+        pd.read_csv("data/X_train_topics_dc.csv")
+        .drop(str(ref_types["topics"]), axis=1)
+        .rename(columns=topic_labels)
     )
-    X_test_topics = pd.read_csv("data/X_test_topics_dc.csv").rename(
-        columns=lambda x: f"topic_{x}"
+
+    X_test_topics = (
+        pd.read_csv("data/X_test_topics_dc.csv")
+        .drop(str(ref_types["topics"]), axis=1)
+        .rename(columns=topic_labels)
     )
-    X_train_sentiments = pd.read_csv("data/X_train_sentiments_dc.csv").rename(
-        columns=lambda x: f"sentiment_{x}"
+
+    X_train_sentiments = (
+        pd.read_csv("data/X_train_sentiments_dc.csv")
+        .drop(str(ref_types["sentiments"]), axis=1)
+        .rename(columns=sentiment_labels)
     )
-    X_test_sentiments = pd.read_csv("data/X_test_sentiments_dc.csv").rename(
-        columns=lambda x: f"sentiment_{x}"
+
+    X_test_sentiments = (
+        pd.read_csv("data/X_test_sentiments_dc.csv")
+        .drop(str(ref_types["sentiments"]), axis=1)
+        .rename(columns=sentiment_labels)
     )
-    X_train_expressions = pd.read_csv("data/X_train_expressions_dc.csv").rename(
-        columns=lambda x: f"expressions_{x}"
+
+    X_train_expressions = (
+        pd.read_csv("data/X_train_expressions_dc.csv")
+        .drop(str(ref_types["expressions"]), axis=1)
+        .rename(columns=expressions_labels)
     )
-    X_test_expressions = pd.read_csv("data/X_test_expressions_dc.csv").rename(
-        columns=lambda x: f"expressions_{x}"
+
+    X_test_expressions = (
+        pd.read_csv("data/X_test_expressions_dc.csv")
+        .drop(str(ref_types["expressions"]), axis=1)
+        .rename(columns=expressions_labels)
     )
+
     X_train_combined = pd.concat(
         [X_train_topics, X_train_sentiments, X_train_expressions], axis=1
     )

@@ -72,14 +72,7 @@ class OptunaExperiment:
             X_tr, X_val = X_train.iloc[train_idx], X_train.iloc[val_idx]
             y_tr, y_val = y_train.iloc[train_idx], y_train.iloc[val_idx]
 
-            pipeline = Pipeline(
-                [
-                    (
-                        "scaler",
-                        StandardScaler(with_mean=False),
-                    )
-                ]
-            )
+            pipeline = Pipeline(steps=[])
             if self.mode == "lightGBM":
                 pipeline.steps.append(
                     (
@@ -110,7 +103,7 @@ class OptunaExperiment:
                         LogisticRegression(
                             class_weight="balanced",
                             solver="saga",
-                            max_iter=10000,
+                            max_iter=1000,
                             random_state=RANDOM_STATE,
                             **param,
                         ),
@@ -156,6 +149,9 @@ class OptunaExperiment:
         self.y_train = y_train
         self.artists = artists
         self.nfolds = nfolds
+        if os.path.exists(f"models/{self.modelname}/tune.sqlite3"):
+            os.remove(f"models/{self.modelname}/tune.sqlite3")
+
         self._create_stratified_grouped_folds()
 
         if not os.path.exists(f"models/{self.modelname}"):
@@ -171,8 +167,18 @@ class OptunaExperiment:
             sampler = optuna.samplers.TPESampler(seed=RANDOM_STATE)
             n_trials = self.n_trials
         if self.mode == "glmnet":
-            c_grid = np.logspace(-5, 5, 10).tolist()
-            l1_ratio_grid = np.linspace(0.0, 1.0, 10).tolist()
+            # make sure fixed parameters are also in grid
+            c_grid = np.sort(
+                np.concatenate(
+                    [
+                        np.logspace(-3, 0, 10),  # 10^-3 to 10^0 (= 1.0)
+                        np.logspace(0, 3, 11)[1:],  # 10^0 to 10^3, skip duplicate 1.0
+                    ]
+                )
+            )
+            l1_ratio_grid = np.sort(
+                np.concatenate([np.linspace(0, 0.5, 10), np.linspace(0.5, 1, 11)[1:]])
+            )
             search_space = {
                 "C": c_grid,
                 "l1_ratio": l1_ratio_grid,
@@ -218,14 +224,7 @@ class OptunaExperiment:
             f"models/{self.modelname}/train_val_genre_distributions.png", dpi=1200
         )
 
-        self.pipeline = Pipeline(
-            [
-                (
-                    "scaler",
-                    StandardScaler(with_mean=False),
-                )
-            ]
-        )
+        self.pipeline = Pipeline(steps=[])
         if self.mode == "lightGBM":
             self.pipeline.steps.append(
                 (
@@ -234,7 +233,6 @@ class OptunaExperiment:
                         njobs=-1,
                         class_weight="balanced",
                         device=DEVICE,
-                        # random_state=RANDOM_STATE,
                         **self.best_params,
                     ),
                 ),
@@ -257,7 +255,6 @@ class OptunaExperiment:
                         class_weight="balanced",
                         solver="saga",
                         max_iter=10000,
-                        # random_state=RANDOM_STATE,  # TODO FIX and understand
                         **self.best_params,
                     ),
                 ),
@@ -346,33 +343,22 @@ if __name__ == "__main__":
         _,
         _,
         _,
+        X_train_expressions,
+        X_test_expressions,
         _,
         _,
-        X_train_combined,
-        X_test_combined,
     ) = load_interpretable_classification_data()
 
     artists = pd.read_csv("data/X_train_metadata_dc.csv")["track.s.firstartist.name"]
 
     datasets = {
-        "lr_tuned_combined": (X_train_combined, X_test_combined, "glmnet"),
-        "lgbm_combined": (X_train_combined, X_test_combined, "lightGBM"),
+        "lr_tuned_expressions": (X_train_expressions, X_test_expressions, "glmnet"),
+        "lgbm_tuned_expressions": (X_train_expressions, X_test_expressions, "lightGBM"),
     }
 
     for modelname, (X_train, X_test, mode) in datasets.items():
         experiment = OptunaExperiment(modelname=modelname, mode=mode, n_trials=100)
         experiment.tune(X_train, y_train, artists, nfolds=NFOLDS)
         experiment.retrain_best()
-
-        # params = {
-        #     "C": 0.006131448942106572,
-        #     "l1_ratio": 0.782463883003771,
-        #     "solver": "saga",
-        #     "max_iter": 10000,
-        #     "random_state": RANDOM_STATE,
-        # }
-        # experiment.retrain_best(
-        #     X_train=X_train, y_train=y_train, artists=artists, params=params
-        # )
         experiment.evaluate(X_test, y_test)
         experiment.save_pipeline_and_evaluation()

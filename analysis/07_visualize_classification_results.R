@@ -6,7 +6,7 @@ library(forcats)
 
 # Confusion Matrix and variable importance
 y_pred <- read_csv(
-  "models/lgbm_combined/y_pred.csv"
+  "models/lgbm_tuned_expressions/y_pred.csv"
 )$pred |>
   as.factor()
 y_test <- read_csv("data/X_test_metadata_dc.csv")$dc_detailed |>
@@ -47,7 +47,7 @@ f1_samples_cor <- cor(
 metrics_label <- sprintf(
   "F1<sub>macro</sub>: %.3f<br>
   Cor<sub>Kendall</sub>(F1, # samples): %.3f",
-  0.300,
+  mean(f1_scores),
   f1_samples_cor
 )
 
@@ -99,28 +99,11 @@ ggsave(
 )
 
 # make a plot for the permutation importance
-prepare_importance <- function(filepath) {
-  pfi <- read_csv(filepath) |>
-    arrange(-mean_importance) |>
-    mutate(
-      feature_group = case_when(
-        grepl("topic", feature) ~ "topics",
-        grepl("sentiment", feature) ~ "sentiments",
-        grepl("expression", feature) ~ "expressions"
-      ),
-      feature_group = factor(
-        feature_group,
-        levels = c("topics", "sentiments", "expressions")
-      )
-    )
-  pfi$feature <- feature_name_lookup[pfi$feature]
-  pfi$feature = fct_inorder(pfi$feature) |> fct_rev()
-  return(pfi)
-}
-
-plot_pfi <- function(pfi, name = "validation") {
-  ggplot(pfi, aes(y = feature, x = mean_importance, fill = feature_group)) +
-    geom_col() +
+plot_pfi <- function(pfi, name = "holdout") {
+  pfi_sorted <- pfi |>
+    arrange(mean_importance)
+  ggplot(pfi, aes(y = fct_inorder(feature) |> fct_rev(), x = mean_importance)) +
+    geom_col(fill = "grey65") +
     geom_errorbar(
       aes(
         xmin = mean_importance - std_importance,
@@ -129,19 +112,9 @@ plot_pfi <- function(pfi, name = "validation") {
       width = 0.2
     ) +
     labs(x = sprintf("Mean Impact on %s F1 macro", name), y = "Feature") +
-    scale_x_continuous(expand = expansion(mult = (c(0, 0.55)))) +
-    scale_fill_manual(
-      breaks = c("topics", "sentiments", "expressions"),
-      values = c(
-        "topics" = "#c40d20",
-        "sentiments" = "#2b8dba",
-        "expressions" = "grey65"
-      )
-    ) +
+    scale_x_continuous(expand = expansion(mult = (c(0, 0.05)))) +
     theme_minimal() +
     theme(
-      legend.position = c(0.8, 0.2),
-      legend.title = element_blank(),
       panel.grid.major.y = element_blank(),
       axis.text.x = element_text(size = 12),
       axis.text.y = element_text(size = 12),
@@ -150,37 +123,12 @@ plot_pfi <- function(pfi, name = "validation") {
     )
 }
 
-
-topic_labels <- read_csv("data/topic_labels.csv") |>
-  mutate(feature_label = paste0("topic_", topic_num))
-topics_lookup <- topic_labels$topic_labels
-names(topics_lookup) <- topic_labels$feature_label
-sentiment_labels <- read_csv("data/sentiment_labels.csv") |>
-  mutate(feature_label = paste0("sentiment_", topic_num))
-sentiments_lookup <- sentiment_labels$sentiment_labels
-names(sentiments_lookup) <- sentiment_labels$feature_label
-expressions_labels <- read_csv("data/expressions_labels.csv") |>
-  mutate(feature_label = paste0("expressions_", topic_num))
-expressions_lookup <- expressions_labels$expressions_labels
-names(expressions_lookup) <- expressions_labels$feature_label
-feature_name_lookup <- c(topics_lookup, sentiments_lookup, expressions_lookup)
-
-
-pfi_val <- prepare_importance("models/lgbm_combined/permutation_importance.csv")
-pfi_holdout <- prepare_importance(
-  "models/lgbm_combined/holdout_permutation_importance.csv"
+pfi_holdout <- read_csv(
+  "models/lgbm_tuned_expressions/holdout_permutation_importance.csv"
 )
-
-plot_pfi(pfi_val, "validation")
-ggsave(
-  "reports/paper_ismir/figures/permutation_importance.png",
-  width = 6,
-  height = 5
-)
-
 plot_pfi(pfi_holdout, "holdout")
 ggsave(
   "reports/paper_ismir/figures/holdout_permutation_importance.png",
   width = 6,
-  height = 5
+  height = 2.5
 )

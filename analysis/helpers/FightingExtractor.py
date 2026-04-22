@@ -14,8 +14,10 @@ Reference:
 import pandas as pd
 import numpy as np
 import pickle
+import re
 
 from functools import partial
+from tqdm.auto import tqdm
 from pathlib import Path
 from joblib import hash as joblib_hash
 from typing import Tuple
@@ -27,7 +29,6 @@ from .extractor_utils import (
     count_artists_per_ngram,
     extract_ngrams,
     strip_boundary_ngrams,
-    filter_stopword_only,
 )
 from .StopwordFilter import StopwordFilter
 from .monroe_logodds import (
@@ -110,9 +111,53 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         if self.checkpoint_dir:
             self.checkpoint_dir.mkdir(parents=True, exist_ok=True)
 
-    def fit(self, X, y, artist=None):
+    def _apply_gluing(self, X_series, sig_ngrams):
+        """Highly optimized string replacement for thousands of n-grams."""
+        if not sig_ngrams:
+            return X_series
+
+        replace_dict = {ng: ng.replace(" ", "_") for ng in sig_ngrams}
+        return self._batch_replace(X_series, replace_dict)
+
+    def _apply_ungluing(self, X_series, failed_glues):
+        """Reverts non-significant glued tokens back to their space-separated forms."""
+        if not failed_glues:
+            return X_series
+
+        replace_dict = {ng: ng.replace("_", " ") for ng in failed_glues}
+        return self._batch_replace(X_series, replace_dict)
+
+    def _batch_replace(self, X_series, replace_dict):
+        """Core batch regex replacement logic."""
+        if not replace_dict:
+            return X_series
+
+        X_list = X_series.tolist()
+        keys = list(replace_dict.keys())
+
+        # Chunk to avoid python's maximum regex group limits
+        chunk_size = 1000
+        for i in tqdm(
+            range(0, len(keys), chunk_size),
+            desc="Applying text replacements",
+            leave=False,
+        ):
+            chunk = keys[i : i + chunk_size]
+            escaped = [re.escape(k) for k in chunk]
+            pattern_str = rf"(?<!\w)(?:{'|'.join(escaped)})(?!\w)"
+            compiled_re = re.compile(pattern_str)
+
+            X_list = [
+                compiled_re.sub(lambda m: replace_dict[m.group(0)], text)
+                for text in X_list
+            ]
+
+        return pd.Series(X_list)
+
+    def fit_transform(self, X, y, artist=None):
         """
-        Learn vocabulary from training data.
+        Learn vocabulary from training data, filter invalid tokens,
+        and return the transformed count matrix.
 
         Parameters
         ----------
@@ -125,13 +170,8 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
         Returns
         -------
-        self : FightingExtractor
-            Fitted extractor.
-
-        Raises
-        ------
-        ValueError
-            If artist parameter is None.
+        X_transformed : scipy.sparse matrix
+            The document-term matrix aligned with the final vocabulary.
         """
         if artist is None:
             raise ValueError(
@@ -139,6 +179,7 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
             )
 
         X = pd.Series(X).reset_index(drop=True)
+        X_original = X.copy()
         y = pd.Series(y).reset_index(drop=True)
         artist = pd.Series(artist).reset_index(drop=True)
 
@@ -150,116 +191,175 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
         if self.checkpoint_dir:
             if self._load_checkpoint():
-                print(f"Loaded z-scores from checkpoint: {self._cache_key[:8]}...")
-                self._is_fitted = True
-                return self._select_vocabulary_by_pvalue(self.p_value)
-            print("No checkpoint found, computing z-scores from scratch...")
-        else:
-            print("Checkpoint directory not specified, computing z-scores...")
-
-        orders_to_extract = []
-        if 1 in self.ngram_types:
-            orders_to_extract.append((1, "unigrams"))
-        if 2 in self.ngram_types:
-            orders_to_extract.append((2, "bigrams"))
-        if 3 in self.ngram_types:
-            orders_to_extract.append((3, "trigrams"))
-        if 4 in self.ngram_types:
-            orders_to_extract.append((4, "quadgrams"))
-
-        order_names = [name for _, name in orders_to_extract]
-
-        print("Extracting n-grams for all orders...")
-        matrices = {}
-        features = {}
-        for order, name in orders_to_extract:
-            mat, feats = extract_ngrams(
-                X,
-                order,
-                name,
-                self.random_state,
-                boundary_aware=True,
-            )
-            matrices[name] = mat
-            features[name] = feats
-            if order == 1 and self.min_char > 0:
-                print(f"Filtering unigrams shorter than {self.min_char} characters...")
-                mask = np.array([len(ng) >= self.min_char for ng in features[name]])
-                features[name] = features[name][mask]
-                matrices[name] = matrices[name][:, mask]
-                print(f"  unigrams: {len(features[name]):,} n-grams retained")
-
-        print("Counting unique artists per n-gram...")
-        artist_counts_by_order = {
-            name: count_artists_per_ngram(artist, matrices[name], features[name])
-            for name in order_names
-        }
-
-        print("Filtering n-grams by minimum artist threshold...")
-        filtered_features = {}
-        filtered_matrices = {}
-        for name in order_names:
-            mask = np.array(
-                [
-                    artist_counts_by_order[name][ng] >= self.min_artists
-                    for ng in features[name]
-                ]
-            )
-            filtered_features[name] = features[name][mask]
-            filtered_matrices[name] = matrices[name][:, mask]
-            print(f"  {name}: {len(filtered_features[name]):,} n-grams retained")
-
-        if self.use_stopword_filter:
-            print("Filtering stopword-only n-grams...")
-            for name in order_names:
-                kept_ngrams = self.stopword_filter_.filter_ngrams(
-                    set(filtered_features[name])
-                )
-                mask = np.array([ng in kept_ngrams for ng in filtered_features[name]])
-                filtered_features[name] = filtered_features[name][mask]
-                filtered_matrices[name] = filtered_matrices[name][:, mask]
-                print(f"  {name}: {len(filtered_features[name]):,} n-grams retained")
-
-        if self.use_bigram_boundary_filter:
-            print("Stripping boundary n-grams from bigrams...")
-            if "bigrams" in filtered_features:
-                bigram_tuples = [
-                    tuple(ng.split()) for ng in filtered_features["bigrams"]
-                ]
-                kept_bigrams = strip_boundary_ngrams(bigram_tuples)
-                kept_strings = [" ".join(ng) for ng in kept_bigrams]
-
-                mask = np.array(
-                    [ng in kept_strings for ng in filtered_features["bigrams"]]
-                )
-                filtered_features["bigrams"] = filtered_features["bigrams"][mask]
-                filtered_matrices["bigrams"] = filtered_matrices["bigrams"][:, mask]
                 print(
-                    f"  bigrams: {len(filtered_features['bigrams']):,} n-grams retained"
+                    f"Loaded checkpoints for iterative fitting: {self._cache_key[:8]}..."
+                )
+                self._is_fitted = True
+
+                # Rebuild vectorizer
+                self.vectorizer_ = CountVectorizer(
+                    vocabulary=self.vocabulary_,
+                    analyzer=partial(
+                        _boundary_aware_analyzer,
+                        orders=(1,),  # Only looking for unigrams in the glued text!
+                    ),
+                )
+                return self.transform(X_original)
+            print("No checkpoint found, computing iterative z-scores...")
+
+        # Initialize tracking
+        self.glue_operations_ = []
+        self.unglue_operations_ = []
+        all_zscores_list = []
+        X_current = X.copy()
+
+        # Mapping for order names
+        order_to_name = {1: "unigrams", 2: "bigrams", 3: "trigrams", 4: "quadgrams"}
+
+        # Iterate top-down
+        for order in sorted(self.ngram_types, reverse=True):
+            name = order_to_name.get(order, f"{order}-grams")
+            print(f"\n--- Processing {name} (Order {order}) ---")
+
+            mat, feats = extract_ngrams(
+                X_current, order, name, self.random_state, boundary_aware=True
+            )
+
+            if len(feats) == 0:
+                print(f"  No {name} extracted. Skipping.")
+                continue
+
+            # Filtering
+            if order == 1 and self.min_char > 0:
+                mask = np.array([len(ng) >= self.min_char for ng in feats])
+                feats = feats[mask]
+                mat = mat[:, mask]
+
+            artist_counts = count_artists_per_ngram(artist, mat, feats)
+            mask = np.array([artist_counts[ng] >= self.min_artists for ng in feats])
+            feats = feats[mask]
+            mat = mat[:, mask]
+            print(f"  After min_artists filtering: {len(feats):,} left")
+
+            if self.use_stopword_filter:
+                kept_ngrams = self.stopword_filter_.filter_ngrams(set(feats))
+                mask = np.array([ng in kept_ngrams for ng in feats])
+                feats = feats[mask]
+                mat = mat[:, mask]
+                print(f"  After stopword filtering: {len(feats):,} left")
+
+            if order == 2 and self.use_bigram_boundary_filter:
+                bigram_tuples = [tuple(ng.split()) for ng in feats]
+                kept_bigrams = strip_boundary_ngrams(bigram_tuples)
+                kept_strings = set(" ".join(ng) for ng in kept_bigrams)
+                # Keep bigrams that contain the glue character '_'
+                kept_strings.update([ng for ng in feats if "_" in ng])
+
+                mask = np.array([ng in kept_strings for ng in feats])
+                feats = feats[mask]
+                mat = mat[:, mask]
+                print(
+                    f"  After boundary filter (preserving glued): {len(feats):,} left"
                 )
 
-        print("Filtering n-grams with disallowed single-letter words...")
-        for name in order_names:
-            kept_ngrams = self._filter_disallowed_single_letters(
-                set(filtered_features[name])
-            )
-            mask = np.array([ng in kept_ngrams for ng in filtered_features[name]])
-            filtered_features[name] = filtered_features[name][mask]
-            filtered_matrices[name] = filtered_matrices[name][:, mask]
-            print(f"  {name}: {len(filtered_features[name]):,} n-grams retained")
+            # Filter single letters
+            kept_ngrams = self._filter_disallowed_single_letters(set(feats))
+            mask = np.array([ng in kept_ngrams for ng in feats])
+            feats = feats[mask]
+            mat = mat[:, mask]
 
-        print("Computing Monroe z-scores with empirical Bayes prior...")
-        self.z_scores_df_ = self._compute_all_zscores(
-            y, filtered_matrices, filtered_features
+            if len(feats) == 0:
+                print(f"  No {name} left after filtering. Skipping.")
+                continue
+
+            print("  Computing z-scores and FDR...")
+            df_order = self._compute_all_zscores(y, {name: mat}, {name: feats})
+
+            # Apply FDR for this specific order
+            num_genres = len(y.unique())
+            p_matrix = df_order["p"].values.reshape(-1, num_genres)
+            passes_bh, bh_thresh = apply_benjamini_hochberg_correction(
+                p_matrix, fdr=self.p_value
+            )
+            df_order["passes_bh"] = passes_bh.flatten()
+            df_order["bh_threshold"] = bh_thresh.flatten()
+
+            all_zscores_list.append(df_order)
+            significant = df_order[df_order["passes_bh"] & (df_order["z_score"] > 0)]
+
+            if order > 1:
+                # Group by ngram, get max absolute z-score across genres, then sort
+                if not significant.empty:
+                    sig_ngrams = (
+                        significant.assign(abs_z=significant["z_score"].abs())
+                        .groupby("ngram")["abs_z"]
+                        .max()
+                        .sort_values(ascending=False)
+                        .index.tolist()
+                    )
+                    print(f"  Gluing {len(sig_ngrams):,} significant {name}...")
+                    self.glue_operations_.append(sig_ngrams)
+                    X_current = self._apply_gluing(X_current, sig_ngrams)
+            else:
+                self.vocabulary_ = significant["ngram"].unique().tolist()
+                print(
+                    f"  Final vocabulary size: {len(self.vocabulary_):,} unigrams (including glued)"
+                )
+
+                # Identify glued phrases that failed the final FDR test
+                all_glued = [
+                    ng.replace(" ", "_")
+                    for chunk in self.glue_operations_
+                    for ng in chunk
+                ]
+                self.unglue_operations_ = [
+                    g for g in all_glued if g not in self.vocabulary_
+                ]
+                print(
+                    f"  Identified {len(self.unglue_operations_):,} non-significant glued phrases to break up."
+                )
+
+        self.z_scores_df_ = pd.concat(all_zscores_list, ignore_index=True)
+
+        self.vectorizer_ = CountVectorizer(
+            vocabulary=self.vocabulary_,
+            analyzer=partial(
+                _boundary_aware_analyzer,
+                orders=(1,),  # Only look for unigrams in the glued text
+            ),
         )
 
-        print(f"Total n-grams scored: {len(self.z_scores_df_['ngram'].unique()):,}")
+        self._is_fitted = True
+
+        # Evaluate exact transformations to find and remove empty/0-occurrence terms
+        X_transformed = self.transform(X_original)
+        col_sums = np.asarray(X_transformed.sum(axis=0)).flatten()
+
+        valid_indices = [
+            i
+            for i, v in enumerate(self.vocabulary_)
+            if v != "[empty]" and col_sums[i] > 0
+        ]
+
+        # Update vocabulary and vectorizer to only contain guaranteed valid terms
+        self.vocabulary_ = [self.vocabulary_[i] for i in valid_indices]
+        self.vectorizer_ = CountVectorizer(
+            vocabulary=self.vocabulary_,
+            analyzer=partial(
+                _boundary_aware_analyzer,
+                orders=(1,),
+            ),
+        )
+
+        # Subset the return matrix to match the final vocabulary
+        X_in_vocab_aligned = X_transformed[:, valid_indices]
 
         if self.checkpoint_dir:
             self._save_checkpoint()
+            self._save_vocab_information(X_original)
             print(f"Saved checkpoint: {self._cache_key[:8]}...")
 
-        return self._select_vocabulary_by_pvalue(self.p_value)
+        return X_in_vocab_aligned
 
     def transform(self, X):
         """Transform lyrics to n-gram count matrix."""
@@ -268,41 +368,14 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
         X = pd.Series(X).reset_index(drop=True)
         X = self._handle_nan_and_empty_texts(X)
+
+        for sig_ngrams in self.glue_operations_:
+            X = self._apply_gluing(X, sig_ngrams)
+
+        if hasattr(self, "unglue_operations_") and self.unglue_operations_:
+            X = self._apply_ungluing(X, self.unglue_operations_)
+
         return self.vectorizer_.transform(X)
-
-    def _select_vocabulary_by_pvalue(self, p_value):
-        """Select vocabulary based on Benjamini-Hochberg FDR correction."""
-        if not hasattr(self, "z_scores_df_"):
-            raise ValueError("Must compute z-scores first")
-
-        num_genres = len(self.z_scores_df_["genre"].unique())
-        p_matrix = self.z_scores_df_["p"].values.reshape(-1, num_genres)
-        passes_bh, bh_threshold = apply_benjamini_hochberg_correction(
-            p_matrix, fdr=p_value
-        )
-        self.z_scores_df_["passes_bh"] = passes_bh.flatten()
-        self.z_scores_df_["bh_threshold"] = bh_threshold.flatten()
-
-        significant = self.z_scores_df_[
-            self.z_scores_df_["passes_bh"] & (self.z_scores_df_["z_score"] > 0)
-        ]
-
-        self.vocabulary_ = list(significant["ngram"].unique())
-
-        print(
-            f"Selected vocabulary size: {len(self.vocabulary_):,} n-grams (BH FDR={p_value})"
-        )
-
-        self.vectorizer_ = CountVectorizer(
-            vocabulary=self.vocabulary_,
-            analyzer=partial(
-                _boundary_aware_analyzer,
-                orders=tuple(sorted(set(self.ngram_types))),
-            ),
-        )
-
-        self._is_fitted = True
-        return self
 
     def _compute_all_zscores(self, genres, matrices, features):
         """Compute Monroe z-scores for all n-grams across all genres.
@@ -316,17 +389,7 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         num_genres = len(unique_genres)
 
         results = []
-        types = ["unigrams", "bigrams", "trigrams", "quadgrams"]
-        if 1 not in self.ngram_types:
-            types.remove("unigrams")
-        if 2 not in self.ngram_types:
-            types.remove("bigrams")
-        if 3 not in self.ngram_types:
-            types.remove("trigrams")
-        if 4 not in self.ngram_types:
-            types.remove("quadgrams")
-
-        for name in types:
+        for name in matrices.keys():
             matrix = matrices[name]
             ngrams = features[name]
 
@@ -405,8 +468,60 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
         """Save z-scores to checkpoint file."""
         zscores_path = self._get_checkpoint_paths()
 
+        checkpoint_data = {
+            "z_scores_df_": self.z_scores_df_,
+            "glue_operations_": getattr(self, "glue_operations_", []),
+            "unglue_operations_": getattr(self, "unglue_operations_", []),
+            "vocabulary_": getattr(self, "vocabulary_", []),
+        }
+
         with open(zscores_path, "wb") as f:
-            pickle.dump(self.z_scores_df_, f)
+            pickle.dump(checkpoint_data, f)
+
+    def _save_vocab_information(self, X_original):
+        """Saves absolute and relative frequencies of n-grams to a CSV."""
+        if not self.checkpoint_dir or not hasattr(self, "vocabulary_"):
+            return
+
+        # Get exact final token counts relying on our robust transform method
+        X_counts = self.transform(X_original)
+        term_counts = np.array(X_counts.sum(axis=0)).flatten()
+
+        # Calculate lengths of each n-gram (1 + number of underscores)
+        lengths = np.array([term.count("_") + 1 for term in self.vocabulary_])
+
+        total_types = len(self.vocabulary_)
+        total_tokens = term_counts.sum()
+
+        rows = []
+        rows.append({"type": "Total Types", "freq": total_types, "relfreq": 1.0})
+        rows.append({"type": "Total Tokens", "freq": total_tokens, "relfreq": 1.0})
+
+        max_len = lengths.max() if total_types > 0 else 0
+        for k in range(1, max_len + 1):
+            k_mask = lengths == k
+            k_types = k_mask.sum()
+            if k_types > 0:
+                k_tokens = term_counts[k_mask].sum()
+                rows.append(
+                    {
+                        "type": f"{k}-gram Types",
+                        "freq": k_types,
+                        "relfreq": k_types / total_types,
+                    }
+                )
+                rows.append(
+                    {
+                        "type": f"{k}-gram Tokens",
+                        "freq": k_tokens,
+                        "relfreq": k_tokens / total_tokens if total_tokens > 0 else 0,
+                    }
+                )
+
+        df_stats = pd.DataFrame(rows)
+        csv_path = self.checkpoint_dir / f"vocab_stats_{self._cache_key}.csv"
+        df_stats.to_csv(csv_path, index=False)
+        print(f"  Saved vocabulary statistics to {csv_path.name}")
 
     def _load_checkpoint(self):
         """Load z-scores from checkpoint file if it exists."""
@@ -414,7 +529,16 @@ class FightingExtractor(BaseEstimator, TransformerMixin):
 
         if zscores_path.exists():
             with open(zscores_path, "rb") as f:
-                self.z_scores_df_ = pickle.load(f)
+                checkpoint_data = pickle.load(f)
+
+            # Handle legacy format where just DF was stored
+            if isinstance(checkpoint_data, pd.DataFrame):
+                return False
+
+            self.z_scores_df_ = checkpoint_data["z_scores_df_"]
+            self.glue_operations_ = checkpoint_data["glue_operations_"]
+            self.unglue_operations_ = checkpoint_data.get("unglue_operations_", [])
+            self.vocabulary_ = checkpoint_data["vocabulary_"]
             return True
 
         return False
