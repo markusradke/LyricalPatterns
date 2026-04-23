@@ -1,5 +1,3 @@
-import numpy as np
-
 from helpers.STMTopicModeler import STMTopicModeler
 from helpers.aggregate_artist_dtm import aggregate_dtm_by_artist
 from helpers.load_data import load_stm_data

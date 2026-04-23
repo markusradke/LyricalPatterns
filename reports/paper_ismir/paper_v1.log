@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  23 APR 2026 08:29
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  23 APR 2026 11:25
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -574,10 +574,10 @@ Overfull \hbox (1.33444pt too wide) in paragraph at lines 113--113
 <figures/corpus_descriptive.png, id=20, 433.62pt x 361.35pt>
 File: figures/corpus_descriptive.png Graphic file (type png)
 <use figures/corpus_descriptive.png>
-Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 202.
+Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 200.
 (pdftex.def)             Requested size: 209.9799pt x 174.98436pt.
 
-Underfull \hbox (badness 1888) in paragraph at lines 212--213
+Underfull \hbox (badness 1888) in paragraph at lines 211--212
 \T1/ptm/m/n/10 To iden-tify genre-discriminating lyri-cal style pat-terns
  []
 
@@ -585,40 +585,55 @@ Underfull \hbox (badness 1888) in paragraph at lines 212--213
 <figures/topic_genre_heatmap_train.png, id=30, 433.62pt x 397.485pt>
 File: figures/topic_genre_heatmap_train.png Graphic file (type png)
 <use figures/topic_genre_heatmap_train.png>
-Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 270.
+Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 268.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/sentiment_genre_heatmap_train.png, id=31, 433.62pt x 397.485pt>
 File: figures/sentiment_genre_heatmap_train.png Graphic file (type png)
 <use figures/sentiment_genre_heatmap_train.png>
-Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 276.
+Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 274.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/expressions_genre_heatmap_train.png, id=32, 433.62pt x 397.485pt>
 File: figures/expressions_genre_heatmap_train.png Graphic file (type png)
 <use figures/expressions_genre_heatmap_train.png>
-Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 282.
+Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 280.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/confusion_matrix.png, id=33, 433.62pt x 361.35pt>
 File: figures/confusion_matrix.png Graphic file (type png)
 <use figures/confusion_matrix.png>
-Package pdftex.def Info: figures/confusion_matrix.png  used on input line 325.
+Package pdftex.def Info: figures/confusion_matrix.png  used on input line 321.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
+
+Underfull \hbox (badness 2205) in paragraph at lines 325--326
+\T1/ptm/m/n/10 NET and Light-GBM mod-els to pre-dict song genre,
+ []
+
 <figures/holdout_permutation_importance.png, id=34, 433.62pt x 180.675pt>
 File: figures/holdout_permutation_importance.png Graphic file (type png)
 <use figures/holdout_permutation_importance.png>
-Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 338.
+Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 332.
 (pdftex.def)             Requested size: 233.31259pt x 97.21567pt.
 <figures/shap_hip_hop.png, id=35, 560.75497pt x 353.58098pt>
 File: figures/shap_hip_hop.png Graphic file (type png)
 <use figures/shap_hip_hop.png>
-Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 345.
+Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 339.
 (pdftex.def)             Requested size: 233.31259pt x 147.11102pt.
- [4]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [5
+[4]
+Underfull \vbox (badness 1168) has occurred while \output is active []
 
 
- <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png>] (./paper_v1.bbl
+Underfull \hbox (badness 3930) in paragraph at lines 354--355
+[]\T1/ptm/m/n/10 In our in-ter-pretable machine-learning ex-per-i-ments
+ []
+
+
+Underfull \vbox (badness 1931) has occurred while \output is active []
+
+ [5 <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png>]
+Underfull \hbox (badness 1117) in paragraph at lines 358--359
+\T1/ptm/m/n/10 proaches: black-box trans-form-ers ex-cel at pre-dic-tion,
+ []
+
+(./paper_v1.bbl [6 <./figures/confusion_matrix.png> <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 45--49
 []\T1/ptm/m/n/10 E. Parada-Cabaleiro, M. May-erl, S. Brandl,
  []
@@ -628,7 +643,7 @@ Underfull \hbox (badness 1043) in paragraph at lines 62--67
 \T1/ptm/m/n/10 Artist Wikis: An Anal-y-sis of Pop-u-lar-ity, Length,
  []
 
-[6 <./figures/confusion_matrix.png> <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
+
 Underfull \hbox (badness 5331) in paragraph at lines 97--103
 \T1/ptm/m/n/10 sic Genre Clas-si-fi-ca-tion Us-ing a BLSTM Net-
  []
@@ -654,12 +669,12 @@ Underfull \hbox (badness 2662) in paragraph at lines 131--137
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
-
+[7]
 Underfull \hbox (badness 10000) in paragraph at lines 164--169
 []\T1/ptm/m/n/10 M. May-erl, M. Vöt-ter, M. Moosleit-ner, and
  []
 
-[7]
+[8]
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
@@ -672,20 +687,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 164--169
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
-) [8] (./paper_v1.aux) ) 
+) [9
+
+] (./paper_v1.aux) ) 
 Here is how much of TeX's memory you used:
- 16727 strings out of 476091
- 334063 string characters out of 5795540
+ 16728 strings out of 476091
+ 334100 string characters out of 5795540
  1889324 words of memory out of 5000000
- 36789 multiletter control sequences out of 15000+600000
+ 36790 multiletter control sequences out of 15000+600000
  558823 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 84i,14n,80p,1869b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper_v1.pdf (8 pages, 2975593 bytes).
+ 84i,14n,80p,1879b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper_v1.pdf (9 pages, 3002474 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 60 compressed objects within 1 object stream
+ 113 PDF objects out of 1000 (max. 8388607)
+ 68 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

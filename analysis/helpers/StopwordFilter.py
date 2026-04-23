@@ -1,5 +1,4 @@
 import re
-import spacy
 from spacy.lang.en.stop_words import STOP_WORDS as SPACY_STOP_WORDS
 
 _NUM_RE = re.compile(r"^\d+\S*$")

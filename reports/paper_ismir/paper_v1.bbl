@@ -254,17 +254,17 @@ A.~Defazio, F.~Bach, and S.~Lacoste-Julien, ``Saga: A fast incremental gradient
   \emph{Advances in neural information processing systems}, vol.~27, Montreal,
   2014.
 
-\bibitem{optuna2019}
-T.~Akiba, S.~Sano, T.~Yanase, T.~Ohta, and M.~Koyama, ``Optuna: A
-  next-generation hyperparameter optimization framework,'' in \emph{Proceedings
-  of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery
-  and Data Mining}, New York, 2019.
-
 \bibitem{keLightGBMHighlyEfficient2017a}
 G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
   ``{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}},'' in
   \emph{Advances in {{Neural Information Processing Systems}}}, vol.~30, Long
   Beach, 2017.
+
+\bibitem{optuna2019}
+T.~Akiba, S.~Sano, T.~Yanase, T.~Ohta, and M.~Koyama, ``Optuna: A
+  next-generation hyperparameter optimization framework,'' in \emph{Proceedings
+  of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery
+  and Data Mining}, New York, 2019.
 
 \bibitem{fisherAllModelsAre2019}
 A.~Fisher, C.~Rudin, and F.~Dominici, ``All {{Models}} are {{Wrong}}, but
@@ -276,6 +276,11 @@ A.~Fisher, C.~Rudin, and F.~Dominici, ``All {{Models}} are {{Wrong}}, but
 S.~M. Lundberg and S.-I. Lee, ``A {{Unified Approach}} to {{Interpreting Model
   Predictions}},'' in \emph{Advances in {{Neural Information Processing
   Systems}}}, vol.~30, Long Beach, 2017.
+
+\bibitem{brandCulturalEvolutionEmotional2019}
+C.~O. Brand, A.~Acerbi, and A.~Mesoudi, ``Cultural evolution of emotional
+  expression in 50 years of song lyrics,'' \emph{Evolutionary Human Sciences},
+  vol.~1, p. e11, Jan. 2019.
 
 \bibitem{vanvenrooijCategoricalAmbiguityCultural2018}
 A.~{van Venrooij} and V.~Schmutz, ``Categorical ambiguity in cultural fields:
