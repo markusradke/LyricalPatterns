@@ -36,6 +36,7 @@ perm_importance = permutation_importance(
     y_test,
     n_repeats=10,
     random_state=42,
+    n_jobs=-1,
 )
 
 df_perm_importance = pd.DataFrame(

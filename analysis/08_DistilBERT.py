@@ -10,7 +10,7 @@ from transformers import (
     TrainingArguments,
 )
 import optuna
-from datasets import Dataset
+from datasets import Dataset, ClassLabel
 from sklearn.metrics import f1_score, cohen_kappa_score
 
 
@@ -68,8 +68,13 @@ def create_and_tokenize_datasets(train_texts, test_texts, train_labels, test_lab
     tokenized_train = train_dataset.map(tokenize_function, batched=True)
     tokenized_test = test_dataset.map(tokenize_function, batched=True)
 
-    # Create validation split from training data (80/20 split)
-    train_val_split = tokenized_train.train_test_split(test_size=0.2, seed=42)
+    num_classes = len(set(train_labels))
+    tokenized_train = tokenized_train.cast_column(
+        "label", ClassLabel(num_classes=num_classes)
+    )
+    train_val_split = tokenized_train.train_test_split(
+        test_size=0.2, seed=42, stratify_by_column="label"
+    )
     tokenized_train = train_val_split["train"]
     tokenized_val = train_val_split["test"]
 
@@ -126,7 +131,7 @@ def train_model(train_dataset, val_dataset, num_labels):
 
     print("Starting hyperparameter tuning...")
 
-    os.makedirs("models/distilbert_sota_final", exist_ok=True)
+    os.makedirs("models/distilbert", exist_ok=True)
     db_path = "sqlite:///models/distilbert/tune.sqlite3"
 
     study = optuna.create_study(
@@ -201,7 +206,7 @@ if __name__ == "__main__":
     print(final_test_scores)
 
     print("\nSaving final model...")
-    model_save_path = "models/distilbert_sota_final"
+    model_save_path = "models/distilbert"
     trainer.model.save_pretrained(model_save_path)
     tokenizer.save_pretrained(model_save_path)
     print(f"Model saved to {model_save_path}")

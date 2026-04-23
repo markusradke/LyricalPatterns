@@ -45,8 +45,8 @@ f1_samples_cor <- cor(
 )
 
 metrics_label <- sprintf(
-  "F1<sub>macro</sub>: %.3f<br>
-  Cor<sub>Kendall</sub>(F1, # samples): %.3f",
+  "F<sub>1; macro</sub>: %.3f<br>
+  Cor<sub>Kendall</sub>(F<sub>1</sub>, # samples): %.3f",
   mean(f1_scores),
   f1_samples_cor
 )

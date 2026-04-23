@@ -35,8 +35,8 @@ def get_and_save_train_test_meta_data():
         dpi=1200,
     )
 
-    X_train["expression_lyrics"].to_csv("data/X_train_lyrics_dc.csv", index=False)
-    X_test["expression_lyrics"].to_csv("data/X_test_lyrics_dc.csv", index=False)
+    X_train["full_lyrics"].to_csv("data/X_train_lyrics_dc.csv", index=False)
+    X_test["full_lyrics"].to_csv("data/X_test_lyrics_dc.csv", index=False)
 
     X_train_metadata = X_train[
         ["track.s.firstartist.name", "dc_detailed", "track.s.id"]

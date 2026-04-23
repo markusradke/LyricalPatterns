@@ -41,11 +41,6 @@
 \citation{robertsStmPackageStructural2019}
 \citation{robertsStructuralTopicModels2014}
 \citation{bischofSummarizingTopicalContent2012}
-\citation{fell2014lyrics}
-\citation{defazioSAGAFastIncremental2014}
-\citation{sanhDistilBERTDistilledVersion2020}
-\citation{keLightGBMHighlyEfficient2017a}
-\citation{optuna2019}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Overview of the methodology. Genre-discriminative vocabularies are constructed on training data only, then integrated via STM into latent interpretable features; fitted components are applied to holdout data for final model evaluation.\relax }}{3}{}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:method_flow}{{1}{3}}
@@ -54,15 +49,25 @@
 \newlabel{fig:corpus}{{2}{3}}
 \@LN@col{2}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.3} RQ1: Latent Types of Discriminating Patterns}{3}{}\protected@file@percent }
+\citation{fell2014lyrics}
+\citation{defazioSAGAFastIncremental2014}
+\citation{sanhDistilBERTDistilledVersion2020}
+\citation{optuna2019}
+\citation{keLightGBMHighlyEfficient2017a}
 \citation{fisherAllModelsAre2019}
 \citation{lundbergUnifiedApproachInterpreting2017a}
+\citation{paradacabaleiroSongLyricsHave2024,mayerlComparingLyricsFeatures2020,schedlGenreDifferencesSong2019,fell2014lyrics}
+\citation{frithWhySongsHave1986}
 \@LN@col{1}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4} RQ2 and RQ3: Machine Learning Experiments}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {3.} Results}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} RQ1: Music Genre Discriminating Patterns}{4}{}\protected@file@percent }
-\@LN@col{2}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.2} RQ2: Interpretable ML Performance}{4}{}\protected@file@percent }
+\@LN@col{2}
 \@writefile{toc}{\contentsline {subsection}{\numberline {3.3} RQ3: Feature Importances and SHAP Values}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {4.} Discussion}{4}{}\protected@file@percent }
+\citation{tsaptsinosLyricsBasedMusicGenre2017,fell2014lyrics}
+\citation{fabbriTheoryMusicalGenres1982}
+\citation{gardaziBERTApplicationsNatural2025}
+\citation{rudinStopExplainingBlack2019}
+\citation{stoiaBluesLyricFormulas2020}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Example interpretations of genre-discriminative topic, sentiments, and expression types with top high-FREX n-grams.\relax }}{5}{}\protected@file@percent }
 \newlabel{tab:frex_examples}{{1}{5}}
 \newlabel{fig:topics}{{3a}{5}}
@@ -74,28 +79,12 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Latent genre-discriminative topics, sentiments, and styles: probabilities per genre in the training corpus [\%].\relax }}{5}{}\protected@file@percent }
 \newlabel{fig:heatmaps}{{3}{5}}
 \@LN@col{1}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from 4-fold cross-validation (CV) and $F1$ on holdout set (HO).\relax }}{5}{}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Macro $F1$ evaluation for classification experiments. Values show mean $F1$ from validation set (VAL; mean for 4-fold cross-validation) and $F1$ on holdout set (HO).\relax }}{5}{}\protected@file@percent }
 \newlabel{tab:f1}{{2}{5}}
 \@LN@col{2}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Confusion matrix for combined tuned lightGBM model with P(Precited|Target) [\%], holdout $F1$, and correlation between per-genre $F1$ and per-genre number of samples in training set.\relax }}{5}{}\protected@file@percent }
-\newlabel{fig:confusion_matrix}{{4}{5}}
-\citation{paradacabaleiroSongLyricsHave2024,mayerlComparingLyricsFeatures2020,schedlGenreDifferencesSong2019,fell2014lyrics}
-\citation{frithWhySongsHave1986}
-\citation{tsaptsinosLyricsBasedMusicGenre2017,fell2014lyrics}
-\citation{fabbriTheoryMusicalGenres1982}
-\citation{gardaziBERTApplicationsNatural2025}
-\citation{rudinStopExplainingBlack2019}
-\citation{stoiaBluesLyricFormulas2020}
 \citation{vanvenrooijCategoricalAmbiguityCultural2018}
 \citation{molnarInterpretableMachineLearning2020}
 \citation{lenaClassificationCultureTypes2008}
-\@LN@col{1}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Permutation importance on heldout data for the tuned LightGBM model with combined features.\relax }}{6}{}\protected@file@percent }
-\newlabel{fig:permutation_importance}{{5}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {4.} Discussion}{6}{}\protected@file@percent }
-\@LN@col{2}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Example: SHAP values for \textit  {Discogs' Hip Hop} calculated from the holdout set.\relax }}{6}{}\protected@file@percent }
-\newlabel{fig:shap_hip_hop}{{6}{6}}
 \citation{wernerEnglishGermanPop2023}
 \citation{liMusicGenreClassification2023}
 \bibdata{refs}
@@ -108,6 +97,15 @@
 \bibcite{bettiLargeScaleAnalysis2023}{7}
 \bibcite{schedlGenreDifferencesSong2019}{8}
 \bibcite{squiresGenreLinguisticExpectation2019}{9}
+\@LN@col{1}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Confusion matrix for combined tuned lightGBM model with P(Precited|Target) [\%], holdout $F1$, and correlation between per-genre $F1$ and per-genre number of samples in training set.\relax }}{6}{}\protected@file@percent }
+\newlabel{fig:confusion_matrix}{{4}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Permutation importance on heldout data for the tuned LightGBM model with combined features.\relax }}{6}{}\protected@file@percent }
+\newlabel{fig:permutation_importance}{{5}{6}}
+\@LN@col{2}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Example: SHAP values for \textit  {Discogs' Hip Hop} calculated from the holdout set.\relax }}{6}{}\protected@file@percent }
+\newlabel{fig:shap_hip_hop}{{6}{6}}
+\@writefile{toc}{\contentsline {section}{\numberline {5.} References}{6}{}\protected@file@percent }
 \bibcite{tsaptsinosLyricsBasedMusicGenre2017}{10}
 \bibcite{mayerRHYMESTYLEFEATURES2008a}{11}
 \bibcite{liMusicGenreClassification2023}{12}
@@ -116,9 +114,6 @@
 \bibcite{devlinBERTPretrainingDeep2019}{15}
 \bibcite{liuRoBERTaRobustlyOptimized2019}{16}
 \bibcite{sanhDistilBERTDistilledVersion2020}{17}
-\@LN@col{1}
-\@writefile{toc}{\contentsline {section}{\numberline {5.} References}{7}{}\protected@file@percent }
-\@LN@col{2}
 \bibcite{gardaziBERTApplicationsNatural2025}{18}
 \bibcite{skrljExploringNeuralLanguage2021}{19}
 \bibcite{muzambiMultidimensionalMIRAnalysis2026}{20}
@@ -132,6 +127,8 @@
 \bibcite{aminDatadrivenIdentificationIdioms2021}{28}
 \bibcite{knaufImNotListening2025}{29}
 \bibcite{bansalLinguisticComplexitySociocultural2025}{30}
+\@LN@col{1}
+\@LN@col{2}
 \bibcite{napierQuantitativeSentimentAnalysis2018}{31}
 \bibcite{stoiaBluesLyricFormulas2020}{32}
 \bibcite{wernerCatchyConversationalRegister2021}{33}
@@ -141,11 +138,9 @@
 \bibcite{robertsStmPackageStructural2019}{37}
 \bibcite{robertsStructuralTopicModels2014}{38}
 \bibcite{bischofSummarizingTopicalContent2012}{39}
-\@LN@col{1}
-\@LN@col{2}
 \bibcite{defazioSAGAFastIncremental2014}{40}
-\bibcite{keLightGBMHighlyEfficient2017a}{41}
-\bibcite{optuna2019}{42}
+\bibcite{optuna2019}{41}
+\bibcite{keLightGBMHighlyEfficient2017a}{42}
 \bibcite{fisherAllModelsAre2019}{43}
 \bibcite{lundbergUnifiedApproachInterpreting2017a}{44}
 \bibcite{vanvenrooijCategoricalAmbiguityCultural2018}{45}
@@ -154,4 +149,4 @@
 \bibcite{wernerEnglishGermanPop2023}{48}
 \@LN@col{1}
 \@LN@col{2}
-\gdef \@abspage@last{9}
+\gdef \@abspage@last{8}

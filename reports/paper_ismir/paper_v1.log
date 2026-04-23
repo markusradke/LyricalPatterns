@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  19 APR 2026 09:12
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.1.22)  23 APR 2026 08:29
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -548,7 +548,7 @@ LaTeX Font Info:    Trying to load font information for T1+phv on input line 89.
  (c:/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-Underfull \hbox (badness 1354) in paragraph at lines 103--104
+Underfull \hbox (badness 1354) in paragraph at lines 102--103
 []\T1/ptm/m/n/10 In this con-tri-bu-tion, we con-cep-tu-al-ize style-related
  []
 
@@ -557,87 +557,68 @@ Underfull \hbox (badness 1354) in paragraph at lines 103--104
 
 
  <./cc_by.pdf>]
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 113--113
 []|\T1/ptm/b/n/10 RQ1| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 113--113
 []|\T1/ptm/b/n/10 RQ2| 
  []
 
 
-Overfull \hbox (1.33444pt too wide) in paragraph at lines 114--114
+Overfull \hbox (1.33444pt too wide) in paragraph at lines 113--113
 []|\T1/ptm/b/n/10 RQ3| 
  []
 
 <figures/corpus_descriptive.png, id=20, 433.62pt x 361.35pt>
 File: figures/corpus_descriptive.png Graphic file (type png)
 <use figures/corpus_descriptive.png>
-Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 203.
-(pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
+Package pdftex.def Info: figures/corpus_descriptive.png  used on input line 202.
+(pdftex.def)             Requested size: 209.9799pt x 174.98436pt.
 
-Underfull \hbox (badness 1888) in paragraph at lines 213--214
+Underfull \hbox (badness 1888) in paragraph at lines 212--213
 \T1/ptm/m/n/10 To iden-tify genre-discriminating lyri-cal style pat-terns
  []
 
-[2]
-Underfull \vbox (badness 1590) has occurred while \output is active []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
- [3 <./figures/corpus_descriptive.png>]
+[2] [3 <./figures/corpus_descriptive.png>]
 <figures/topic_genre_heatmap_train.png, id=30, 433.62pt x 397.485pt>
 File: figures/topic_genre_heatmap_train.png Graphic file (type png)
 <use figures/topic_genre_heatmap_train.png>
-Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 269.
+Package pdftex.def Info: figures/topic_genre_heatmap_train.png  used on input line 270.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/sentiment_genre_heatmap_train.png, id=31, 433.62pt x 397.485pt>
 File: figures/sentiment_genre_heatmap_train.png Graphic file (type png)
 <use figures/sentiment_genre_heatmap_train.png>
-Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 275.
+Package pdftex.def Info: figures/sentiment_genre_heatmap_train.png  used on input line 276.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/expressions_genre_heatmap_train.png, id=32, 433.62pt x 397.485pt>
 File: figures/expressions_genre_heatmap_train.png Graphic file (type png)
 <use figures/expressions_genre_heatmap_train.png>
-Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 281.
+Package pdftex.def Info: figures/expressions_genre_heatmap_train.png  used on input line 282.
 (pdftex.def)             Requested size: 161.49873pt x 148.04362pt.
 <figures/confusion_matrix.png, id=33, 433.62pt x 361.35pt>
 File: figures/confusion_matrix.png Graphic file (type png)
 <use figures/confusion_matrix.png>
-Package pdftex.def Info: figures/confusion_matrix.png  used on input line 324.
+Package pdftex.def Info: figures/confusion_matrix.png  used on input line 325.
 (pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<figures/holdout_permutation_importance.png, id=34, 433.62pt x 361.35pt>
+<figures/holdout_permutation_importance.png, id=34, 433.62pt x 180.675pt>
 File: figures/holdout_permutation_importance.png Graphic file (type png)
 <use figures/holdout_permutation_importance.png>
-Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 337.
-(pdftex.def)             Requested size: 233.31259pt x 194.43137pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<figures/shap_hip_hop.png, id=35, 563.10374pt x 678.79597pt>
+Package pdftex.def Info: figures/holdout_permutation_importance.png  used on input line 338.
+(pdftex.def)             Requested size: 233.31259pt x 97.21567pt.
+<figures/shap_hip_hop.png, id=35, 560.75497pt x 353.58098pt>
 File: figures/shap_hip_hop.png Graphic file (type png)
 <use figures/shap_hip_hop.png>
-Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 344.
-(pdftex.def)             Requested size: 233.31259pt x 281.2497pt.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[4]
-Underfull \vbox (badness 1454) has occurred while \output is active []
-
-
+Package pdftex.def Info: figures/shap_hip_hop.png  used on input line 345.
+(pdftex.def)             Requested size: 233.31259pt x 147.11102pt.
+ [4]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [5
 
 
- <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png> <./figures/confusion_matrix.png>] [6 <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>] (./paper_v1.bbl
+ <./figures/topic_genre_heatmap_train.png> <./figures/sentiment_genre_heatmap_train.png> <./figures/expressions_genre_heatmap_train.png>] (./paper_v1.bbl
 Underfull \hbox (badness 10000) in paragraph at lines 45--49
 []\T1/ptm/m/n/10 E. Parada-Cabaleiro, M. May-erl, S. Brandl,
  []
@@ -647,23 +628,23 @@ Underfull \hbox (badness 1043) in paragraph at lines 62--67
 \T1/ptm/m/n/10 Artist Wikis: An Anal-y-sis of Pop-u-lar-ity, Length,
  []
 
-
-Underfull \hbox (badness 5331) in paragraph at lines 98--104
+[6 <./figures/confusion_matrix.png> <./figures/holdout_permutation_importance.png> <./figures/shap_hip_hop.png>]
+Underfull \hbox (badness 5331) in paragraph at lines 97--103
 \T1/ptm/m/n/10 sic Genre Clas-si-fi-ca-tion Us-ing a BLSTM Net-
  []
 
 
-Underfull \hbox (badness 1062) in paragraph at lines 98--104
+Underfull \hbox (badness 1062) in paragraph at lines 97--103
 \T1/ptm/m/n/10 work,'' in \T1/ptm/m/it/10 Ar-ti-fi-cial In-tel-li-gence and Soft Com-put-
  []
 
 
-Underfull \hbox (badness 1831) in paragraph at lines 98--104
+Underfull \hbox (badness 1831) in paragraph at lines 97--103
 \T1/ptm/m/it/10 ing\T1/ptm/m/n/10 , L. Rutkowski, R. Scherer, M. Ko-ry-tkowski,
  []
 
-[7]
-Underfull \hbox (badness 2662) in paragraph at lines 134--141
+
+Underfull \hbox (badness 2662) in paragraph at lines 131--137
 \T1/ptm/m/n/10 S. Luz, and S. Pol-lak, ``Ex-plor-ing Neu-ral Lan-
  []
 
@@ -674,16 +655,11 @@ Underfull \hbox (badness 2662) in paragraph at lines 134--141
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
 
-Underfull \hbox (badness 10000) in paragraph at lines 171--177
+Underfull \hbox (badness 10000) in paragraph at lines 164--169
 []\T1/ptm/m/n/10 M. May-erl, M. Vöt-ter, M. Moosleit-ner, and
  []
 
-
-Underfull \hbox (badness 1127) in paragraph at lines 171--177
-\T1/ptm/m/n/10 M. Quad-rana, and K. Watan-abe, Eds. On-line:
- []
-
-[8]
+[7]
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
@@ -696,9 +672,7 @@ Underfull \hbox (badness 1127) in paragraph at lines 171--177
 ** WARNING: IEEEtran.bst: No hyphenation pattern has been
 ** loaded for the language `en'. Using the pattern for
 ** the default language instead.
-) [9
-
-] (./paper_v1.aux) ) 
+) [8] (./paper_v1.aux) ) 
 Here is how much of TeX's memory you used:
  16727 strings out of 476091
  334063 string characters out of 5795540
@@ -707,11 +681,11 @@ Here is how much of TeX's memory you used:
  558823 words of font info for 83 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  84i,14n,80p,1869b,907s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on paper_v1.pdf (9 pages, 3911847 bytes).
+{c:/texlive/2022/texmf-dist/fonts/enc/dvips/base/8r.enc}<c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2022/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive/2022/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on paper_v1.pdf (8 pages, 2975593 bytes).
 PDF statistics:
- 113 PDF objects out of 1000 (max. 8388607)
- 68 compressed objects within 1 object stream
+ 100 PDF objects out of 1000 (max. 8388607)
+ 60 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  53 words of extra memory for PDF output out of 10000 (max. 10000000)
 

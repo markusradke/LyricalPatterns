@@ -27,14 +27,14 @@ S.~Davis, ``Pop lyrics: {{A}} mirror and a molder of society,''
 
 \bibitem{frithWhySongsHave1986}
 S.~Frith, ``Why {{Do Songs Have Words}}?'' \emph{The Sociological Review},
-  vol.~34, no. 1\_suppl, pp. 77--106, May 1986.
+  vol.~34, no. 1\_suppl, pp. 77--106, 1986.
 
 \bibitem{watanabeLyricsInformationProcessing2020}
 K.~Watanabe and M.~Goto, ``Lyrics {{Information Processing}}: {{Analysis}},
   {{Generation}}, and {{Applications}},'' in \emph{Proceedings of the 1st
   {{Workshop}} on {{NLP}} for {{Mu-}} Sic and {{Audio}} ({{NLP4MusA}})}.\hskip
   1em plus 0.5em minus 0.4em\relax Online: Association for Computational
-  Linguistics, Oct. 2020, pp. 6--12.
+  Linguistics, 2020, pp. 6--12.
 
 \bibitem{fabbriTheoryMusicalGenres1982}
 F.~Fabbri, ``A {{Theory}} of {{Musical Genres}}: {{Two Applications}},'' in
@@ -44,36 +44,36 @@ F.~Fabbri, ``A {{Theory}} of {{Musical Genres}}: {{Two Applications}},'' in
 \bibitem{paradacabaleiroSongLyricsHave2024}
 E.~{Parada-Cabaleiro}, M.~Mayerl, S.~Brandl, M.~Skowron, M.~Schedl, E.~Lex, and
   E.~Zangerle, ``Song lyrics have become simpler and more repetitive over the
-  last five decades,'' \emph{Scientific Reports}, vol.~14, no.~1, p. 5531, Mar.
+  last five decades,'' \emph{Scientific Reports}, vol.~14, no.~1, p. 5531,
   2024.
 
 \bibitem{carboneStatusMarkersPopular2024}
 L.~Carbone, P.~{Alvarez-Cueva}, and L.~Vandenbosch, ``Status {{Markers}} in
   {{Popular Music Across Six Countries}}:~{{A Content Analysis}} of {{Gender}},
   {{Race}}/{{Ethnicity}}, {{Genre}}, and {{Capital}} in {{Music Lyrics}},''
-  \emph{Sex Roles}, vol.~90, no.~7, pp. 891--909, Jul. 2024.
+  \emph{Sex Roles}, vol.~90, no.~7, pp. 891--909, 2024.
 
 \bibitem{bettiLargeScaleAnalysis2023}
 L.~Betti, C.~Abrate, and A.~Kaltenbrunner, ``Large scale analysis of gender
   bias and sexism in song lyrics,'' \emph{EPJ Data Science}, vol.~12, no.~1,
-  pp. 1--22, Dec. 2023.
+  pp. 1--22, 2023.
 
 \bibitem{schedlGenreDifferencesSong2019}
 M.~Schedl, ``Genre {{Differences}} of {{Song Lyrics}} and {{Artist Wikis}}:
   {{An Analysis}} of {{Popularity}}, {{Length}}, {{Repetitiveness}}, and
   {{Readability}},'' in \emph{The {{World Wide Web Conference}}}, ser. {{WWW}}
   '19.\hskip 1em plus 0.5em minus 0.4em\relax New York, NY, USA: Association
-  for Computing Machinery, May 2019, pp. 3201--3207.
+  for Computing Machinery, 2019, pp. 3201--3207.
 
 \bibitem{squiresGenreLinguisticExpectation2019}
 L.~Squires, ``Genre and linguistic expectation shift: {{Evidence}} from pop
-  song lyrics,'' \emph{Language in Society}, vol.~48, no.~1, pp. 1--30, Feb.
-  2019.
+  song lyrics,'' \emph{Language in Society}, vol.~48, no.~1, pp. 1--30, 2019.
 
 \bibitem{tsaptsinosLyricsBasedMusicGenre2017}
 A.~Tsaptsinos, ``Lyrics-{{Based Music Genre Classification Using}} a
-  {{Hierarchical Attention Network}},'' in \emph{18th {{International Society}}
-  for {{Music Information Retrieval Conference}}}, Suzhou, 2017.
+  {{Hierarchical Attention Network}},'' in \emph{Produeedings of the 18th
+  {{International Society}} for {{Music Information Retrieval Conference}}},
+  Suzhou, 2017, pp. 694--701.
 
 \bibitem{mayerRHYMESTYLEFEATURES2008a}
 R.~Mayer, R.~Neumayer, and A.~Rauber, ``Rhyme and {{Style Features}} for
@@ -84,15 +84,14 @@ R.~Mayer, R.~Neumayer, and A.~Rauber, ``Rhyme and {{Style Features}} for
 \bibitem{liMusicGenreClassification2023}
 Y.~Li, Z.~Zhang, H.~Ding, and L.~Chang, ``Music genre classification based on
   fusing audio and lyric information,'' \emph{Multimedia Tools and
-  Applications}, vol.~82, no.~13, pp. 20\,157--20\,176, May 2023.
+  Applications}, vol.~82, no.~13, pp. 20\,157--20\,176, 2023.
 
 \bibitem{akalpLanguageRepresentationModels2021}
 H.~Akalp, E.~Furkan~Cigdem, S.~Yilmaz, N.~Bolucu, and B.~Can, ``Language
   {{Representation Models}} for {{Music Genre Classification Using Lyrics}},''
   in \emph{2021 {{International Symposium}} on {{Electrical}}, {{Electronics}}
-  and {{Information Engineering}}}, ser. {{ISEEIE}} 2021.\hskip 1em plus 0.5em
-  minus 0.4em\relax New York, NY, USA: Association for Computing Machinery,
-  Jul. 2021, pp. 408--414.
+  and {{Information Engineering}}}.\hskip 1em plus 0.5em minus 0.4em\relax New
+  York, NY, USA: Association for Computing Machinery, 2021, pp. 408--414.
 
 \bibitem{dearaujolimaBrazilianLyricsBasedMusic2020}
 R.~{de Ara{\'u}jo Lima}, R.~C.~C. {de Sousa}, H.~Lopes, and S.~D.~J. Barbosa,
@@ -107,27 +106,25 @@ J.~Devlin, M.-W. Chang, K.~Lee, and K.~Toutanova, ``{{BERT}}: {{Pre-training}}
   of {{Deep Bidirectional Transformers}} for {{Language Understanding}},'' in
   \emph{Proceedings of the 2019 {{Conference}} of the {{North American
   Chapter}} of the {{Association}} for {{Computational Linguistics}}: {{Human
-  Language Technologies}}, {{Volume}} 1 ({{Long}} and {{Short Papers}})},
-  J.~Burstein, C.~Doran, and T.~Solorio, Eds.\hskip 1em plus 0.5em minus
-  0.4em\relax Minneapolis, Minnesota: Association for Computational
-  Linguistics, Jun. 2019, pp. 4171--4186.
+  Language Technologies}}, {{Volume}} 1 ({{Long}} and {{Short Papers}})}.\hskip
+  1em plus 0.5em minus 0.4em\relax Minneapolis, Minnesota: Association for
+  Computational Linguistics, 2019, pp. 4171--4186.
 
 \bibitem{liuRoBERTaRobustlyOptimized2019}
 Y.~Liu, M.~Ott, N.~Goyal, J.~Du, M.~Joshi, D.~Chen, O.~Levy, M.~Lewis,
   L.~Zettlemoyer, and V.~Stoyanov, ``{{RoBERTa}}: {{A Robustly Optimized BERT
-  Pretraining Approach}},'' Jul. 2019.
+  Pretraining Approach}},'' \emph{arXiv preprint arXiv:1907.11692}, 2019.
 
 \bibitem{sanhDistilBERTDistilledVersion2020}
 V.~Sanh, L.~Debut, J.~Chaumond, and T.~Wolf, ``{{DistilBERT}}, a distilled
   version of {{BERT}}: Smaller, faster, cheaper and lighter,'' in \emph{5th
   {{Workshop}} on {{Energy Efficient Machine Learning}} and {{Cognitive
-  Computing}} - {{NeurIPS}} 2019}.\hskip 1em plus 0.5em minus 0.4em\relax
-  arXiv, Mar. 2020.
+  Computing}} - {{NeurIPS}} 2019}, Vancouver, 2019.
 
 \bibitem{gardaziBERTApplicationsNatural2025}
 N.~M. Gardazi, A.~Daud, M.~K. Malik, A.~Bukhari, T.~Alsahfi, and
   B.~Alshemaimri, ``{{BERT}} applications in natural language processing: A
-  review,'' \emph{Artificial Intelligence Review}, vol.~58, no.~6, p. 166, Mar.
+  review,'' \emph{Artificial Intelligence Review}, vol.~58, no.~6, p. 166,
   2025.
 
 \bibitem{skrljExploringNeuralLanguage2021}
@@ -135,93 +132,86 @@ B.~{\v S}krlj, S.~Sheehan, N.~Er{\v z}en, M.~{Robnik-{\v S}ikonja}, S.~Luz, and
   S.~Pollak, ``Exploring {{Neural Language Models}} via {{Analysis}} of
   {{Local}} and {{Global Self-Attention Spaces}},'' in \emph{Proceedings of the
   {{EACL Hackashop}} on {{News Media Content Analysis}} and {{Automated Report
-  Generation}}}, H.~Toivonen and M.~Boggia, Eds.\hskip 1em plus 0.5em minus
-  0.4em\relax Online: Association for Computational Linguistics, Apr. 2021, pp.
-  76--83.
+  Generation}}}.\hskip 1em plus 0.5em minus 0.4em\relax Online: Association for
+  Computational Linguistics, 2021, pp. 76--83.
 
 \bibitem{muzambiMultidimensionalMIRAnalysis2026}
-\BIBentryALTinterwordspacing
 A.~Muzambi, T.~G. Moape, and B.~Chimbo, ``\BIBforeignlanguage{en}{A
   {Multidimensional} {MIR} {Analysis} of {Acoustic}, {Linguistic} and
   {Cultural} {Gaps} {Between} {Maskandi} and {Western} {Music} {Genres}},''
   \emph{\BIBforeignlanguage{en}{Applied Sciences}}, vol.~16, no.~8, p. 3802,
-  Jan. 2026. [Online]. Available:
-  \url{https://www.mdpi.com/2076-3417/16/8/3802}
-\BIBentrySTDinterwordspacing
+  2026.
 
 \bibitem{benderDangersStochasticParrots2021}
 E.~M. Bender, T.~Gebru, A.~{McMillan-Major}, and S.~Shmitchell, ``On the
   {{Dangers}} of {{Stochastic Parrots}}: {{Can Language Models Be Too Big}}?''
   in \emph{Proceedings of the 2021 {{ACM Conference}} on {{Fairness}},
-  {{Accountability}}, and {{Transparency}}}, ser. {{FAccT}} '21.\hskip 1em plus
-  0.5em minus 0.4em\relax New York, NY, USA: Association for Computing
-  Machinery, Mar. 2021, pp. 610--623.
+  {{Accountability}}, and {{Transparency}}}.\hskip 1em plus 0.5em minus
+  0.4em\relax New York, NY, USA: Association for Computing Machinery, 2021, pp.
+  610--623.
 
 \bibitem{sturmSimpleMethodDetermine2014}
 B.~L. Sturm, ``A {{Simple Method}} to {{Determine}} if a {{Music Information
   Retrieval System}} is a ``{{Horse}}'','' \emph{IEEE Transactions on
-  Multimedia}, vol.~16, no.~6, pp. 1636--1644, Oct. 2014.
+  Multimedia}, vol.~16, no.~6, pp. 1636--1644, 2014.
 
 \bibitem{rudinStopExplainingBlack2019}
 C.~Rudin, ``Stop explaining black box machine learning models for high stakes
   decisions and use interpretable models instead,'' \emph{Nature Machine
-  Intelligence}, vol.~1, no.~5, pp. 206--215, May 2019.
+  Intelligence}, vol.~1, no.~5, pp. 206--215, 2019.
 
 \bibitem{mayerlComparingLyricsFeatures2020}
 M.~Mayerl, M.~V{\"o}tter, M.~Moosleitner, and E.~Zangerle, ``Comparing {{Lyrics
   Features}} for {{Genre Recognition}},'' in \emph{Proceedings of the 1st
-  {{Workshop}} on {{NLP}} for {{Music}} and {{Audio}} ({{NLP4MusA}})},
-  S.~Oramas, L.~{Espinosa-Anke}, E.~Epure, R.~Jones, M.~Sordo, M.~Quadrana, and
-  K.~Watanabe, Eds.\hskip 1em plus 0.5em minus 0.4em\relax Online: Association
-  for Computational Linguistics, 2020, pp. 73--77.
+  {{Workshop}} on {{NLP}} for {{Music}} and {{Audio}} ({{NLP4MusA}})}.\hskip
+  1em plus 0.5em minus 0.4em\relax Online: Association for Computational
+  Linguistics, 2020, pp. 73--77.
 
 \bibitem{fell2014lyrics}
 M.~Fell and C.~Sporleder, ``Lyrics-based analysis and classification of
   music,'' in \emph{Proceedings of {{COLING}} 2014, the 25th International
-  Conference on Computational Linguistics: {{Technical}} Papers}, 2014, pp.
-  620--631.
+  Conference on Computational Linguistics: {{Technical}} Papers}, Dublin, 2014,
+  pp. 620--631.
 
 \bibitem{kreyerStylePopSong2007}
 R.~Kreyer and J.~Mukherjee, ``The {{Style}} of {{Pop Song Lyrics}}: {{A
   Corpus-linguistic Pilot Study}},'' \emph{Anglia}, vol. 125, no.~1, pp.
-  31--58, Aug. 2007.
+  31--58, 2007.
 
 \bibitem{wrayFunctionsFormulaicLanguage2000}
 A.~Wray and M.~R. Perkins, ``The functions of formulaic language: An integrated
-  model,'' \emph{Language \& Communication}, vol.~20, no.~1, pp. 1--28, Jan.
-  2000.
+  model,'' \emph{Language \& Communication}, vol.~20, no.~1, pp. 1--28, 2000.
 
 \bibitem{aminDatadrivenIdentificationIdioms2021}
 M.~Amin, P.~Fankhauser, M.~Kupietz, and R.~Schneider, ``Data-driven
   {{Identification}} of {{Idioms}} in {{Song Lyrics}},'' in \emph{Proceedings
-  of the 17th {{Workshop}} on {{Multiword Expressions}} ({{MWE}} 2021)},
-  P.~Cook, J.~Mitrovi{\'c}, C.~P. Escart{\'i}n, A.~Vaidya, P.~Osenova,
-  S.~Taslimipoor, and C.~Ramisch, Eds.\hskip 1em plus 0.5em minus 0.4em\relax
-  Online: Association for Computational Linguistics, Aug. 2021, pp. 13--22.
+  of the 17th {{Workshop}} on {{Multiword Expressions}} ({{MWE}} 2021)}.\hskip
+  1em plus 0.5em minus 0.4em\relax Online: Association for Computational
+  Linguistics, 2021, pp. 13--22.
 
 \bibitem{knaufImNotListening2025}
 C.~Knauf, ````{{La La La}}, {{I}}'m not listening (but {{I}} really am)'':
   {{Exploring}} the meaning of a rhythmic hook in rock and pop music,''
-  \emph{Atlantic Journal of Communication}, vol.~33, no.~3, pp. 525--545, May
-  2025.
+  \emph{Atlantic Journal of Communication}, vol.~33, no.~3, pp. 525--545, 2025.
 
 \bibitem{bansalLinguisticComplexitySociocultural2025}
 A.~Bansal, R.~Agarwal, and K.~Jain, ``Linguistic {{Complexity}} and
-  {{Socio-cultural Patterns}} in {{Hip-Hop Lyrics}},'' Apr. 2025.
+  {{Socio-cultural Patterns}} in {{Hip-Hop Lyrics}},'' \emph{arXiv preprint
+  arXiv:2505.00035}, 2025.
 
 \bibitem{napierQuantitativeSentimentAnalysis2018}
 K.~Napier and L.~Shamir, ``Quantitative {{Sentiment Analysis}} of {{Lyrics}} in
   {{Popular Music}},'' \emph{Journal of Popular Music Studies}, vol.~30, no.~4,
-  pp. 161--176, Dec. 2018.
+  pp. 161--176, 2018.
 
 \bibitem{stoiaBluesLyricFormulas2020}
 N.~Stoia, ``Blues {{Lyric Formulas}} in {{Early Country Music}}, {{Rhythm}} and
   {{Blues}}, and {{Rock}} and {{Roll}},'' \emph{Music Theory Online}, vol.~26,
-  no.~4, Nov. 2020.
+  no.~4, 2020.
 
 \bibitem{wernerCatchyConversationalRegister2021}
 V.~Werner, ``Catchy and conversational? {{A}} register analysis of pop
-  lyrics,'' \emph{Corpora}, vol.~16, no.~2, pp. 237--270, Aug. 2021.
+  lyrics,'' \emph{Corpora}, vol.~16, no.~2, pp. 237--270, 2021.
 
 \bibitem{flexerEffectsAlbumArtist2010}
 A.~Flexer and D.~Schnitzer, ``Effects of {{Album}} and {{Artist Filters}} in
@@ -243,7 +233,7 @@ Y.~Benjamini and Y.~Hochberg, ``Controlling the {{False Discovery Rate}}: {{A
 \bibitem{robertsStmPackageStructural2019}
 M.~E. Roberts, B.~M. Stewart, and D.~Tingley, ``Stm: {{An R Package}} for
   {{Structural Topic Models}},'' \emph{Journal of Statistical Software},
-  vol.~91, pp. 1--40, Oct. 2019.
+  vol.~91, pp. 1--40, 2019.
 
 \bibitem{robertsStructuralTopicModels2014}
 M.~E. Roberts, B.~M. Stewart, D.~Tingley, C.~Lucas, J.~{Leder-Luis}, S.~K.
@@ -254,26 +244,27 @@ M.~E. Roberts, B.~M. Stewart, D.~Tingley, C.~Lucas, J.~{Leder-Luis}, S.~K.
 \bibitem{bischofSummarizingTopicalContent2012}
 J.~M. Bischof and E.~M. Airoldi, ``Summarizing topical content with word
   frequency and exclusivity,'' in \emph{Proceedings of the 29th {{International
-  Coference}} on {{International Conference}} on {{Machine Learning}}}, ser.
-  {{ICML}}'12.\hskip 1em plus 0.5em minus 0.4em\relax Madison, WI, USA:
-  Omnipress, Jun. 2012, pp. 9--16.
+  Coference}} on {{International Conference}} on {{Machine Learning}}}.\hskip
+  1em plus 0.5em minus 0.4em\relax Madison, WI, USA: Omnipress, 2012, pp.
+  9--16.
 
 \bibitem{defazioSAGAFastIncremental2014}
-A.~Defazio, F.~Bach, and S.~{Lacoste-Julien}, ``{{SAGA}}: {{A Fast Incremental
-  Gradient Method With Support}} for {{Non-Strongly Convex Composite
-  Objectives}},'' Dec. 2014.
-
-\bibitem{keLightGBMHighlyEfficient2017a}
-G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
-  ``{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}},'' in
-  \emph{Advances in {{Neural Information Processing Systems}}}, vol.~30.\hskip
-  1em plus 0.5em minus 0.4em\relax Curran Associates, Inc., 2017.
+A.~Defazio, F.~Bach, and S.~Lacoste-Julien, ``Saga: A fast incremental gradient
+  method with support for non-strongly convex composite objectives,'' in
+  \emph{Advances in neural information processing systems}, vol.~27, Montreal,
+  2014.
 
 \bibitem{optuna2019}
 T.~Akiba, S.~Sano, T.~Yanase, T.~Ohta, and M.~Koyama, ``Optuna: A
   next-generation hyperparameter optimization framework,'' in \emph{Proceedings
   of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery
-  and Data Mining}, 2019.
+  and Data Mining}, New York, 2019.
+
+\bibitem{keLightGBMHighlyEfficient2017a}
+G.~Ke, Q.~Meng, T.~Finley, T.~Wang, W.~Chen, W.~Ma, Q.~Ye, and T.-Y. Liu,
+  ``{{LightGBM}}: {{A Highly Efficient Gradient Boosting Decision Tree}},'' in
+  \emph{Advances in {{Neural Information Processing Systems}}}, vol.~30, Long
+  Beach, 2017.
 
 \bibitem{fisherAllModelsAre2019}
 A.~Fisher, C.~Rudin, and F.~Dominici, ``All {{Models}} are {{Wrong}}, but
@@ -284,8 +275,7 @@ A.~Fisher, C.~Rudin, and F.~Dominici, ``All {{Models}} are {{Wrong}}, but
 \bibitem{lundbergUnifiedApproachInterpreting2017a}
 S.~M. Lundberg and S.-I. Lee, ``A {{Unified Approach}} to {{Interpreting Model
   Predictions}},'' in \emph{Advances in {{Neural Information Processing
-  Systems}}}, vol.~30.\hskip 1em plus 0.5em minus 0.4em\relax Curran
-  Associates, Inc., 2017.
+  Systems}}}, vol.~30, Long Beach, 2017.
 
 \bibitem{vanvenrooijCategoricalAmbiguityCultural2018}
 A.~{van Venrooij} and V.~Schmutz, ``Categorical ambiguity in cultural fields:
@@ -297,20 +287,15 @@ C.~Molnar, \emph{Interpretable {{Machine Learning}}}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Lulu.com, 2025.
 
 \bibitem{lenaClassificationCultureTypes2008}
-\BIBentryALTinterwordspacing
 J.~C. Lena and R.~A. Peterson, ``\BIBforeignlanguage{en}{Classification as
   {Culture}: {Types} and {Trajectories} of {Music} {Genres}},''
   \emph{\BIBforeignlanguage{en}{American Sociological Review}}, vol.~73, no.~5,
-  pp. 697--718, Oct. 2008. [Online]. Available:
-  \url{https://doi.org/10.1177/000312240807300501}
-\BIBentrySTDinterwordspacing
+  pp. 697--718, 2008.
 
 \bibitem{wernerEnglishGermanPop2023}
-\BIBentryALTinterwordspacing
 V.~Werner, ``\BIBforeignlanguage{en}{English and {German} pop song lyrics:
   {Towards} a contrastive textology},'' \emph{\BIBforeignlanguage{en}{Journal
   for Language Technology and Computational Linguistics}}, vol.~36, no.~1, pp.
-  1--20, May 2023. [Online]. Available: \url{https://jlcl.org/article/view/235}
-\BIBentrySTDinterwordspacing
+  1--20, 2023.
 
 \end{thebibliography}

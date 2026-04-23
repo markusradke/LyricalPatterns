@@ -15,42 +15,42 @@ Database file #1: refs.bib
 Done.
 You've used 48 entries,
             4087 wiz_defined-function locations,
-            1172 strings with 20823 characters,
-and the built_in function-call counts, 39260 in all, are:
-= -- 3153
-> -- 970
-< -- 329
-+ -- 515
-- -- 178
-* -- 1968
-:= -- 5800
-add.period$ -- 110
+            1168 strings with 20397 characters,
+and the built_in function-call counts, 38555 in all, are:
+= -- 3131
+> -- 898
+< -- 339
++ -- 487
+- -- 159
+* -- 1886
+:= -- 5706
+add.period$ -- 107
 call.type$ -- 48
-change.case$ -- 60
-chr.to.int$ -- 723
+change.case$ -- 52
+chr.to.int$ -- 747
 cite$ -- 48
-duplicate$ -- 2861
-empty$ -- 3163
-format.name$ -- 213
-if$ -- 9156
+duplicate$ -- 2803
+empty$ -- 3125
+format.name$ -- 190
+if$ -- 9035
 int.to.chr$ -- 0
 int.to.str$ -- 48
-missing$ -- 519
-newline$ -- 173
-num.names$ -- 60
-pop$ -- 1151
+missing$ -- 483
+newline$ -- 167
+num.names$ -- 52
+pop$ -- 1072
 preamble$ -- 1
 purify$ -- 0
 quote$ -- 2
-skip$ -- 2942
+skip$ -- 2957
 stack$ -- 0
-substring$ -- 1768
-swap$ -- 2409
-text.length$ -- 88
+substring$ -- 1824
+swap$ -- 2305
+text.length$ -- 90
 text.prefix$ -- 0
 top$ -- 5
 type$ -- 48
 warning$ -- 0
 while$ -- 192
 width$ -- 50
-write$ -- 509
+write$ -- 498
