@@ -10,7 +10,6 @@ import json
 
 from lightgbm import LGBMClassifier, early_stopping
 from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LogisticRegression
 from sklearn.inspection import permutation_importance
 from sklearn.metrics import (
