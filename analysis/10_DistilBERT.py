@@ -173,9 +173,9 @@ def train_model(train_dataset, val_dataset, num_labels):
     class_weights = build_class_weights(train_dataset, num_labels)
 
     training_args = TrainingArguments(
-        output_dir="models/distillBERT",
+        output_dir="models/distilbert",
         per_device_eval_batch_size=64,
-        logging_dir="models/distillBERT/logs",
+        logging_dir="models/distilbert/logs",
         logging_steps=10,
         do_eval=True,
         eval_steps=500,
