@@ -207,7 +207,7 @@ expressions_labels <- c(
   "Dark Fantasy Imagery",
   "Jamaican Patois & Gospel",
   "Old School Street Slang",
-  "Sexually-charged Partying",
+  "Sexually-charged Party Speak",
   "Denying & Negotiating",
   "Violent Threats & Insults",
   "Street Boasting",

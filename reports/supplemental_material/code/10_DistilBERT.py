@@ -1,6 +1,8 @@
 import os
+import numpy as np
 import pandas as pd
 import torch
+import matplotlib.pyplot as plt
 
 from sklearn.preprocessing import LabelEncoder
 from transformers import (
@@ -10,8 +12,15 @@ from transformers import (
     TrainingArguments,
 )
 import optuna
-from datasets import Dataset, ClassLabel
-from sklearn.metrics import f1_score, cohen_kappa_score
+from datasets import Dataset
+from helpers.split_group_stratified_and_join import split_group_stratified_and_join
+from sklearn.metrics import (
+    f1_score,
+    cohen_kappa_score,
+    classification_report,
+    confusion_matrix,
+    ConfusionMatrixDisplay,
+)
 
 
 def check_cuda_availability():
@@ -42,6 +51,8 @@ def load_data():
     train_labels_text = df_train_meta["dc_detailed"].tolist()
     test_labels_text = df_test_meta["dc_detailed"].tolist()
 
+    train_artists = df_train_meta["track.s.firstartist.name"].reset_index(drop=True)
+
     le = LabelEncoder()
     train_labels = le.fit_transform(train_labels_text)
     test_labels = le.transform(test_labels_text)
@@ -49,12 +60,39 @@ def load_data():
     num_labels = len(le.classes_)
     print(f"Found {num_labels} unique classes: {le.classes_}")
 
-    return train_texts, test_texts, train_labels, test_labels, num_labels
+    return (
+        train_texts,
+        test_texts,
+        train_labels,
+        test_labels,
+        num_labels,
+        train_artists,
+    )
 
 
-def create_and_tokenize_datasets(train_texts, test_texts, train_labels, test_labels):
+def create_and_tokenize_datasets(
+    train_texts, test_texts, train_labels, test_labels, train_artists
+):
     print("Creating Hugging Face datasets...")
-    train_dataset = Dataset.from_dict({"text": train_texts, "label": train_labels})
+
+    X_train = pd.DataFrame({"text": train_texts})
+    labels_and_group = pd.DataFrame({"group": train_artists, "label": train_labels})
+
+    X_train_split, X_val_split, y_train_split, y_val_split = (
+        split_group_stratified_and_join(
+            labels_and_group=labels_and_group,
+            X=X_train,
+            test_size=0.2,
+            random_state=42,
+        )
+    )
+
+    train_dataset = Dataset.from_dict(
+        {"text": X_train_split["text"].tolist(), "label": y_train_split.tolist()}
+    )
+    val_dataset = Dataset.from_dict(
+        {"text": X_val_split["text"].tolist(), "label": y_val_split.tolist()}
+    )
     test_dataset = Dataset.from_dict({"text": test_texts, "label": test_labels})
 
     tokenizer = AutoTokenizer.from_pretrained("distilbert-base-uncased")
@@ -66,17 +104,8 @@ def create_and_tokenize_datasets(train_texts, test_texts, train_labels, test_lab
 
     print("Tokenizing datasets...")
     tokenized_train = train_dataset.map(tokenize_function, batched=True)
+    tokenized_val = val_dataset.map(tokenize_function, batched=True)
     tokenized_test = test_dataset.map(tokenize_function, batched=True)
-
-    num_classes = len(set(train_labels))
-    tokenized_train = tokenized_train.cast_column(
-        "label", ClassLabel(num_classes=num_classes)
-    )
-    train_val_split = tokenized_train.train_test_split(
-        test_size=0.2, seed=42, stratify_by_column="label"
-    )
-    tokenized_train = train_val_split["train"]
-    tokenized_val = train_val_split["test"]
 
     return tokenized_train, tokenized_val, tokenized_test, tokenizer
 
@@ -101,6 +130,37 @@ def optuna_hp_space(trial):
     }
 
 
+class WeightedTrainer(Trainer):
+    def __init__(self, class_weights, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.class_weights = class_weights
+
+    def compute_loss(
+        self, model, inputs, return_outputs=False, num_items_in_batch=None
+    ):
+        labels = inputs.pop("labels")
+        outputs = model(**inputs)
+        logits = outputs.get("logits")
+
+        loss_fct = torch.nn.CrossEntropyLoss(
+            weight=self.class_weights.to(logits.device)
+        )
+
+        loss = loss_fct(
+            logits.view(-1, model.config.num_labels),
+            labels.view(-1),
+        )
+        return (loss, outputs) if return_outputs else loss
+
+
+def build_class_weights(train_dataset, num_labels):
+    labels = np.array(train_dataset["label"])
+    counts = np.bincount(labels, minlength=num_labels).astype(np.float32)
+    counts = np.where(counts == 0, 1.0, counts)
+    weights = len(labels) / (num_labels * counts)
+    return torch.tensor(weights, dtype=torch.float32)
+
+
 def train_model(train_dataset, val_dataset, num_labels):
     """Initializes and trains the DistilBERT model."""
     print("Initializing model and trainer...")
@@ -110,10 +170,12 @@ def train_model(train_dataset, val_dataset, num_labels):
             "distilbert-base-uncased", num_labels=num_labels
         )
 
+    class_weights = build_class_weights(train_dataset, num_labels)
+
     training_args = TrainingArguments(
-        output_dir="models/distillBERT",
+        output_dir="models/distilbert",
         per_device_eval_batch_size=64,
-        logging_dir="models/distillBERT/logs",
+        logging_dir="models/distilbert/logs",
         logging_steps=10,
         do_eval=True,
         eval_steps=500,
@@ -121,7 +183,8 @@ def train_model(train_dataset, val_dataset, num_labels):
         save_total_limit=2,
     )
 
-    trainer = Trainer(
+    trainer = WeightedTrainer(
+        class_weights=class_weights,
         model_init=model_init,
         args=training_args,
         train_dataset=train_dataset,
@@ -132,7 +195,7 @@ def train_model(train_dataset, val_dataset, num_labels):
     print("Starting hyperparameter tuning...")
 
     os.makedirs("models/distilbert", exist_ok=True)
-    db_path = "sqlite:///models/distilbert/tune.sqlite3"
+    db_path = "sqlite:///models/distillBERT/tune.sqlite3"
 
     study = optuna.create_study(
         study_name="distilbert_tuning",
@@ -165,10 +228,33 @@ def train_model(train_dataset, val_dataset, num_labels):
 
 
 def evaluate_on_test_set(trainer, test_dataset):
-    """Evaluate the trained model on the test set and return metrics."""
-    print("\nEvaluating on test set...")
+    """Evaluate the trained model on the test set and return metrics, predictions, labels."""
     test_results = trainer.evaluate(test_dataset)
-    return test_results
+    pred_output = trainer.predict(test_dataset)
+    test_preds = pred_output.predictions.argmax(-1)
+    test_labels = pred_output.label_ids
+    return test_results, test_preds, test_labels
+
+
+def save_classification_artifacts(test_labels, test_preds, save_dir):
+    """Save classification report and confusion matrix artifacts."""
+    os.makedirs(save_dir, exist_ok=True)
+
+    report_path = os.path.join(save_dir, "classification_report.txt")
+    report_text = classification_report(test_labels, test_preds, digits=4)
+    with open(report_path, "w", encoding="utf-8") as f:
+        f.write(report_text)
+
+    cm = confusion_matrix(test_labels, test_preds, normalize="true")
+    cm_path = os.path.join(save_dir, "confusion_matrix.csv")
+    pd.DataFrame(cm).to_csv(cm_path, index=False)
+
+    fig, ax = plt.subplots(figsize=(8, 8))
+    disp = ConfusionMatrixDisplay(confusion_matrix=cm)
+    disp.plot(cmap="binary", xticks_rotation=70, colorbar=False, ax=ax)
+    fig.tight_layout()
+    fig.savefig(os.path.join(save_dir, "confusion_matrix.png"), dpi=1200)
+    plt.close(fig)
 
 
 def save_test_results(scores, save_dir):
@@ -185,11 +271,18 @@ def save_test_results(scores, save_dir):
 
 if __name__ == "__main__":
     check_cuda_availability()
-    train_texts, test_texts, train_labels, test_labels, num_labels = load_data()
+    (
+        train_texts,
+        test_texts,
+        train_labels,
+        test_labels,
+        num_labels,
+        train_artists,
+    ) = load_data()
     print("Data successfully loaded and encoded")
 
     train_dataset, val_dataset, test_dataset, tokenizer = create_and_tokenize_datasets(
-        train_texts, test_texts, train_labels, test_labels
+        train_texts, test_texts, train_labels, test_labels, train_artists
     )
     print("Datasets successfully created and tokenized")
     print(f"Training set size: {len(train_dataset)}")
@@ -201,7 +294,9 @@ if __name__ == "__main__":
 
     trainer = train_model(train_dataset, val_dataset, num_labels)
 
-    final_test_scores = evaluate_on_test_set(trainer, test_dataset)
+    final_test_scores, test_preds, test_labels = evaluate_on_test_set(
+        trainer, test_dataset
+    )
     print("\nFinal Test Set Scores:")
     print(final_test_scores)
 
@@ -212,3 +307,4 @@ if __name__ == "__main__":
     print(f"Model saved to {model_save_path}")
 
     save_test_results(final_test_scores, model_save_path)
+    save_classification_artifacts(test_labels, test_preds, model_save_path)
